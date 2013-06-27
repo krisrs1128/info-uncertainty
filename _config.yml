@@ -1,30 +1,14 @@
-title:            So Simple Theme
-description:      A simple and clean responsive Jekyll theme for words and photos.
-logo:             site-logo.png
-disqus_shortname: sosimpletheme
+title:            Notes of a Statistics Watcher
+description:      Kris Sankaran's Blog
+# logo:
 #Comment out url when working locally to resolve base urls correctly
-url:              http://mmistakes.github.io/so-simple-theme
+url:              http://stat.stanford.edu/~kriss1
 
 # Owner/author information
 owner:
-  name:           Michael Rose
-  avatar:         michael-rose-photo.jpg
-  email:          michael@mademistakes.com
-  # Social networking links used in footer. Update and remove as you like.
-  twitter:        "mmistakes"
-  facebook:       "michaelrose"
-  github:         "mmistakes"
-  linkedin:       "michaelrose"
-  instagram:      "mmistakes"
-  tumblr:         "mademistakes"
-  # For Google Authorship https://plus.google.com/authorship
-  google_plus:    "http://plus.google.com/118238196859537351707"
-
-# Analytics and webmaster tools stuff goes here
-google_analytics:   UA-2011187-2
-google_verify:      UQj93ERU9zgECodaaXgVpkjrFn9UrDMEzVamacSoQ8Y
-# https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
-bing_verify:        D81F4C18A6CB3018F64D7C827D953DFD   
+  name:           Kris Sankaran
+  avatar:         kris-sankaran-photo.jpg
+  email:          krissankaran@stanford.edu
 
 # Internal pages/posts to include in top navigation
 links:
@@ -52,7 +36,7 @@ kramdown:
   use_coderay: false
 
   coderay:
-    coderay_line_numbers: 
+    coderay_line_numbers:
     coderay_line_numbers_start: 1
     coderay_tab_width: 4
     coderay_bold_every: 10
