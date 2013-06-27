@@ -1,6 +1,6 @@
 title:            Notes of a Statistics Watcher
 description:      Kris Sankaran's Blog
-# logo:
+logo:             site-logo.png
 #Comment out url when working locally to resolve base urls correctly
 url:              http://stat.stanford.edu/~kriss1
 
