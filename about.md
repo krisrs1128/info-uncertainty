@@ -1,7 +1,7 @@
 ---
 layout: page
 permalink: /about/index.html
-title: Kris Sankaran's Blog
+title: About
 tags: [about]
 image:
   feature: Glue1_fractal.jpg
