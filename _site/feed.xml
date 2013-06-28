@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://stat.stanford.edu/~kriss1//feed.xml" />
 <link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1/" />
-<updated>2013-06-28T02:55:51-04:00</updated>
+<updated>2013-06-28T04:37:33-04:00</updated>
 <id>http://stat.stanford.edu/~kriss1//</id>
 <author>
   <name>Kris Sankaran</name>
@@ -24,9 +24,9 @@
     <uri>http://stat.stanford.edu/~kriss1//</uri>
     <email>krissankaran@stanford.edu</email>
   </author>
-  <content type="html">&lt;p&gt;Here&amp;#8217;s a simple problem due to Persi Diaconis and David Freedman which motivates the beautiful &lt;a href=&quot;http://www.stat.berkeley.edu/~census/511.pdf&quot;&gt;theory of random iterated functions&lt;/a&gt;, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.&lt;/p&gt;
+  <content type="html">&lt;p&gt;Here&amp;#8217;s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful &lt;a href=&quot;http://www.stat.berkeley.edu/~census/511.pdf&quot;&gt;theory of random iterated functions&lt;/a&gt;, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.&lt;/p&gt;
 
-&lt;p&gt;The particular problem is to estimate the stationary distribution of the Markov chain $X&lt;em&gt;{n}$ defined on $\left[0, 1]\right$ by the following procedure: Let $X&lt;/em&gt;{n + 1}$ be uniformly distributed on the interval to the left of $x&lt;em&gt;{n}$ with probability $1/2$, else draw $X&lt;/em&gt;{n + 1}$ uniformly from the interval to the right of $x_{n}$.&lt;/p&gt;
+&lt;p&gt;The particular problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $[0, 1]$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.&lt;/p&gt;
 
 &lt;p&gt;More formally, $X_{n}$ is a Markov chain with the transition kernel&lt;/p&gt;
 
@@ -50,30 +50,34 @@ k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}}
 
 &lt;p&gt;Applying the fundamental theorem of calculus, we find that the stationary distribution $\pi$ is the solution to the ODE&lt;/p&gt;
 
-&lt;p&gt;$$
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+
 \begin{aligned}
-\frac{d\pi}{dx} &amp;amp;= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
+\frac{d\pi(x)}{dx} &amp;= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
 \end{aligned}
-$$
-To solve this ODE, we integrate
-$$
+ %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;To solve this ODE, we integrate&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+
 \begin{aligned}
-\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &amp;amp;= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx&lt;br /&gt;
-\implies \log\left(\pi\left(x\right)\right) &amp;amp;= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) &lt;br /&gt;
-\implies \pi\left(x\right) &amp;amp;\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
+\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &amp;= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx \\
+\implies \log\left(\pi\left(x\right)\right) &amp;= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) \\
+\implies \pi\left(x\right) &amp;\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
 \end{aligned}
-$$
-Hence, we find that $\pi$ must be the &lt;a href=&quot;http://en.wikipedia.org/wiki/Arcsine_distribution&quot;&gt;arcsine distribution&lt;/a&gt;.&lt;/p&gt;
+ %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X&lt;em&gt;{n}$ is already close to one of the edges, then $X&lt;/em&gt;{n + 1}$ has a 50% chance of being &lt;em&gt;even&lt;/em&gt; closer to that edge. Hence, it is reasonalbe&lt;/p&gt;
+&lt;p&gt;Hence, we find that $\pi$ must be the &lt;a href=&quot;http://en.wikipedia.org/wiki/Arcsine_distribution&quot;&gt;arcsine distribution&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Below, we have include code for taking samples from $X&lt;em&gt;{n}$. Further, we illustrate the convergence of samples from an instance of the $X&lt;/em&gt;{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.&lt;/p&gt;
+&lt;p&gt;This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X_{n}$ is already close to one of the edges, then $X_{n + 1}$ has a 50% chance of being &lt;em&gt;even&lt;/em&gt; closer to that edge. Hence, it is reasonalbe&lt;/p&gt;
 
-&lt;figure&gt;n
-        &lt;img src=&quot;/images/RIF_convergence.gif&quot; /&gt;
+&lt;p&gt;Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.&lt;/p&gt;
+
+&lt;figure&gt;
+        &lt;img src=&quot;http://stat.stanford.edu/~kriss1//images/RIF_convergence.gif&quot; /&gt;
         &lt;figcaption&gt;An instance of samples converging to the arcsine distribution.&lt;/figcaption&gt;
-&amp;lt;\figure&amp;gt;
-
+&lt;/figure&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;next.point &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x.prev&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     u &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; runif&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -96,8 +100,6 @@ sample.n &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&
 data &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; sample.n&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
-
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;library&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 library&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;animation&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 a &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; saveGIF&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;i &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -108,7 +110,6 @@ a &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; saveGIF&lt;span class=&
         ggtitle&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;paste&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; i&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;points sampled&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; img.name &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;samples_plot&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; outdir &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; getwd&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; interval &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;/figure&gt;
 
   &lt;p&gt;&lt;a href=&quot;http://stat.stanford.edu/~kriss1//problem-from-random-iterated-functions&quot;&gt;Problem from Random Iterated Functions&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;http://stat.stanford.edu/~kriss1/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 27, 2013.&lt;/p&gt;</content>
 </entry>

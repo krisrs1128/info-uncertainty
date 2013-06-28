@@ -5,11 +5,11 @@ description: "A sampling scheme leading to convergence to the arcsine distributi
 category:
 tags: [probability, simulation, Markov chains]
 ---
-Here's a simple problem due to Persi Diaconis and David Freedman which motivates the beautiful [theory of random iterated functions](http://www.stat.berkeley.edu/~census/511.pdf), a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.
+Here's a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful [theory of random iterated functions](http://www.stat.berkeley.edu/~census/511.pdf), a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.
 
-The particular problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $\left[0, 1]\right$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.
+The particular problem is to estimate the stationary distribution of the Markov chain $X\_{n}$ defined on $[0, 1]$ by the following procedure: Let $X\_{n + 1}$ be uniformly distributed on the interval to the left of $x\_{n}$ with probability $1/2$, else draw $X\_{n + 1}$ uniformly from the interval to the right of $x\_{n}$.
 
-More formally, $X_{n}$ is a Markov chain with the transition kernel
+More formally, $X\_{n}$ is a Markov chain with the transition kernel
 
 $$
 \begin{aligned}
@@ -31,27 +31,30 @@ Applying the fundamental theorem of calculus, we find that the stationary distri
 
 $$
 \begin{aligned}
-\frac{d\pi}{dx} &= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
+\frac{d\pi(x)}{dx} &= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
 \end{aligned}
 $$
+
 To solve this ODE, we integrate
+
 $$
 \begin{aligned}
-\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx\\
+\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx \\
 \implies \log\left(\pi\left(x\right)\right) &= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) \\
 \implies \pi\left(x\right) &\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
 \end{aligned}
 $$
+
 Hence, we find that $\pi$ must be the [arcsine distribution](http://en.wikipedia.org/wiki/Arcsine_distribution).
 
-This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X_{n}$ is already close to one of the edges, then $X_{n + 1}$ has a 50% chance of being *even* closer to that edge. Hence, it is reasonalbe
+This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X\_{n}$ is already close to one of the edges, then $X\_{n + 1}$ has a 50% chance of being *even* closer to that edge. Hence, it is reasonalbe
 
-Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.
+Below, we have include code for taking samples from $X\_{n}$. Further, we illustrate the convergence of samples from an instance of the $X\_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.
 
-<figure>n
-        <img src="/images/RIF_convergence.gif">
+<figure>
+        <img src="{{ site.url }}/images/RIF_convergence.gif">
         <figcaption>An instance of samples converging to the arcsine distribution.</figcaption>
-<\figure>
+</figure>
 
 {% highlight r %}
 next.point <- function(x.prev) {

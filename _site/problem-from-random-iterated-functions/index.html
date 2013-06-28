@@ -102,9 +102,9 @@
         <span><a href="http://stat.stanford.edu/~kriss1//problem-from-random-iterated-functions" rel="bookmark" title="Problem from Random Iterated Functions"><i class="icon-link"></i> Permalink</a></span>
       </footer>
       <div class="entry-content">
-        <p>Here&#8217;s a simple problem due to Persi Diaconis and David Freedman which motivates the beautiful <a href="http://www.stat.berkeley.edu/~census/511.pdf">theory of random iterated functions</a>, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.</p>
+        <p>Here&#8217;s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful <a href="http://www.stat.berkeley.edu/~census/511.pdf">theory of random iterated functions</a>, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.</p>
 
-<p>The particular problem is to estimate the stationary distribution of the Markov chain $X<em>{n}$ defined on $\left[0, 1]\right$ by the following procedure: Let $X</em>{n + 1}$ be uniformly distributed on the interval to the left of $x<em>{n}$ with probability $1/2$, else draw $X</em>{n + 1}$ uniformly from the interval to the right of $x_{n}$.</p>
+<p>The particular problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $[0, 1]$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.</p>
 
 <p>More formally, $X_{n}$ is a Markov chain with the transition kernel</p>
 
@@ -128,30 +128,34 @@ k(x_{n}, x_{n + 1}) &:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \
 
 <p>Applying the fundamental theorem of calculus, we find that the stationary distribution $\pi$ is the solution to the ODE</p>
 
-<p>$$
+<script type="math/tex; mode=display">% <![CDATA[
+
 \begin{aligned}
-\frac{d\pi}{dx} &amp;= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
+\frac{d\pi(x)}{dx} &= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
 \end{aligned}
-$$
-To solve this ODE, we integrate
-$$
+ %]]></script>
+
+<p>To solve this ODE, we integrate</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
 \begin{aligned}
-\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &amp;= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx<br />
-\implies \log\left(\pi\left(x\right)\right) &amp;= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) <br />
-\implies \pi\left(x\right) &amp;\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
+\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx \\
+\implies \log\left(\pi\left(x\right)\right) &= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) \\
+\implies \pi\left(x\right) &\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
 \end{aligned}
-$$
-Hence, we find that $\pi$ must be the <a href="http://en.wikipedia.org/wiki/Arcsine_distribution">arcsine distribution</a>.</p>
+ %]]></script>
 
-<p>This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X<em>{n}$ is already close to one of the edges, then $X</em>{n + 1}$ has a 50% chance of being <em>even</em> closer to that edge. Hence, it is reasonalbe</p>
+<p>Hence, we find that $\pi$ must be the <a href="http://en.wikipedia.org/wiki/Arcsine_distribution">arcsine distribution</a>.</p>
 
-<p>Below, we have include code for taking samples from $X<em>{n}$. Further, we illustrate the convergence of samples from an instance of the $X</em>{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.</p>
+<p>This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X_{n}$ is already close to one of the edges, then $X_{n + 1}$ has a 50% chance of being <em>even</em> closer to that edge. Hence, it is reasonalbe</p>
 
-<figure>n
-        <img src="/images/RIF_convergence.gif" />
+<p>Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.</p>
+
+<figure>
+        <img src="http://stat.stanford.edu/~kriss1//images/RIF_convergence.gif" />
         <figcaption>An instance of samples converging to the arcsine distribution.</figcaption>
-&lt;\figure&gt;
-
+</figure>
 
 <div class="highlight"><pre><code class="r">next.point <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>x.prev<span class="p">)</span> <span class="p">{</span>
     u <span class="o">&lt;-</span> runif<span class="p">(</span><span class="m">1</span><span class="p">)</span>
@@ -174,8 +178,6 @@ sample.n <span class="o">&lt;-</span> <span class="kr">function</span><span clas
 data <span class="o">&lt;-</span> sample.n<span class="p">(</span><span class="m">10000</span><span class="p">)</span>
 </code></pre></div>
 
-
-
 <div class="highlight"><pre><code class="r">library<span class="p">(</span>ggplot2<span class="p">)</span>
 library<span class="p">(</span>animation<span class="p">)</span>
 a <span class="o">&lt;-</span> saveGIF<span class="p">(</span><span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">500</span><span class="p">)</span> <span class="p">{</span>
@@ -186,7 +188,6 @@ a <span class="o">&lt;-</span> saveGIF<span class="p">(</span><span class="kr">f
         ggtitle<span class="p">(</span>paste<span class="p">(</span><span class="m">20</span> <span class="o">*</span> i<span class="p">,</span> <span class="s">&quot;points sampled&quot;</span><span class="p">)))</span>
 <span class="p">},</span> img.name <span class="o">=</span> <span class="s">&quot;samples_plot&quot;</span><span class="p">,</span> outdir <span class="o">=</span> getwd<span class="p">(),</span> interval <span class="o">=</span> <span class="m">0.15</span><span class="p">)</span>
 </code></pre></div>
-</figure>
 
         
       </div><!-- /.entry-content -->
@@ -212,18 +213,15 @@ a <span class="o">&lt;-</span> saveGIF<span class="p">(</span><span class="kr">f
 <script type="text/javascript"
    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-      extensions: ["tex2jax.js"]
-      jax: ["input/TeX", "output/HTML-CSS"],
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-        inlineMath: ['$','$'],
-        displayMath: ['$$', '$$']
-        processEscapes: true
-      },
-      "HTML-CSS": {availableFonts: ["TeX"] }
-    });
+<script>
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEnvironments: true,
+    processEscapes: true,
+  }
+});
 </script>
 
 <script>
