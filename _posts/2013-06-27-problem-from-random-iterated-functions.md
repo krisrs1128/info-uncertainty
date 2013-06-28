@@ -47,7 +47,7 @@ $$
 
 Hence, we find that $\pi$ must be the [arcsine distribution](http://en.wikipedia.org/wiki/Arcsine_distribution).
 
-This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X\_{n}$ is already close to one of the edges, then $X\_{n + 1}$ has a 50% chance of being *even* closer to that edge. Hence, it is reasonalbe
+This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X\_{n}$ is already close to one of the edges, then $X\_{n + 1}$ has a 50% chance of being *even* closer to that edge.
 
 Below, we have include code for taking samples from $X\_{n}$. Further, we illustrate the convergence of samples from an instance of the $X\_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.
 
