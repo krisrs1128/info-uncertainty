@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://stat.stanford.edu/~kriss1//feed.xml" />
 <link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1/" />
-<updated>2013-06-28T05:04:00-04:00</updated>
+<updated>2013-06-28T05:21:40-04:00</updated>
 <id>http://stat.stanford.edu/~kriss1//</id>
 <author>
   <name>Kris Sankaran</name>
@@ -70,7 +70,7 @@ k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}}
 
 &lt;p&gt;Hence, we find that $\pi$ must be the &lt;a href=&quot;http://en.wikipedia.org/wiki/Arcsine_distribution&quot;&gt;arcsine distribution&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X_{n}$ is already close to one of the edges, then $X_{n + 1}$ has a 50% chance of being &lt;em&gt;even&lt;/em&gt; closer to that edge. Hence, it is reasonalbe&lt;/p&gt;
+&lt;p&gt;This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X_{n}$ is already close to one of the edges, then $X_{n + 1}$ has a 50% chance of being &lt;em&gt;even&lt;/em&gt; closer to that edge.&lt;/p&gt;
 
 &lt;p&gt;Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.&lt;/p&gt;
 
