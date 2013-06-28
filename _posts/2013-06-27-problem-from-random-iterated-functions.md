@@ -46,7 +46,10 @@ Hence, we find that $\pi$ must be the [arcsine distribution](http://en.wikipedia
 
 This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X_{n}$ is already close to one of the edges, then $X_{n + 1}$ has a 50% chance of being *even* closer to that edge. Hence, it is reasonalbe
 
-Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from $X_{n}$ to the arcsine distribution by generating (independent) samples of increasing sizes and plotting their associated histograms. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.
+Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.
+
+![arcsine-convergence](images/RIF_convergence.gif)
+Format: ![Alt Text](url)
 
 {% highlight r %}
 next.point <- function(x.prev) {
@@ -76,7 +79,8 @@ library(animation)
 a <- saveGIF(for (i in 1:500) {
     data.cur = data.frame(data$x[1:(20 * i)])
     colnames(data.cur) <- "x"
-    print(ggplot(data.cur) + geom_histogram(aes(x = x), binwidth = 0.01) + ggtitle(paste(20 *
-        i, "points sampled")))
+    print(ggplot(data.cur) +
+        geom_histogram(aes(x = x), binwidth = 0.01) +
+        ggtitle(paste(20 * i, "points sampled")))
 }, img.name = "samples_plot", outdir = getwd(), interval = 0.15)
 {% endhighlight %}
