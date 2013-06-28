@@ -1,13 +1,13 @@
 ---
 layout: post
 title: "Problem from Random Iterated Functions"
-description: ""
+description: "A sampling scheme leading to convergence to the arcsine distribution"
 category:
-tags: [probability, simulation, paper]
+tags: [probability, simulation, Markov chains]
 ---
-Here's a simple problem due to Persi Diaconis and David Freedman which motivates the beautiful [theory of random iterated functions](http://www.stat.berkeley.edu/~census/511.pdf), a way of thinking about Markov chains that unifies diverse areas in math, physics, and statistics.
+Here's a simple problem due to Persi Diaconis and David Freedman which motivates the beautiful [theory of random iterated functions](http://www.stat.berkeley.edu/~census/511.pdf), a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.
 
-The problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $[0, 1]$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.
+The particular problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $\left[0, 1]\right$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.
 
 More formally, $X_{n}$ is a Markov chain with the transition kernel
 
@@ -48,8 +48,10 @@ This result might be a little surprising: we start with a scheme that uniformly 
 
 Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.
 
-![arcsine-convergence](images/RIF_convergence.gif)
-Format: ![Alt Text](url)
+<figure>n
+        <img src="/images/RIF_convergence.gif">
+        <figcaption>An instance of samples converging to the arcsine distribution.</figcaption>
+<\figure>
 
 {% highlight r %}
 next.point <- function(x.prev) {
