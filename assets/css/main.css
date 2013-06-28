@@ -84,9 +84,9 @@ tt,code,kbd,samp,pre{font-family:'source-code-pro',monospace;}
 .nv{color:#008080;}
 .ow{color:#000000;font-weight:bold;}
 .w{color:#bbbbbb;}
-.mf{color:#009999;}
-.mh{color:#009999;}
-.mi{color:#009999;}
+.mf{color:#000000;}
+.mh{color:#000000;}
+.mi{color:#000000;}
 .mo{color:#000000;}
 .sb{color:#d01040;}
 .sc{color:#d01040;}
