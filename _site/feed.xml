@@ -4,13 +4,104 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://stat.stanford.edu/~kriss1//feed.xml" />
 <link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1/" />
-<updated>2013-06-27T19:11:34-04:00</updated>
+<updated>2013-06-27T20:22:51-04:00</updated>
 <id>http://stat.stanford.edu/~kriss1//</id>
 <author>
   <name>Kris Sankaran</name>
   <uri>http://stat.stanford.edu/~kriss1//</uri>
   <email>krissankaran@stanford.edu</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Problem from Random Iterated Functions]]></title>
+  <link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1//problem-from-random-iterated-functions" />
+  <id>http://stat.stanford.edu/~kriss1//problem-from-random-iterated-functions</id>
+  <published>2013-06-27T00:00:00-04:00</published>
+  
+  <author>
+    <name>Kris Sankaran</name>
+    <uri>http://stat.stanford.edu/~kriss1//</uri>
+    <email>krissankaran@stanford.edu</email>
+  </author>
+  <content type="html">&lt;p&gt;Here&amp;#8217;s a simple problem due to Persi Diaconis and David Freedman which motivates the beautiful &lt;a href=&quot;http://www.stat.berkeley.edu/~census/511.pdf&quot;&gt;theory of random iterated functions&lt;/a&gt;, a way of thinking about Markov chains that unifies diverse areas in math, physics, and statistics.&lt;/p&gt;
+
+&lt;p&gt;The problem is to estimate the stationary distribution of the Markov chain $X&lt;em&gt;{n}$ defined on $[0, 1]$ by the following procedure: Let $X&lt;/em&gt;{n + 1}$ be uniformly distributed on the interval to the left of $x&lt;em&gt;{n}$ with probability $1/2$, else draw $X&lt;/em&gt;{n + 1}$ uniformly from the interval to the right of $x_{n}$.&lt;/p&gt;
+
+&lt;p&gt;More formally, $X_{n}$ is a Markov chain with the transition kernel&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+
+\begin{aligned}
+k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \frac{\mathbb{1}(x_{n + 1} \in (x_{n}, 1])}{2 ( 1 - x_{n})}.
+\end{aligned}
+ %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;This chain is irreducible and aperiodic, so converges to a unique stationary distribution $\pi$. To find it, recall that $\pi$ is a stationary distribution for a chain with kernel $K$ if and only if $\pi K = \pi$. Hence, $\pi$ must satisfy&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+
+\begin{aligned}
+\pi(x_{n + 1}) &amp;= \int_{0}^{1} k\left(x_{n}, x_{n + 1}\right)\pi(x_{n}) dx_{n} \\
+&amp;= \frac{1}{2}\int_{x_{n + 1}}^{1} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n} \\
+&amp;= -\frac{1}{2}\int_{1}^{x_{n + 1}} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n}.
+\end{aligned}
+ %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Applying the fundamental theorem of calculus, we find that the stationary distribution $\pi$ is the solution to the ODE&lt;/p&gt;
+
+&lt;p&gt;$$
+\begin{aligned}
+\frac{d\pi}{dx} &amp;amp;= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
+\end{aligned}
+$$
+To solve this ODE, we integrate
+$$
+\begin{aligned}
+\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &amp;amp;= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx&lt;br /&gt;
+\implies \log\left(\pi\left(x\right)\right) &amp;amp;= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) &lt;br /&gt;
+\implies \pi\left(x\right) &amp;amp;\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
+\end{aligned}
+$$
+Hence, we find that $\pi$ must be the &lt;a href=&quot;http://en.wikipedia.org/wiki/Arcsine_distribution&quot;&gt;arcsine distribution&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X&lt;em&gt;{n}$ is already close to one of the edges, then $X&lt;/em&gt;{n + 1}$ has a 50% chance of being &lt;em&gt;even&lt;/em&gt; closer to that edge. Hence, it is reasonalbe&lt;/p&gt;
+
+&lt;p&gt;Below, we have include code for taking samples from $X&lt;em&gt;{n}$. Further, we illustrate the convergence of samples from $X&lt;/em&gt;{n}$ to the arcsine distribution by generating (independent) samples of increasing sizes and plotting their associated histograms. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;next.point &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x.prev&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    u &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; runif&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;u &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        x.next &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; runif&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; x.prev&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        x.next &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; runif&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; x.prev&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+sample.n &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; x0 &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    x &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; vector&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;length &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; n &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; x0
+    &lt;span class=&quot;kr&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;i &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;i&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; next.point&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;i &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data.frame&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+data &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; sample.n&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;library&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+library&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;animation&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+a &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; saveGIF&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;i &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    data.cur &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; data.frame&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; i&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;
+    colnames&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data.cur&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;
+    print&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data.cur&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; geom_histogram&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;aes&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; x&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; binwidth &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.01&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; ggtitle&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;paste&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+        i&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;points sampled&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; img.name &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;samples_plot&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; outdir &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; getwd&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; interval &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+  &lt;p&gt;&lt;a href=&quot;http://stat.stanford.edu/~kriss1//problem-from-random-iterated-functions&quot;&gt;Problem from Random Iterated Functions&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;http://stat.stanford.edu/~kriss1/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 27, 2013.&lt;/p&gt;</content>
+</entry>
 
 
 <entry>
