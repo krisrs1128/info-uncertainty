@@ -81,7 +81,7 @@ data <- sample.n(10000)
 {% highlight r %}
 library(ggplot2)
 library(animation)
-a <- saveGIF(for (i in 1:500) {
+saveGIF(for (i in 1:500) {
     data.cur = data.frame(data$x[1:(20 * i)])
     colnames(data.cur) <- "x"
     print(ggplot(data.cur) +

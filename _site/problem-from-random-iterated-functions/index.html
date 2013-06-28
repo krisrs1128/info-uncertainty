@@ -180,7 +180,7 @@ data <span class="o">&lt;-</span> sample.n<span class="p">(</span><span class="m
 
 <div class="highlight"><pre><code class="r">library<span class="p">(</span>ggplot2<span class="p">)</span>
 library<span class="p">(</span>animation<span class="p">)</span>
-a <span class="o">&lt;-</span> saveGIF<span class="p">(</span><span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">500</span><span class="p">)</span> <span class="p">{</span>
+saveGIF<span class="p">(</span><span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">500</span><span class="p">)</span> <span class="p">{</span>
     data.cur <span class="o">=</span> data.frame<span class="p">(</span>data<span class="o">$</span>x<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="m">20</span> <span class="o">*</span> i<span class="p">)])</span>
     colnames<span class="p">(</span>data.cur<span class="p">)</span> <span class="o">&lt;-</span> <span class="s">&quot;x&quot;</span>
     print<span class="p">(</span>ggplot<span class="p">(</span>data.cur<span class="p">)</span> <span class="o">+</span>

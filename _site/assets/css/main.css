@@ -84,6 +84,7 @@ tt,code,kbd,samp,pre{font-family:'source-code-pro',monospace;}
 .nv{color:#008080;}
 .ow{color:#000000;font-weight:bold;}
 .w{color:#bbbbbb;}
+.MathJax .mo {color: inherit}
 .mf{color:#009999;}
 .mh{color:#009999;}
 .mi{color:#009999;}
@@ -607,4 +608,3 @@ span+.entry-title{margin-top:0;}
 .footer-wrapper a{color:#666666;}
 .social-icons{margin:1em 0 2em;}.social-icons a{padding:4px 8px;}.social-icons a:hover{color:#000000;}
 .upgrade{padding:10px;text-align:center;}
-code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}

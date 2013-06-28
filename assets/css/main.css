@@ -84,6 +84,7 @@ tt,code,kbd,samp,pre{font-family:'source-code-pro',monospace;}
 .nv{color:#008080;}
 .ow{color:#000000;font-weight:bold;}
 .w{color:#bbbbbb;}
+.MathJax .mo {color: inherit}
 .mf{color:#009999;}
 .mh{color:#009999;}
 .mi{color:#009999;}
