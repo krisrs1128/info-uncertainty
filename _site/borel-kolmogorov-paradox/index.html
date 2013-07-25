@@ -5,17 +5,17 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Borel Kolmogorov Paradox &#8211; Notes of a Statistics Watcher</title>
+<title>Borel-Kolmogorov Paradox &#8211; Notes of a Statistics Watcher</title>
 <meta name="description" content="Derivation and illustration of the Borel-Kolmogorov Paradox.">
-<meta name="keywords" content="probability, paradox, conditional probability, simulation">
+<meta name="keywords" content="paradox, conditional probability, simulation">
 <!-- Twitter Card and Open Graph tags -->
-<meta name="twitter:title" content="Borel Kolmogorov Paradox &#8211; Notes of a Statistics Watcher">
+<meta name="twitter:title" content="Borel-Kolmogorov Paradox &#8211; Notes of a Statistics Watcher">
 <meta name="twitter:description" content="Derivation and illustration of the Borel-Kolmogorov Paradox.">
 <meta name="twitter:creator" content="@">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image:src" content="http://stat.stanford.edu/~kriss1//images/site-logo.png">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Borel Kolmogorov Paradox &#8211; Notes of a Statistics Watcher">
+<meta property="og:title" content="Borel-Kolmogorov Paradox &#8211; Notes of a Statistics Watcher">
 <meta property="og:description" content="Derivation and illustration of the Borel-Kolmogorov Paradox.">
 <meta property="og:url" content="http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox">
 <meta property="og:site_name" content="Notes of a Statistics Watcher">
@@ -91,22 +91,18 @@
     
     <div class="entry-wrapper">
       <header class="entry-header">
-        <span class="entry-tags"><a href="http://stat.stanford.edu/~kriss1//tags.html#probability" title="pages tagged probability">probability</a> &bull; <a href="http://stat.stanford.edu/~kriss1//tags.html#paradox" title="pages tagged paradox">paradox</a> &bull; <a href="http://stat.stanford.edu/~kriss1//tags.html#conditional probability" title="pages tagged conditional probability">conditional probability</a> &bull; <a href="http://stat.stanford.edu/~kriss1//tags.html#simulation" title="pages tagged simulation">simulation</a></span>
-        <h1 class="entry-title" itemprop="headline"><a href="http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox" title="Borel Kolmogorov Paradox">Borel Kolmogorov Paradox</a></h1>
+        <span class="entry-tags"><a href="http://stat.stanford.edu/~kriss1//tags.html#paradox" title="pages tagged paradox">paradox</a> &bull; <a href="http://stat.stanford.edu/~kriss1//tags.html#conditional probability" title="pages tagged conditional probability">conditional probability</a> &bull; <a href="http://stat.stanford.edu/~kriss1//tags.html#simulation" title="pages tagged simulation">simulation</a></span>
+        <h1 class="entry-title" itemprop="headline"><a href="http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox" title="Borel-Kolmogorov Paradox">Borel-Kolmogorov Paradox</a></h1>
       </header>
       <footer class="entry-meta">
         <img src="http://stat.stanford.edu/~kriss1//images/kris-sankaran-photo.jpg" alt="Kris Sankaran photo" class="author-photo">
         <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">By <span itemprop="name"><a href="http://stat.stanford.edu/~kriss1//about" title="About Kris Sankaran" itemprop="url">Kris Sankaran</a></span></span>
         <span class="entry-date"><time datetime="2013-07-25T00:00:00-04:00" itemprop="datePublished">July 25, 2013</time></span>
         
-        <span><a href="http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox" rel="bookmark" title="Borel Kolmogorov Paradox"><i class="icon-link"></i> Permalink</a></span>
+        <span><a href="http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox" rel="bookmark" title="Borel-Kolmogorov Paradox"><i class="icon-link"></i> Permalink</a></span>
       </footer>
       <div class="entry-content">
-        <p>Included file &#8216;JB/setup&#8217; not found in _includes directory</p>
-
-<h1 id="borel-kolmogorov-paradox">Borel-Kolmogorov Paradox</h1>
-
-<p>Let points be uniformly distributed on the surface of a sphere in
+        <p>Let points be uniformly distributed on the surface of a sphere in
 $\mathbb{R}^{3}$. Two natural questions of conditional probability are</p>
 
 <ol>
@@ -128,13 +124,14 @@ the $xy$-plane makes with the $x$-axis. Notice that $\varphi$ and $\theta$
 represent particular lattitudes and longitudes, respectively. From figure 1, we
 see that we can parameterize the surface of the unit sphere by</p>
 
-<p>[r(\varphi, \theta) = \begin{pmatrix} cos\varphi cos\theta <br />
+<p>$$
+r(\varphi, \theta) = \begin{pmatrix} cos\varphi cos\theta <br />
   cos\varphi sin\theta <br />
   sin\varphi \end{pmatrix},
-]
+$$
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.</p>
 
-<p><img src="spherical_coord.png" alt="Figure 1" title="spherical_coord" /></p>
+<p><img src="spherical_coord.png" alt="Figure 1" title="{ site.url }}/images/spherical_coord.png" /></p>
 
 <p>In order to obtain the conditional distributions of interest, we first determine the
 joint distribution of $\left(\varphi, \theta\right)$, that is, a function
@@ -150,28 +147,29 @@ $\frac{\partial r\left(\varphi, \theta\right)}{\partial \varphi} d\varphi$ and
 $\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\theta$
 that closely approximates the surface at that point. The area of this
 parallelogram is can be found as by the square root determinant of the <a href="http://www.math.harvard.edu/archive/23a_fall_00/docs/gramian.pdf">Gramian</a> of its edges,
-[
+$$
 \begin{align}
 \sqrt{ \det G\left(\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\varphi, \frac{\partial r\left(\varphi, \theta\right)}{\partial \theta}d\theta\right)} &amp;= \sqrt{\det \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}^{T} \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}} <br />
 &amp;= \sqrt{\cos^{2}\varphi} d\varphi d\theta.
 \end{align}
-]
+$$
 Integrating over all such infinitesimal parallelograms yields
-[
+$$
 4\pi = \int<em>{0}^{2\pi}\int</em>{-\frac{\pi}{2}}^{\frac{\pi}{2}} cos \varphi d\varphi d\theta,
-]
+$$
 so we can conclude that the joint density of $\varphi, \theta$ is
-[ f<em>{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.
-]
+$$
+ f<em>{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.
+$$
 The marginal and conditional densities then follow easily by integration:
-[
+$$
 \begin{align}
 f</em>{\Phi}\left(\varphi\right) &amp;= \frac{\cos\varphi}{2} <br />
 f<em>{\Theta}\left(\theta\right) &amp;=\frac{1}{2\pi} <br />
 f</em>{\Phi \mid \Theta}\left(\varphi \mid \theta\right) &amp;= \frac{\cos\varphi}{2} <br />
 f_{\Theta \mid \Phi}\left(\theta \mid \varphi\right) &amp;= \frac{1}{2\pi}.
 \end{align}
-]
+$$
 Hence, fixing a lattitude, the points are distributed uniformly around the
 associated horizontal ring, while fixing a longitude, they are distributed
 according to $\frac{\cos \varphi}{2}$. In particular, conditional on lying on
@@ -183,22 +181,21 @@ of measure zero and motivating the development of rigorous conditional
 probability, see for example <a href="http://www-biba.inrialpes.fr/Jaynes/cc15b.pdf">Jaynes</a>, <a href="http://www.mathematik.com/Kolmogorov/">Kolmogorov</a>, or <a href="http://jmanton.wordpress.com/tag/borel-kolmogorov-paradox/">Manton</a>.</p>
 
 <h2 id="illustration">Illustration</h2>
-
 <p>We generate $n$ points uniformly on the surface of the sphere using the function
 <code>rsphere</code> and convert to coordinates $\varphi$ and $\theta$ using
 <code>sphere.coord</code>. The function <code>rsphere</code> uses the fact that, since the standard
 Gaussian density is spherically symmetric, taking the projection of Gaussian
 points onto the surface of the sphere yields points uniformly distributed on
 it. The function <code>sphere.coord</code> uses the transform
-[
+$$
 \begin{align}
 \varphi &amp;= \arcsin\left(z\right) <br />
 \theta &amp;= \arctan\left(\frac{y}{x}\right)
 \end{align}
-]</p>
+$$</p>
 
 <p>Figure 2 shows the points
-on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4.</p>
+on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4. The results confirm the mathematical derivation above.</p>
 
 <p>```r
 rsphere &lt;- function(n) {
@@ -3868,7 +3865,7 @@ plot3d(X)
 	    -0.3082934, 0.1459917, -0.9400221,
 	    -0.8887726, 0.3400058, -0.3073748,
 	    -0.01946907, -0.8746028, -0.484449,
-	    -0.05516531, 0.7804782, -0.6227443,
+v	    -0.05516531, 0.7804782, -0.6227443,
 	    -0.6526845, 0.2609308, 0.7112792,
 	    -0.04418845, 0.4993226, -0.8652886,
 	    0.8699495, -0.4916949, 0.03773739,
@@ -11496,7 +11493,7 @@ library(reshape2)
 ggplot(X.tilde) + geom_point(aes(x = phi, y = theta))
 </code></p>
 
-<p><img src="figure/joint_dist_borel_kolmogorov.png" alt="Figure 3" /></p>
+<p><img src="http://stat.stanford.edu/~kriss1//images/joint_dist_borel_kolmogorov.png" alt="Figure 3" /></p>
 
 <p><code>r
 mX &lt;- melt(X.tilde, variable.name = "Coordinate")

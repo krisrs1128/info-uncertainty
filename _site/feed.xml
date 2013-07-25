@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://stat.stanford.edu/~kriss1//feed.xml" />
 <link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1/" />
-<updated>2013-07-25T15:51:14-04:00</updated>
+<updated>2013-07-25T19:38:51-04:00</updated>
 <id>http://stat.stanford.edu/~kriss1//</id>
 <author>
   <name>Kris Sankaran</name>
@@ -14,7 +14,7 @@
 
 
 <entry>
-  <title type="html"><![CDATA[Borel Kolmogorov Paradox]]></title>
+  <title type="html"><![CDATA[Borel-Kolmogorov Paradox]]></title>
   <link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox" />
   <id>http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox</id>
   <published>2013-07-25T00:00:00-04:00</published>
@@ -24,11 +24,7 @@
     <uri>http://stat.stanford.edu/~kriss1//</uri>
     <email>krissankaran@stanford.edu</email>
   </author>
-  <content type="html">&lt;p&gt;Included file &amp;#8216;JB/setup&amp;#8217; not found in _includes directory&lt;/p&gt;
-
-&lt;h1 id=&quot;borel-kolmogorov-paradox&quot;&gt;Borel-Kolmogorov Paradox&lt;/h1&gt;
-
-&lt;p&gt;Let points be uniformly distributed on the surface of a sphere in
+  <content type="html">&lt;p&gt;Let points be uniformly distributed on the surface of a sphere in
 $\mathbb{R}^{3}$. Two natural questions of conditional probability are&lt;/p&gt;
 
 &lt;ol&gt;
@@ -50,13 +46,14 @@ the $xy$-plane makes with the $x$-axis. Notice that $\varphi$ and $\theta$
 represent particular lattitudes and longitudes, respectively. From figure 1, we
 see that we can parameterize the surface of the unit sphere by&lt;/p&gt;
 
-&lt;p&gt;[r(\varphi, \theta) = \begin{pmatrix} cos\varphi cos\theta &lt;br /&gt;
+&lt;p&gt;$$
+r(\varphi, \theta) = \begin{pmatrix} cos\varphi cos\theta &lt;br /&gt;
   cos\varphi sin\theta &lt;br /&gt;
   sin\varphi \end{pmatrix},
-]
+$$
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;spherical_coord.png&quot; alt=&quot;Figure 1&quot; title=&quot;spherical_coord&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;spherical_coord.png&quot; alt=&quot;Figure 1&quot; title=&quot;{ site.url }}/images/spherical_coord.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In order to obtain the conditional distributions of interest, we first determine the
 joint distribution of $\left(\varphi, \theta\right)$, that is, a function
@@ -72,28 +69,29 @@ $\frac{\partial r\left(\varphi, \theta\right)}{\partial \varphi} d\varphi$ and
 $\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\theta$
 that closely approximates the surface at that point. The area of this
 parallelogram is can be found as by the square root determinant of the &lt;a href=&quot;http://www.math.harvard.edu/archive/23a_fall_00/docs/gramian.pdf&quot;&gt;Gramian&lt;/a&gt; of its edges,
-[
+$$
 \begin{align}
 \sqrt{ \det G\left(\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\varphi, \frac{\partial r\left(\varphi, \theta\right)}{\partial \theta}d\theta\right)} &amp;amp;= \sqrt{\det \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}^{T} \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}} &lt;br /&gt;
 &amp;amp;= \sqrt{\cos^{2}\varphi} d\varphi d\theta.
 \end{align}
-]
+$$
 Integrating over all such infinitesimal parallelograms yields
-[
+$$
 4\pi = \int&lt;em&gt;{0}^{2\pi}\int&lt;/em&gt;{-\frac{\pi}{2}}^{\frac{\pi}{2}} cos \varphi d\varphi d\theta,
-]
+$$
 so we can conclude that the joint density of $\varphi, \theta$ is
-[ f&lt;em&gt;{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.
-]
+$$
+ f&lt;em&gt;{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.
+$$
 The marginal and conditional densities then follow easily by integration:
-[
+$$
 \begin{align}
 f&lt;/em&gt;{\Phi}\left(\varphi\right) &amp;amp;= \frac{\cos\varphi}{2} &lt;br /&gt;
 f&lt;em&gt;{\Theta}\left(\theta\right) &amp;amp;=\frac{1}{2\pi} &lt;br /&gt;
 f&lt;/em&gt;{\Phi \mid \Theta}\left(\varphi \mid \theta\right) &amp;amp;= \frac{\cos\varphi}{2} &lt;br /&gt;
 f_{\Theta \mid \Phi}\left(\theta \mid \varphi\right) &amp;amp;= \frac{1}{2\pi}.
 \end{align}
-]
+$$
 Hence, fixing a lattitude, the points are distributed uniformly around the
 associated horizontal ring, while fixing a longitude, they are distributed
 according to $\frac{\cos \varphi}{2}$. In particular, conditional on lying on
@@ -105,22 +103,21 @@ of measure zero and motivating the development of rigorous conditional
 probability, see for example &lt;a href=&quot;http://www-biba.inrialpes.fr/Jaynes/cc15b.pdf&quot;&gt;Jaynes&lt;/a&gt;, &lt;a href=&quot;http://www.mathematik.com/Kolmogorov/&quot;&gt;Kolmogorov&lt;/a&gt;, or &lt;a href=&quot;http://jmanton.wordpress.com/tag/borel-kolmogorov-paradox/&quot;&gt;Manton&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;illustration&quot;&gt;Illustration&lt;/h2&gt;
-
 &lt;p&gt;We generate $n$ points uniformly on the surface of the sphere using the function
 &lt;code&gt;rsphere&lt;/code&gt; and convert to coordinates $\varphi$ and $\theta$ using
 &lt;code&gt;sphere.coord&lt;/code&gt;. The function &lt;code&gt;rsphere&lt;/code&gt; uses the fact that, since the standard
 Gaussian density is spherically symmetric, taking the projection of Gaussian
 points onto the surface of the sphere yields points uniformly distributed on
 it. The function &lt;code&gt;sphere.coord&lt;/code&gt; uses the transform
-[
+$$
 \begin{align}
 \varphi &amp;amp;= \arcsin\left(z\right) &lt;br /&gt;
 \theta &amp;amp;= \arctan\left(\frac{y}{x}\right)
 \end{align}
-]&lt;/p&gt;
+$$&lt;/p&gt;
 
 &lt;p&gt;Figure 2 shows the points
-on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4.&lt;/p&gt;
+on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4. The results confirm the mathematical derivation above.&lt;/p&gt;
 
 &lt;p&gt;```r
 rsphere &amp;lt;- function(n) {
@@ -3790,7 +3787,7 @@ plot3d(X)
 	    -0.3082934, 0.1459917, -0.9400221,
 	    -0.8887726, 0.3400058, -0.3073748,
 	    -0.01946907, -0.8746028, -0.484449,
-	    -0.05516531, 0.7804782, -0.6227443,
+v	    -0.05516531, 0.7804782, -0.6227443,
 	    -0.6526845, 0.2609308, 0.7112792,
 	    -0.04418845, 0.4993226, -0.8652886,
 	    0.8699495, -0.4916949, 0.03773739,
@@ -11418,7 +11415,7 @@ library(reshape2)
 ggplot(X.tilde) + geom_point(aes(x = phi, y = theta))
 &lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;figure/joint_dist_borel_kolmogorov.png&quot; alt=&quot;Figure 3&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://stat.stanford.edu/~kriss1//images/joint_dist_borel_kolmogorov.png&quot; alt=&quot;Figure 3&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;r
 mX &amp;lt;- melt(X.tilde, variable.name = &quot;Coordinate&quot;)
@@ -11428,7 +11425,7 @@ ggplot(mX) + geom_histogram(aes(x = value)) + facet_grid(~Coordinate)
 &lt;p&gt;&lt;img src=&quot;http://stat.stanford.edu/~kriss1//images/marginal_dist_borel_kolmogorov.png&quot; alt=&quot;Figure 4&quot; /&gt;&lt;/p&gt;
 
 
-  &lt;p&gt;&lt;a href=&quot;http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox&quot;&gt;Borel Kolmogorov Paradox&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;http://stat.stanford.edu/~kriss1/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on July 25, 2013.&lt;/p&gt;</content>
+  &lt;p&gt;&lt;a href=&quot;http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox&quot;&gt;Borel-Kolmogorov Paradox&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;http://stat.stanford.edu/~kriss1/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on July 25, 2013.&lt;/p&gt;</content>
 </entry>
 
 
