@@ -1,14 +1,10 @@
 ---
 layout: post
-title: "Borel Kolmogorov Paradox"
+title: "Borel-Kolmogorov Paradox"
 description: "Derivation and illustration of the Borel-Kolmogorov Paradox."
 category:
-tags: [probability, paradox, conditional probability, simulation]
+tags: [paradox, conditional probability, simulation]
 ---
-{% include JB/setup %}
-
-Borel-Kolmogorov Paradox
-========================================================
 
 Let points be uniformly distributed on the surface of a sphere in
 $\mathbb{R}^{3}$. Two natural questions of conditional probability are
@@ -31,10 +27,11 @@ the $xy$-plane makes with the $x$-axis. Notice that $\varphi$ and $\theta$
 represent particular lattitudes and longitudes, respectively. From figure 1, we
 see that we can parameterize the surface of the unit sphere by
 
-\[r(\varphi, \theta) = \begin{pmatrix} cos\varphi cos\theta \\
+$$
+r(\varphi, \theta) = \begin{pmatrix} cos\varphi cos\theta \\
   cos\varphi sin\theta \\
   sin\varphi \end{pmatrix},
-\]
+$$
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.
 
 ![Figure 1][spherical_coord_id]
@@ -53,28 +50,29 @@ $\frac{\partial r\left(\varphi, \theta\right)}{\partial \varphi} d\varphi$ and
 $\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\theta$
 that closely approximates the surface at that point. The area of this
 parallelogram is can be found as by the square root determinant of the [Gramian][gram_link] of its edges,
-\[
+$$
 \begin{align}
 \sqrt{ \det G\left(\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\varphi, \frac{\partial r\left(\varphi, \theta\right)}{\partial \theta}d\theta\right)} &= \sqrt{\det \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}^{T} \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}} \\
 &= \sqrt{\cos^{2}\varphi} d\varphi d\theta.
 \end{align}
-\]
+$$
 Integrating over all such infinitesimal parallelograms yields
-\[
+$$
 4\pi = \int_{0}^{2\pi}\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} cos \varphi d\varphi d\theta,
-\]
+$$
 so we can conclude that the joint density of $\varphi, \theta$ is
-\[ f_{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.
-\]
+$$
+ f_{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.
+$$
 The marginal and conditional densities then follow easily by integration:
-\[
+$$
 \begin{align}
 f_{\Phi}\left(\varphi\right) &= \frac{\cos\varphi}{2} \\
 f_{\Theta}\left(\theta\right) &=\frac{1}{2\pi} \\
 f_{\Phi \mid \Theta}\left(\varphi \mid \theta\right) &= \frac{\cos\varphi}{2} \\
 f_{\Theta \mid \Phi}\left(\theta \mid \varphi\right) &= \frac{1}{2\pi}.
 \end{align}
-\]
+$$
 Hence, fixing a lattitude, the points are distributed uniformly around the
 associated horizontal ring, while fixing a longitude, they are distributed
 according to $\frac{\cos \varphi}{2}$. In particular, conditional on lying on
@@ -87,26 +85,21 @@ probability, see for example [Jaynes][jaynes_id], [Kolmogorov][kolmogorov_id], o
 
 Illustration
 ------------
-
 We generate $n$ points uniformly on the surface of the sphere using the function
 `rsphere` and convert to coordinates $\varphi$ and $\theta$ using
 `sphere.coord`. The function `rsphere` uses the fact that, since the standard
 Gaussian density is spherically symmetric, taking the projection of Gaussian
 points onto the surface of the sphere yields points uniformly distributed on
 it. The function `sphere.coord` uses the transform
-\[
+$$
 \begin{align}
 \varphi &= \arcsin\left(z\right) \\
 \theta &= \arctan\left(\frac{y}{x}\right)
 \end{align}
-\]
+$$
 
 Figure 2 shows the points
-on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4.
-
-
-
-
+on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4. The results confirm the mathematical derivation above.
 
 ```r
 rsphere <- function(n) {
@@ -3753,7 +3746,7 @@ plot3d(X)
 	    -0.3082934, 0.1459917, -0.9400221,
 	    -0.8887726, 0.3400058, -0.3073748,
 	    -0.01946907, -0.8746028, -0.484449,
-	    -0.05516531, 0.7804782, -0.6227443,
+v	    -0.05516531, 0.7804782, -0.6227443,
 	    -0.6526845, 0.2609308, 0.7112792,
 	    -0.04418845, 0.4993226, -0.8652886,
 	    0.8699495, -0.4916949, 0.03773739,
@@ -11382,7 +11375,7 @@ library(reshape2)
 ggplot(X.tilde) + geom_point(aes(x = phi, y = theta))
 ```
 
-![Figure 3](figure/joint_dist_borel_kolmogorov.png)
+![Figure 3]({{site.url}}/images/joint_dist_borel_kolmogorov.png)
 
 
 
@@ -11394,7 +11387,7 @@ ggplot(mX) + geom_histogram(aes(x = value)) + facet_grid(~Coordinate)
 ![Figure 4]({{ site.url }}/images/marginal_dist_borel_kolmogorov.png)
 
 
-[spherical_coord_id]: spherical_coord.png "spherical_coord"
+[spherical_coord_id]: spherical_coord.png "{ site.url }}/images/spherical_coord.png"
 [gram_link]: http://www.math.harvard.edu/archive/23a_fall_00/docs/gramian.pdf
 [manton_id]: http://jmanton.wordpress.com/tag/borel-kolmogorov-paradox/
 [kolmogorov_id]: http://www.mathematik.com/Kolmogorov/
