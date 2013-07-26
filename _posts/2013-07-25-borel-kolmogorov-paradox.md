@@ -28,17 +28,23 @@ represent particular lattitudes and longitudes, respectively. From figure 1, we
 see that we can parameterize the surface of the unit sphere by
 
 $$
-r(\varphi, \theta) = \begin{pmatrix} cos\varphi cos\theta \\
-  cos\varphi sin\theta \\
+r(\varphi, \theta) = \begin{pmatrix} cos\varphi cos\theta \_\_
+  cos\varphi sin\theta \_\_
   sin\varphi \end{pmatrix},
 $$
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.
 
-![Figure 1][spherical_coord_id]
+<figure>
+        <img src="{{ site.url }}/images/spherical_coord.png">
+        <figcaption>Figure 1. Representation via spherical coordinates.</figcaption>
+</figure>
+
 
 In order to obtain the conditional distributions of interest, we first determine the
 joint distribution of $\left(\varphi, \theta\right)$, that is, a function
-$f_{\Phi, \Theta}\left(\varphi, \theta\right)$ such that $\int_{0}^{2\pi}\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} f_{\Phi, \Theta}\left(\varphi, \theta\right) d\varphi d\theta = 1$.
+$f\_{\Phi, \Theta}\left(\varphi, \theta\right)$
+such that
+$\int\_{0}^{2\pi}\int\_{-\frac{\pi}{2}}^{\frac{\pi}{2}} f\_{\Phi, \Theta}\left(\varphi, \theta\right) d\varphi d\theta = 1$.
 
 To this end, either recall from multivariable calculus that the surface area of
 the unit sphere can be found as
@@ -50,21 +56,28 @@ $\frac{\partial r\left(\varphi, \theta\right)}{\partial \varphi} d\varphi$ and
 $\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\theta$
 that closely approximates the surface at that point. The area of this
 parallelogram is can be found as by the square root determinant of the [Gramian][gram_link] of its edges,
+
 $$
 \begin{align}
 \sqrt{ \det G\left(\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\varphi, \frac{\partial r\left(\varphi, \theta\right)}{\partial \theta}d\theta\right)} &= \sqrt{\det \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}^{T} \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}} \\
 &= \sqrt{\cos^{2}\varphi} d\varphi d\theta.
 \end{align}
 $$
+
 Integrating over all such infinitesimal parallelograms yields
+
 $$
 4\pi = \int_{0}^{2\pi}\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} cos \varphi d\varphi d\theta,
+
 $$
 so we can conclude that the joint density of $\varphi, \theta$ is
+
 $$
  f_{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.
 $$
+
 The marginal and conditional densities then follow easily by integration:
+
 $$
 \begin{align}
 f_{\Phi}\left(\varphi\right) &= \frac{\cos\varphi}{2} \\
@@ -73,6 +86,7 @@ f_{\Phi \mid \Theta}\left(\varphi \mid \theta\right) &= \frac{\cos\varphi}{2} \\
 f_{\Theta \mid \Phi}\left(\theta \mid \varphi\right) &= \frac{1}{2\pi}.
 \end{align}
 $$
+
 Hence, fixing a lattitude, the points are distributed uniformly around the
 associated horizontal ring, while fixing a longitude, they are distributed
 according to $\frac{\cos \varphi}{2}$. In particular, conditional on lying on
@@ -101,7 +115,7 @@ $$
 Figure 2 shows the points
 on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4. The results confirm the mathematical derivation above.
 
-```r
+{% highlight r %}
 rsphere <- function(n) {
     X <- matrix(rnorm(n * 3), n, 3)
     X.sphere <- apply(X, MARGIN = 1, FUN = function(x) {
@@ -114,11 +128,11 @@ rsphere <- function(n) {
 X <- rsphere(10000)
 library(rgl)
 plot3d(X)
-```
+{% endhighlight %}
 
 <script src="{{ site.url }}/images/CanvasMatrix.js" type="text/javascript"></script>
 <canvas id="rspheretextureCanvas" style="display: none;" width="256" height="256">
-<img src="rspheresnapshot.png" alt="rspheresnapshot" width=505/><br>
+<img src="{{site.url}}/images/rspheresnapshot.png" alt="rspheresnapshot" width=505/><br>
 	Your browser does not support the HTML5 canvas element.</canvas>
 <!-- ****** points object 6 ****** -->
 <script id="rspherevshader6" type="x-shader/x-vertex">
@@ -11349,9 +11363,7 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	You must enable Javascript to view this page properly.</p>
 <script>rspherewebGLStart();</script>
 
-
-
-```r
+{% highlight r %}
 sphere.coord <- function(X) {
     sphere.coord.point <- function(x) {
         phi <- asin(x[3])
@@ -11365,29 +11377,29 @@ sphere.coord <- function(X) {
 }
 
 X.tilde <- sphere.coord(X)
-```
+{% endhighlight %}
 
-
-
-```r
+{% highlight r %}
 library(ggplot2)
 library(reshape2)
 ggplot(X.tilde) + geom_point(aes(x = phi, y = theta))
-```
+{% endhighlight %}
 
-![Figure 3]({{site.url}}/images/joint_dist_borel_kolmogorov.png)
+<figure>
+        <img src="{{ site.url }}/images/joint_dist_borel_kolmogorov.png">
+        <figcaption>Figure 3. Joint distribution of $\theta$ and $\varphi$.</figcaption>
+</figure>
 
-
-
-```r
+{% highlight r %}
 mX <- melt(X.tilde, variable.name = "Coordinate")
 ggplot(mX) + geom_histogram(aes(x = value)) + facet_grid(~Coordinate)
-```
+{% endhighlight %}
 
-![Figure 4]({{ site.url }}/images/marginal_dist_borel_kolmogorov.png)
+<figure>
+        <img src="{{ site.url }}/images/marginal_dist_borel_kolmogorov.png">
+        <figcaption>Figure 4. Marginal distributions of $\theta$ and $\varphi$ </figcaption>
+</figure>
 
-
-[spherical_coord_id]: spherical_coord.png "{ site.url }}/images/spherical_coord.png"
 [gram_link]: http://www.math.harvard.edu/archive/23a_fall_00/docs/gramian.pdf
 [manton_id]: http://jmanton.wordpress.com/tag/borel-kolmogorov-paradox/
 [kolmogorov_id]: http://www.mathematik.com/Kolmogorov/

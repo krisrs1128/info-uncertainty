@@ -135,7 +135,9 @@ where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\
 
 <p>In order to obtain the conditional distributions of interest, we first determine the
 joint distribution of $\left(\varphi, \theta\right)$, that is, a function
-$f<em>{\Phi, \Theta}\left(\varphi, \theta\right)$ such that $\int</em>{0}^{2\pi}\int<em>{-\frac{\pi}{2}}^{\frac{\pi}{2}} f</em>{\Phi, \Theta}\left(\varphi, \theta\right) d\varphi d\theta = 1$.</p>
+$f_{\Phi, \Theta}\left(\varphi, \theta\right)$
+such that
+$\int_{0}^{2\pi}\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} f_{\Phi, \Theta}\left(\varphi, \theta\right) d\varphi d\theta = 1$.</p>
 
 <p>To this end, either recall from multivariable calculus that the surface area of
 the unit sphere can be found as
@@ -146,31 +148,41 @@ parallelogram with edges
 $\frac{\partial r\left(\varphi, \theta\right)}{\partial \varphi} d\varphi$ and
 $\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\theta$
 that closely approximates the surface at that point. The area of this
-parallelogram is can be found as by the square root determinant of the <a href="http://www.math.harvard.edu/archive/23a_fall_00/docs/gramian.pdf">Gramian</a> of its edges,
-$$
+parallelogram is can be found as by the square root determinant of the <a href="http://www.math.harvard.edu/archive/23a_fall_00/docs/gramian.pdf">Gramian</a> of its edges,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
 \begin{align}
-\sqrt{ \det G\left(\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\varphi, \frac{\partial r\left(\varphi, \theta\right)}{\partial \theta}d\theta\right)} &amp;= \sqrt{\det \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}^{T} \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}} <br />
-&amp;= \sqrt{\cos^{2}\varphi} d\varphi d\theta.
+\sqrt{ \det G\left(\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\varphi, \frac{\partial r\left(\varphi, \theta\right)}{\partial \theta}d\theta\right)} &= \sqrt{\det \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}^{T} \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}} \\
+&= \sqrt{\cos^{2}\varphi} d\varphi d\theta.
 \end{align}
-$$
-Integrating over all such infinitesimal parallelograms yields
-$$
-4\pi = \int<em>{0}^{2\pi}\int</em>{-\frac{\pi}{2}}^{\frac{\pi}{2}} cos \varphi d\varphi d\theta,
-$$
-so we can conclude that the joint density of $\varphi, \theta$ is
-$$
- f<em>{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.
-$$
-The marginal and conditional densities then follow easily by integration:
-$$
+ %]]></script>
+
+<p>Integrating over all such infinitesimal parallelograms yields</p>
+
+<p>$$
+4\pi = \int<em>{0}^{2\pi}\int</em>{-\frac{\pi}{2}}^{\frac{\pi}{2}} cos \varphi d\varphi d\theta,</p>
+
+<p>$$
+so we can conclude that the joint density of $\varphi, \theta$ is</p>
+
+<script type="math/tex; mode=display">
+ f_{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.
+</script>
+
+<p>The marginal and conditional densities then follow easily by integration:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
 \begin{align}
-f</em>{\Phi}\left(\varphi\right) &amp;= \frac{\cos\varphi}{2} <br />
-f<em>{\Theta}\left(\theta\right) &amp;=\frac{1}{2\pi} <br />
-f</em>{\Phi \mid \Theta}\left(\varphi \mid \theta\right) &amp;= \frac{\cos\varphi}{2} <br />
-f_{\Theta \mid \Phi}\left(\theta \mid \varphi\right) &amp;= \frac{1}{2\pi}.
+f_{\Phi}\left(\varphi\right) &= \frac{\cos\varphi}{2} \\
+f_{\Theta}\left(\theta\right) &=\frac{1}{2\pi} \\
+f_{\Phi \mid \Theta}\left(\varphi \mid \theta\right) &= \frac{\cos\varphi}{2} \\
+f_{\Theta \mid \Phi}\left(\theta \mid \varphi\right) &= \frac{1}{2\pi}.
 \end{align}
-$$
-Hence, fixing a lattitude, the points are distributed uniformly around the
+ %]]></script>
+
+<p>Hence, fixing a lattitude, the points are distributed uniformly around the
 associated horizontal ring, while fixing a longitude, they are distributed
 according to $\frac{\cos \varphi}{2}$. In particular, conditional on lying on
 a given longitude, they are more likely to fall near the equator than the poles.
