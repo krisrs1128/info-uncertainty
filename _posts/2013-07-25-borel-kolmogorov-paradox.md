@@ -28,13 +28,13 @@ represent particular lattitudes and longitudes, respectively. From figure 1, we
 see that we can parameterize the surface of the unit sphere by
 
 $$
-r(\varphi, \theta) = \begin{pmatrix} cos\varphi cos\theta \_\_
-  cos\varphi sin\theta \_\_
-  sin\varphi \end{pmatrix},
+\begin{align}
+r(\varphi, \theta) &= \begin{pmatrix} cos\varphi cos\theta \\\  cos\varphi sin\theta \\\  sin\varphi \end{pmatrix},
+\end{align}
 $$
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.
 
-<figure>
+<figure align="center">
         <img src="{{ site.url }}/images/spherical_coord.png">
         <figcaption>Figure 1. Representation via spherical coordinates.</figcaption>
 </figure>
@@ -68,8 +68,8 @@ Integrating over all such infinitesimal parallelograms yields
 
 $$
 4\pi = \int_{0}^{2\pi}\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} cos \varphi d\varphi d\theta,
-
 $$
+
 so we can conclude that the joint density of $\varphi, \theta$ is
 
 $$
@@ -107,11 +107,11 @@ points onto the surface of the sphere yields points uniformly distributed on
 it. The function `sphere.coord` uses the transform
 $$
 \begin{align}
-\varphi &= \arcsin\left(z\right) \\
-\theta &= \arctan\left(\frac{y}{x}\right)
+\varphi &= \arcsin\left(z\right) \\\
+\theta &= \arctan\left(\frac{y}{x}\right),
 \end{align}
 $$
-
+which follows from the parametrization $r\left(\varphi, \theta\right)$.
 Figure 2 shows the points
 on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4. The results confirm the mathematical derivation above.
 
