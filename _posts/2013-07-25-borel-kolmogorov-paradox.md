@@ -55,7 +55,7 @@ parallelogram with edges
 $\frac{\partial r\left(\varphi, \theta\right)}{\partial \varphi} d\varphi$ and
 $\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\theta$
 that closely approximates the surface at that point. The area of this
-parallelogram is can be found as by the square root determinant of the [Gramian][gram_link] of its edges,
+parallelogram can be found as by the square root determinant of the [Gramian][gram_link] of its edges,
 
 $$
 \begin{align}
