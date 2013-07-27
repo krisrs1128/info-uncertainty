@@ -35,7 +35,7 @@ $$
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.
 
 <figure align="center">
-        <img src="{{ site.url }}/images/spherical_coord.png">
+        <img src="{{ site.url }}/images/spherical_coord.svg">
         <figcaption>Figure 1. Representation via spherical coordinates.</figcaption>
 </figure>
 
