@@ -2,26 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
 <title type="text">Notes of a Statistics Watcher</title>
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
-<link rel="self" type="application/atom+xml" href="http://stat.stanford.edu/~kriss1//feed.xml" />
-<link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1/" />
+<link rel="self" type="application/atom+xml" href="krisrs1128.github.io/info-uncertainty//feed.xml" />
+<link rel="alternate" type="text/html" href="krisrs1128.github.io/info-uncertainty/" />
 <updated>2013-08-09T17:21:18-04:00</updated>
-<id>http://stat.stanford.edu/~kriss1//</id>
+<id>krisrs1128.github.io/info-uncertainty//</id>
 <author>
   <name>Kris Sankaran</name>
-  <uri>http://stat.stanford.edu/~kriss1//</uri>
+  <uri>krisrs1128.github.io/info-uncertainty//</uri>
   <email>krissankaran@stanford.edu</email>
 </author>
 
 
 <entry>
   <title type="html"><![CDATA[Gamma Moments]]></title>
-  <link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1//GammaMoments" />
-  <id>http://stat.stanford.edu/~kriss1//GammaMoments</id>
+  <link rel="alternate" type="text/html" href="krisrs1128.github.io/info-uncertainty//GammaMoments" />
+  <id>krisrs1128.github.io/info-uncertainty//GammaMoments</id>
   <published>2013-08-09T00:00:00-04:00</published>
   
   <author>
     <name>Kris Sankaran</name>
-    <uri>http://stat.stanford.edu/~kriss1//</uri>
+    <uri>krisrs1128.github.io/info-uncertainty//</uri>
     <email>krissankaran@stanford.edu</email>
   </author>
   <content type="html">&lt;p&gt;Let $X \sim \text{Gamma}(\alpha, \lambda)$, that is, distributed with density
@@ -68,19 +68,19 @@ E\left(X^{n}\right) &amp;amp;= E\left(\frac{Y^{n}}{\lambda^{n}}\right) \\
 $$
 where for the last inequality we used the fact that $\Gamma\left(k\right) = \left(k - 1\right)!$ for integers $k$. This is the desired $n^{th}$ moment of a Gamma$\left(\alpha, \lambda\right)$ variable.&lt;/p&gt;
 
-  &lt;p&gt;&lt;a href=&quot;http://stat.stanford.edu/~kriss1//GammaMoments&quot;&gt;Gamma Moments&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;http://stat.stanford.edu/~kriss1/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on August 09, 2013.&lt;/p&gt;</content>
+  &lt;p&gt;&lt;a href=&quot;krisrs1128.github.io/info-uncertainty//GammaMoments&quot;&gt;Gamma Moments&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;krisrs1128.github.io/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on August 09, 2013.&lt;/p&gt;</content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[Borel-Kolmogorov Paradox]]></title>
-  <link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox" />
-  <id>http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox</id>
+  <link rel="alternate" type="text/html" href="krisrs1128.github.io/info-uncertainty//borel-kolmogorov-paradox" />
+  <id>krisrs1128.github.io/info-uncertainty//borel-kolmogorov-paradox</id>
   <published>2013-07-25T00:00:00-04:00</published>
   
   <author>
     <name>Kris Sankaran</name>
-    <uri>http://stat.stanford.edu/~kriss1//</uri>
+    <uri>krisrs1128.github.io/info-uncertainty//</uri>
     <email>krissankaran@stanford.edu</email>
   </author>
   <content type="html">&lt;p&gt;Let points be uniformly distributed on the surface of a sphere in
@@ -113,7 +113,7 @@ $$
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.&lt;/p&gt;
 
 &lt;figure align=&quot;center&quot;&gt;
-        &lt;img src=&quot;http://stat.stanford.edu/~kriss1//images/spherical_coord.svg&quot; /&gt;
+        &lt;img src=&quot;krisrs1128.github.io/info-uncertainty//images/spherical_coord.svg&quot; /&gt;
         &lt;figcaption&gt;Figure 1. Representation via spherical coordinates.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -207,10 +207,10 @@ library&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;rgl&lt;span class=&quot;p&q
 plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;script src=&quot;http://stat.stanford.edu/~kriss1//images/CanvasMatrix.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;krisrs1128.github.io/info-uncertainty//images/CanvasMatrix.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 
 &lt;canvas id=&quot;rspheretextureCanvas&quot; style=&quot;display: none;&quot; width=&quot;256&quot; height=&quot;256&quot;&gt;
-&amp;lt;img src=&quot;http://stat.stanford.edu/~kriss1//images/rspheresnapshot.png&quot; alt=&quot;rspheresnapshot&quot; width=505/&amp;gt;&lt;br /&gt;
+&amp;lt;img src=&quot;krisrs1128.github.io/info-uncertainty//images/rspheresnapshot.png&quot; alt=&quot;rspheresnapshot&quot; width=505/&amp;gt;&lt;br /&gt;
 	Your browser does not support the HTML5 canvas element.&lt;/canvas&gt;
 &lt;!-- ****** points object 6 ****** --&gt;
 &lt;script id=&quot;rspherevshader6&quot; type=&quot;x-shader/x-vertex&quot;&gt;
@@ -11485,7 +11485,7 @@ ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.tilde&lt;span class=&quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;http://stat.stanford.edu/~kriss1//images/joint_dist_borel_kolmogorov.png&quot; /&gt;
+        &lt;img src=&quot;krisrs1128.github.io/info-uncertainty//images/joint_dist_borel_kolmogorov.png&quot; /&gt;
         &lt;figcaption&gt;Figure 3. Joint distribution of $\theta$ and $\varphi$.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -11494,24 +11494,24 @@ ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;mX&lt;span class=&quot;p&quo
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;http://stat.stanford.edu/~kriss1//images/marginal_dist_borel_kolmogorov.png&quot; /&gt;
+        &lt;img src=&quot;krisrs1128.github.io/info-uncertainty//images/marginal_dist_borel_kolmogorov.png&quot; /&gt;
         &lt;figcaption&gt;Figure 4. Marginal distributions of $\theta$ and $\varphi$ &lt;/figcaption&gt;
 &lt;/figure&gt;
 
 
-  &lt;p&gt;&lt;a href=&quot;http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox&quot;&gt;Borel-Kolmogorov Paradox&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;http://stat.stanford.edu/~kriss1/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on July 25, 2013.&lt;/p&gt;</content>
+  &lt;p&gt;&lt;a href=&quot;krisrs1128.github.io/info-uncertainty//borel-kolmogorov-paradox&quot;&gt;Borel-Kolmogorov Paradox&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;krisrs1128.github.io/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on July 25, 2013.&lt;/p&gt;</content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[Problem from Random Iterated Functions]]></title>
-  <link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1//problem-from-random-iterated-functions" />
-  <id>http://stat.stanford.edu/~kriss1//problem-from-random-iterated-functions</id>
+  <link rel="alternate" type="text/html" href="krisrs1128.github.io/info-uncertainty//problem-from-random-iterated-functions" />
+  <id>krisrs1128.github.io/info-uncertainty//problem-from-random-iterated-functions</id>
   <published>2013-06-27T00:00:00-04:00</published>
   
   <author>
     <name>Kris Sankaran</name>
-    <uri>http://stat.stanford.edu/~kriss1//</uri>
+    <uri>krisrs1128.github.io/info-uncertainty//</uri>
     <email>krissankaran@stanford.edu</email>
   </author>
   <content type="html">&lt;p&gt;Here&amp;#8217;s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful &lt;a href=&quot;http://www.stat.berkeley.edu/~census/511.pdf&quot;&gt;theory of random iterated functions&lt;/a&gt;, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.&lt;/p&gt;
@@ -11565,7 +11565,7 @@ k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}}
 &lt;p&gt;Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.&lt;/p&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;http://stat.stanford.edu/~kriss1//images/RIF_convergence.gif&quot; /&gt;
+        &lt;img src=&quot;krisrs1128.github.io/info-uncertainty//images/RIF_convergence.gif&quot; /&gt;
         &lt;figcaption&gt;An instance of samples converging to the arcsine distribution.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -11601,26 +11601,26 @@ saveGIF&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kr&quo
 &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; img.name &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;samples_plot&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; outdir &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; getwd&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; interval &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-  &lt;p&gt;&lt;a href=&quot;http://stat.stanford.edu/~kriss1//problem-from-random-iterated-functions&quot;&gt;Problem from Random Iterated Functions&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;http://stat.stanford.edu/~kriss1/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 27, 2013.&lt;/p&gt;</content>
+  &lt;p&gt;&lt;a href=&quot;krisrs1128.github.io/info-uncertainty//problem-from-random-iterated-functions&quot;&gt;Problem from Random Iterated Functions&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;krisrs1128.github.io/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 27, 2013.&lt;/p&gt;</content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[First Post]]></title>
-  <link rel="alternate" type="text/html" href="http://stat.stanford.edu/~kriss1//first-post" />
-  <id>http://stat.stanford.edu/~kriss1//first-post</id>
+  <link rel="alternate" type="text/html" href="krisrs1128.github.io/info-uncertainty//first-post" />
+  <id>krisrs1128.github.io/info-uncertainty//first-post</id>
   <published>2013-06-26T00:00:00-04:00</published>
   
   <author>
     <name>Kris Sankaran</name>
-    <uri>http://stat.stanford.edu/~kriss1//</uri>
+    <uri>krisrs1128.github.io/info-uncertainty//</uri>
     <email>krissankaran@stanford.edu</email>
   </author>
   <content type="html">&lt;p&gt;Just a test. I&amp;#8217;m thinking about switching from my
  &lt;a href=&quot;https://notesofastatisticswatcher.wordpress.com/&quot;&gt;Old blog&lt;/a&gt;
 to this site.&lt;/p&gt;
 
-  &lt;p&gt;&lt;a href=&quot;http://stat.stanford.edu/~kriss1//first-post&quot;&gt;First Post&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;http://stat.stanford.edu/~kriss1/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 26, 2013.&lt;/p&gt;</content>
+  &lt;p&gt;&lt;a href=&quot;krisrs1128.github.io/info-uncertainty//first-post&quot;&gt;First Post&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;krisrs1128.github.io/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 26, 2013.&lt;/p&gt;</content>
 </entry>
 
 </feed>
