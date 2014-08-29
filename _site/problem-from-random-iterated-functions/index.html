@@ -102,7 +102,7 @@
         <span><a href="krisrs1128.github.io/info-uncertainty//problem-from-random-iterated-functions" rel="bookmark" title="Problem from Random Iterated Functions"><i class="icon-link"></i> Permalink</a></span>
       </footer>
       <div class="entry-content">
-        <p>Here&#8217;s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful <a href="http://www.stat.berkeley.edu/~census/511.pdf">theory of random iterated functions</a>, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.</p>
+        <p>Here’s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful <a href="http://www.stat.berkeley.edu/~census/511.pdf">theory of random iterated functions</a>, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.</p>
 
 <p>The particular problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $[0, 1]$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.</p>
 
@@ -157,7 +157,7 @@ k(x_{n}, x_{n + 1}) &:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \
         <figcaption>An instance of samples converging to the arcsine distribution.</figcaption>
 </figure>
 
-<div class="highlight"><pre><code class="r">next.point <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>x.prev<span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r">next.point <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>x.prev<span class="p">)</span> <span class="p">{</span>
     u <span class="o">&lt;-</span> runif<span class="p">(</span><span class="m">1</span><span class="p">)</span>
     <span class="kr">if</span> <span class="p">(</span>u <span class="o">&lt;=</span> <span class="m">0.5</span><span class="p">)</span> <span class="p">{</span>
         x.next <span class="o">&lt;-</span> runif<span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> x.prev<span class="p">)</span>
@@ -167,27 +167,25 @@ k(x_{n}, x_{n + 1}) &:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \
 <span class="p">}</span>
 
 sample.n <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>n<span class="p">,</span> x0 <span class="o">=</span> <span class="m">0.5</span><span class="p">)</span> <span class="p">{</span>
-    x <span class="o">&lt;-</span> vector<span class="p">(</span>length <span class="o">=</span> n <span class="o">+</span> <span class="m">1</span><span class="p">)</span>
+    x <span class="o">&lt;-</span> <span class="kt">vector</span><span class="p">(</span>length <span class="o">=</span> n <span class="o">+</span> <span class="m">1</span><span class="p">)</span>
     x<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="o">&lt;-</span> x0
     <span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">2</span><span class="o">:</span><span class="p">(</span>n <span class="o">+</span> <span class="m">1</span><span class="p">))</span> <span class="p">{</span>
         x<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> next.point<span class="p">(</span>x<span class="p">[</span>i <span class="o">-</span> <span class="m">1</span><span class="p">])</span>
     <span class="p">}</span>
-    <span class="kr">return</span><span class="p">(</span>data.frame<span class="p">(</span>x<span class="p">))</span>
+    <span class="kr">return</span><span class="p">(</span><span class="kt">data.frame</span><span class="p">(</span>x<span class="p">))</span>
 <span class="p">}</span>
 
-data <span class="o">&lt;-</span> sample.n<span class="p">(</span><span class="m">10000</span><span class="p">)</span>
-</code></pre></div>
+data <span class="o">&lt;-</span> sample.n<span class="p">(</span><span class="m">10000</span><span class="p">)</span></code></pre></div>
 
-<div class="highlight"><pre><code class="r">library<span class="p">(</span>ggplot2<span class="p">)</span>
-library<span class="p">(</span>animation<span class="p">)</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="kn">library</span><span class="p">(</span>ggplot2<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>animation<span class="p">)</span>
 saveGIF<span class="p">(</span><span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">500</span><span class="p">)</span> <span class="p">{</span>
-    data.cur <span class="o">=</span> data.frame<span class="p">(</span>data<span class="o">$</span>x<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="m">20</span> <span class="o">*</span> i<span class="p">)])</span>
-    colnames<span class="p">(</span>data.cur<span class="p">)</span> <span class="o">&lt;-</span> <span class="s">&quot;x&quot;</span>
-    print<span class="p">(</span>ggplot<span class="p">(</span>data.cur<span class="p">)</span> <span class="o">+</span>
+    data.cur <span class="o">=</span> <span class="kt">data.frame</span><span class="p">(</span>data<span class="o">$</span>x<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="m">20</span> <span class="o">*</span> i<span class="p">)])</span>
+    <span class="kp">colnames</span><span class="p">(</span>data.cur<span class="p">)</span> <span class="o">&lt;-</span> <span class="s">&quot;x&quot;</span>
+    <span class="kp">print</span><span class="p">(</span>ggplot<span class="p">(</span>data.cur<span class="p">)</span> <span class="o">+</span>
         geom_histogram<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> x<span class="p">),</span> binwidth <span class="o">=</span> <span class="m">0.01</span><span class="p">)</span> <span class="o">+</span>
-        ggtitle<span class="p">(</span>paste<span class="p">(</span><span class="m">20</span> <span class="o">*</span> i<span class="p">,</span> <span class="s">&quot;points sampled&quot;</span><span class="p">)))</span>
-<span class="p">},</span> img.name <span class="o">=</span> <span class="s">&quot;samples_plot&quot;</span><span class="p">,</span> outdir <span class="o">=</span> getwd<span class="p">(),</span> interval <span class="o">=</span> <span class="m">0.15</span><span class="p">)</span>
-</code></pre></div>
+        ggtitle<span class="p">(</span><span class="kp">paste</span><span class="p">(</span><span class="m">20</span> <span class="o">*</span> i<span class="p">,</span> <span class="s">&quot;points sampled&quot;</span><span class="p">)))</span>
+<span class="p">},</span> img.name <span class="o">=</span> <span class="s">&quot;samples_plot&quot;</span><span class="p">,</span> outdir <span class="o">=</span> <span class="kp">getwd</span><span class="p">(),</span> interval <span class="o">=</span> <span class="m">0.15</span><span class="p">)</span></code></pre></div>
 
         
       </div><!-- /.entry-content -->
@@ -197,7 +195,7 @@ saveGIF<span class="p">(</span><span class="kr">for</span> <span class="p">(</sp
 
 <div class="footer-wrapper">
   <footer role="contentinfo">
-    <span>&copy; 2013 Kris Sankaran. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/">So Simple Theme</a>.</span>
+    <span>&copy; 2014 Kris Sankaran. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/">So Simple Theme</a>.</span>
 <div class="social-icons">
 	
 	

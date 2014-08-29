@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="krisrs1128.github.io/info-uncertainty//feed.xml" />
 <link rel="alternate" type="text/html" href="krisrs1128.github.io/info-uncertainty/" />
-<updated>2013-08-09T17:21:18-04:00</updated>
+<updated>2014-08-29T06:14:28-04:00</updated>
 <id>krisrs1128.github.io/info-uncertainty//</id>
 <author>
   <name>Kris Sankaran</name>
@@ -25,10 +25,10 @@
     <email>krissankaran@stanford.edu</email>
   </author>
   <content type="html">&lt;p&gt;Let $X \sim \text{Gamma}(\alpha, \lambda)$, that is, distributed with density
-$$
+&lt;script type=&quot;math/tex&quot;&gt;
 f_{X}(x) = \frac{\lambda^{\alpha}}{\Gamma\left(\alpha\right)}x^{\alpha - 1}e^{-\lambda x}.
-$$
-In this post, I&amp;#8217;ll give one approach to calculating $E\left(X^{n}\right)$. The problem can be solved more directly than I do here,  but I think one of the ideas behind this approach &amp;#8211; relating a Gamma$\left(\alpha, \lambda\right)$ variable to a simpler Gamma$\left(\alpha, 1\right)$ variable &amp;#8211; is generally useful in other contexts, which is why I find it worth going through the extra effort here.&lt;/p&gt;
+&lt;/script&gt;
+In this post, I’ll give one approach to calculating $E\left(X^{n}\right)$. The problem can be solved more directly than I do here,  but I think one of the ideas behind this approach – relating a Gamma$\left(\alpha, \lambda\right)$ variable to a simpler Gamma$\left(\alpha, 1\right)$ variable – is generally useful in other contexts, which is why I find it worth going through the extra effort here.&lt;/p&gt;
 
 &lt;p&gt;The overall approach is to first show that if $Y = \lambda X$ then, $Y \sim \text{Gamma}\left(\alpha,  1\right)$. Then, the moments of $Y$ are easy to compute, and the moments of $X$ then follow immediately.&lt;/p&gt;
 
@@ -36,36 +36,39 @@ In this post, I&amp;#8217;ll give one approach to calculating $E\left(X^{n}\righ
 
 &lt;p&gt;&lt;strong&gt;Pf.&lt;/strong&gt; This is a simple change of variables. The inverse mapping is $X = \frac{1}{\lambda}Y$, which has Jacobian $\frac{1}{\lambda}$, so the density of $Y$ is&lt;/p&gt;
 
-&lt;p&gt;$$
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+
 \begin{align}
-f_{Y}\left(y\right) &amp;amp;= f_{X}\left(\frac{1}{\lambda}y\right) \left|\frac{1}{\lambda}\right| \\
-&amp;amp;= \frac{\lambda^{\alpha}}{\Gamma\left(\alpha\right)}\left(\frac{y}{\lambda}\right)^{\alpha - 1}e^{- \lambda \frac{y}{\lambda}} \frac{1}{\lambda} \\
-&amp;amp;= \frac{1}{\Gamma\left(\alpha\right)}y^{\alpha - 1}e^{-y}
+f\_{Y}\left(y\right) &amp;= f\_{X}\left(\frac{1}{\lambda}y\right) \left|\frac{1}{\lambda}\right| \\\
+&amp;= \frac{\lambda^{\alpha}}{\Gamma\left(\alpha\right)}\left(\frac{y}{\lambda}\right)^{\alpha - 1}e^{- \lambda \frac{y}{\lambda}} \frac{1}{\lambda} \\\
+&amp;= \frac{1}{\Gamma\left(\alpha\right)}y^{\alpha - 1}e^{-y}
 \end{align},
-$$
+ %]]&gt;&lt;/script&gt;
 which is the density of a Gamma$\left(\alpha, 1\right)$ variable, as needed.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Claim&lt;/strong&gt; &lt;em&gt;If $Y \sim \Gamma\left(\alpha, 1\right)$, then $E\left(Y^{n}\right) = \frac{\Gamma\left(\alpha + n\right)}{\Gamma\left(\alpha\right)}$.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Pf.&lt;/strong&gt;. Observe that
-$$
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+
 \begin{align}
-E\left(Y^{n}\right) &amp;amp;= \int_{0}^{\infty} \frac{1}{\Gamma\left(\alpha\right)}y^{n}y^{\alpha - 1}e^{-y} dy
-\\
-&amp;amp;= \frac{\Gamma\left(\alpha + n \right)}{\Gamma\left(\alpha \right)} \int_{0}^{\infty} \frac{1}{\Gamma\left(\alpha + n\right)} y^{\alpha + n - 1}e^{-y} dy \\
-&amp;amp;= \frac{\Gamma\left(\alpha + n\right)}{\Gamma\left(\alpha\right)},
+E\left(Y^{n}\right) &amp;= \int\_{0}^{\infty} \frac{1}{\Gamma\left(\alpha\right)}y^{n}y^{\alpha - 1}e^{-y} dy
+\\\
+&amp;= \frac{\Gamma\left(\alpha + n \right)}{\Gamma\left(\alpha \right)} \int_{0}^{\infty} \frac{1}{\Gamma\left(\alpha + n\right)} y^{\alpha + n - 1}e^{-y} dy \\\
+&amp;= \frac{\Gamma\left(\alpha + n\right)}{\Gamma\left(\alpha\right)},
 \end{align}
-$$
+ %]]&gt;&lt;/script&gt;
 where, for the last equality, we recognized the integrand as the Gamma$\left(\alpha + n, 1\right)$ density.&lt;/p&gt;
 
 &lt;p&gt;We now can easily compute $E\left(X^{n}\right)$, our original goal. Using the previous scaling $X = \frac{1}{\lambda}Y$, we have
-$$
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+
 \begin{align}
-E\left(X^{n}\right) &amp;amp;= E\left(\frac{Y^{n}}{\lambda^{n}}\right) \\
-&amp;amp;= \frac{1}{\lambda^{n}}\frac{\Gamma\left(\alpha + n\right)}{\Gamma\left(\alpha\right)} \\
-&amp;amp;= \frac{\alpha\left(\alpha + 1\right) \dots \left(\alpha + n - 1\right)}{\lambda^{n}},
+E\left(X^{n}\right) &amp;= E\left(\frac{Y^{n}}{\lambda^{n}}\right) \\\
+&amp;= \frac{1}{\lambda^{n}}\frac{\Gamma\left(\alpha + n\right)}{\Gamma\left(\alpha\right)} \\\
+&amp;= \frac{\alpha\left(\alpha + 1\right) \dots \left(\alpha + n - 1\right)}{\lambda^{n}},
 \end{align}
-$$
+ %]]&gt;&lt;/script&gt;
 where for the last inequality we used the fact that $\Gamma\left(k\right) = \left(k - 1\right)!$ for integers $k$. This is the desired $n^{th}$ moment of a Gamma$\left(\alpha, \lambda\right)$ variable.&lt;/p&gt;
 
   &lt;p&gt;&lt;a href=&quot;krisrs1128.github.io/info-uncertainty//GammaMoments&quot;&gt;Gamma Moments&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;krisrs1128.github.io/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on August 09, 2013.&lt;/p&gt;</content>
@@ -105,11 +108,12 @@ the $xy$-plane makes with the $x$-axis. Notice that $\varphi$ and $\theta$
 represent particular lattitudes and longitudes, respectively. From figure 1, we
 see that we can parameterize the surface of the unit sphere by&lt;/p&gt;
 
-&lt;p&gt;$$
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+
 \begin{align}
-r(\varphi, \theta) &amp;amp;= \begin{pmatrix} cos\varphi cos\theta \\  cos\varphi sin\theta \\  sin\varphi \end{pmatrix},
+r(\varphi, \theta) &amp;= \begin{pmatrix} cos\varphi cos\theta \\\  cos\varphi sin\theta \\\  sin\varphi \end{pmatrix},
 \end{align}
-$$
+ %]]&gt;&lt;/script&gt;
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.&lt;/p&gt;
 
 &lt;figure align=&quot;center&quot;&gt;
@@ -183,29 +187,29 @@ probability, see for example &lt;a href=&quot;http://www-biba.inrialpes.fr/Jayne
 Gaussian density is spherically symmetric, taking the projection of Gaussian
 points onto the surface of the sphere yields points uniformly distributed on
 it. The function &lt;code&gt;sphere.coord&lt;/code&gt; uses the transform
-$$
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+
 \begin{align}
-\varphi &amp;amp;= \arcsin\left(z\right) \\
-\theta &amp;amp;= \arctan\left(\frac{y}{x}\right),
+\varphi &amp;= \arcsin\left(z\right) \\\
+\theta &amp;= \arctan\left(\frac{y}{x}\right),
 \end{align}
-$$
+ %]]&gt;&lt;/script&gt;
 which follows from the parametrization $r\left(\varphi, \theta\right)$.
 Figure 2 shows the points
 on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4. The results confirm the mathematical derivation above.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;rsphere &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    X &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; matrix&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;rnorm&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; n&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    X.sphere &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; apply&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; MARGIN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; FUN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        x&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;norm&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;as.matrix&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;rsphere &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    X &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;matrix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;rnorm&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; n&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    X.sphere &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; MARGIN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; FUN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        x&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;norm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;as.matrix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-    rownames&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.sphere&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; c&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;y&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;t&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.sphere&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;kp&quot;&gt;rownames&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.sphere&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;y&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.sphere&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
 X &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; rsphere&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-library&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;rgl&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;rgl&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;script src=&quot;krisrs1128.github.io/info-uncertainty//images/CanvasMatrix.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 
@@ -11464,34 +11468,31 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	You must enable Javascript to view this page properly.&lt;/p&gt;
 &lt;script&gt;rspherewebGLStart();&lt;/script&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;sphere.coord &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;sphere.coord &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     sphere.coord.point &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        phi &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; asin&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-        theta &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; atan&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-        &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;c&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;phi&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; theta&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        phi &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;asin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+        theta &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;atan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+        &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;phi&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; theta&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-    X.coord &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; data.frame&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;t&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;apply&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; MARGIN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; FUN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; sphere.coord.point&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-    colnames&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.coord&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; c&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;phi&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;theta&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    X.coord &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;data.frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; MARGIN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; FUN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; sphere.coord.point&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+    &lt;span class=&quot;kp&quot;&gt;colnames&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.coord&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;phi&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;theta&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.coord&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-X.tilde &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; sphere.coord&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+X.tilde &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; sphere.coord&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;library&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-library&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;reshape2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.tilde&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; geom_point&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;aes&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; phi&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; y &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; theta&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;reshape2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.tilde&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; geom_point&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;aes&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; phi&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; y &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; theta&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;figure&gt;
         &lt;img src=&quot;krisrs1128.github.io/info-uncertainty//images/joint_dist_borel_kolmogorov.png&quot; /&gt;
         &lt;figcaption&gt;Figure 3. Joint distribution of $\theta$ and $\varphi$.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;mX &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; melt&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.tilde&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; variable.name &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Coordinate&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;mX&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; geom_histogram&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;aes&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; value&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; facet_grid&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;Coordinate&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;mX &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; melt&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.tilde&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; variable.name &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Coordinate&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;mX&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; geom_histogram&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;aes&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; value&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; facet_grid&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;Coordinate&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;figure&gt;
         &lt;img src=&quot;krisrs1128.github.io/info-uncertainty//images/marginal_dist_borel_kolmogorov.png&quot; /&gt;
@@ -11514,7 +11515,7 @@ ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;mX&lt;span class=&quot;p&quo
     <uri>krisrs1128.github.io/info-uncertainty//</uri>
     <email>krissankaran@stanford.edu</email>
   </author>
-  <content type="html">&lt;p&gt;Here&amp;#8217;s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful &lt;a href=&quot;http://www.stat.berkeley.edu/~census/511.pdf&quot;&gt;theory of random iterated functions&lt;/a&gt;, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.&lt;/p&gt;
+  <content type="html">&lt;p&gt;Here’s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful &lt;a href=&quot;http://www.stat.berkeley.edu/~census/511.pdf&quot;&gt;theory of random iterated functions&lt;/a&gt;, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.&lt;/p&gt;
 
 &lt;p&gt;The particular problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $[0, 1]$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.&lt;/p&gt;
 
@@ -11569,7 +11570,7 @@ k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}}
         &lt;figcaption&gt;An instance of samples converging to the arcsine distribution.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;next.point &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x.prev&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;next.point &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x.prev&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     u &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; runif&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;u &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
         x.next &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; runif&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; x.prev&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -11579,27 +11580,25 @@ k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}}
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
 sample.n &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; x0 &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    x &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; vector&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;length &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; n &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    x &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;length &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; n &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; x0
     &lt;span class=&quot;kr&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;i &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
         x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;i&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; next.point&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;i &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data.frame&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;data.frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-data &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; sample.n&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+data &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; sample.n&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;library&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-library&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;animation&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;animation&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 saveGIF&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;i &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    data.cur &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; data.frame&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; i&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;
-    colnames&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data.cur&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;
-    print&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data.cur&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+    data.cur &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;data.frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; i&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;
+    &lt;span class=&quot;kp&quot;&gt;colnames&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data.cur&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;kp&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data.cur&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
         geom_histogram&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;aes&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; x&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; binwidth &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.01&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
-        ggtitle&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;paste&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; i&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;points sampled&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; img.name &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;samples_plot&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; outdir &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; getwd&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; interval &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        ggtitle&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;paste&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; i&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;points sampled&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; img.name &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;samples_plot&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; outdir &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;getwd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; interval &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
   &lt;p&gt;&lt;a href=&quot;krisrs1128.github.io/info-uncertainty//problem-from-random-iterated-functions&quot;&gt;Problem from Random Iterated Functions&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;krisrs1128.github.io/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 27, 2013.&lt;/p&gt;</content>
 </entry>
@@ -11616,7 +11615,7 @@ saveGIF&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kr&quo
     <uri>krisrs1128.github.io/info-uncertainty//</uri>
     <email>krissankaran@stanford.edu</email>
   </author>
-  <content type="html">&lt;p&gt;Just a test. I&amp;#8217;m thinking about switching from my
+  <content type="html">&lt;p&gt;Just a test. I’m thinking about switching from my
  &lt;a href=&quot;https://notesofastatisticswatcher.wordpress.com/&quot;&gt;Old blog&lt;/a&gt;
 to this site.&lt;/p&gt;
 
