@@ -1,0 +1,84 @@
+<p>Here’s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful <a href="http://www.stat.berkeley.edu/~census/511.pdf">theory of random iterated functions</a>, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.</p>
+
+<p>The particular problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $[0, 1]$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.</p>
+
+<p>More formally, $X_{n}$ is a Markov chain with the transition kernel</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
+\begin{aligned}
+k(x_{n}, x_{n + 1}) &:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \frac{\mathbb{1}(x_{n + 1} \in (x_{n}, 1])}{2 ( 1 - x_{n})}.
+\end{aligned}
+ %]]></script>
+
+<p>This chain is irreducible and aperiodic, so converges to a unique stationary distribution $\pi$. To find it, recall that $\pi$ is a stationary distribution for a chain with kernel $K$ if and only if $\pi K = \pi$. Hence, $\pi$ must satisfy</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
+\begin{aligned}
+\pi(x_{n + 1}) &= \int_{0}^{1} k\left(x_{n}, x_{n + 1}\right)\pi(x_{n}) dx_{n} \\
+&= \frac{1}{2}\int_{x_{n + 1}}^{1} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n} \\
+&= -\frac{1}{2}\int_{1}^{x_{n + 1}} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n}.
+\end{aligned}
+ %]]></script>
+
+<p>Applying the fundamental theorem of calculus, we find that the stationary distribution $\pi$ is the solution to the ODE</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
+\begin{aligned}
+\frac{d\pi(x)}{dx} &= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
+\end{aligned}
+ %]]></script>
+
+<p>To solve this ODE, we integrate</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
+\begin{aligned}
+\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx \\
+\implies \log\left(\pi\left(x\right)\right) &= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) \\
+\implies \pi\left(x\right) &\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
+\end{aligned}
+ %]]></script>
+
+<p>Hence, we find that $\pi$ must be the <a href="http://en.wikipedia.org/wiki/Arcsine_distribution">arcsine distribution</a>.</p>
+
+<p>This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X_{n}$ is already close to one of the edges, then $X_{n + 1}$ has a 50% chance of being <em>even</em> closer to that edge.</p>
+
+<p>Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.</p>
+
+<figure>
+        <img src="/images/RIF_convergence.gif" />
+        <figcaption>An instance of samples converging to the arcsine distribution.</figcaption>
+</figure>
+
+<div class="highlight"><pre><code class="language-r" data-lang="r">next.point <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>x.prev<span class="p">)</span> <span class="p">{</span>
+    u <span class="o">&lt;-</span> runif<span class="p">(</span><span class="m">1</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="p">(</span>u <span class="o">&lt;=</span> <span class="m">0.5</span><span class="p">)</span> <span class="p">{</span>
+        x.next <span class="o">&lt;-</span> runif<span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> x.prev<span class="p">)</span>
+    <span class="p">}</span> <span class="kr">else</span> <span class="p">{</span>
+        x.next <span class="o">&lt;-</span> runif<span class="p">(</span><span class="m">1</span><span class="p">,</span> x.prev<span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+sample.n <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>n<span class="p">,</span> x0 <span class="o">=</span> <span class="m">0.5</span><span class="p">)</span> <span class="p">{</span>
+    x <span class="o">&lt;-</span> <span class="kt">vector</span><span class="p">(</span>length <span class="o">=</span> n <span class="o">+</span> <span class="m">1</span><span class="p">)</span>
+    x<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="o">&lt;-</span> x0
+    <span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">2</span><span class="o">:</span><span class="p">(</span>n <span class="o">+</span> <span class="m">1</span><span class="p">))</span> <span class="p">{</span>
+        x<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> next.point<span class="p">(</span>x<span class="p">[</span>i <span class="o">-</span> <span class="m">1</span><span class="p">])</span>
+    <span class="p">}</span>
+    <span class="kr">return</span><span class="p">(</span><span class="kt">data.frame</span><span class="p">(</span>x<span class="p">))</span>
+<span class="p">}</span>
+
+data <span class="o">&lt;-</span> sample.n<span class="p">(</span><span class="m">10000</span><span class="p">)</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="kn">library</span><span class="p">(</span>ggplot2<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>animation<span class="p">)</span>
+saveGIF<span class="p">(</span><span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">500</span><span class="p">)</span> <span class="p">{</span>
+    data.cur <span class="o">=</span> <span class="kt">data.frame</span><span class="p">(</span>data<span class="o">$</span>x<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="m">20</span> <span class="o">*</span> i<span class="p">)])</span>
+    <span class="kp">colnames</span><span class="p">(</span>data.cur<span class="p">)</span> <span class="o">&lt;-</span> <span class="s">&quot;x&quot;</span>
+    <span class="kp">print</span><span class="p">(</span>ggplot<span class="p">(</span>data.cur<span class="p">)</span> <span class="o">+</span>
+        geom_histogram<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> x<span class="p">),</span> binwidth <span class="o">=</span> <span class="m">0.01</span><span class="p">)</span> <span class="o">+</span>
+        ggtitle<span class="p">(</span><span class="kp">paste</span><span class="p">(</span><span class="m">20</span> <span class="o">*</span> i<span class="p">,</span> <span class="s">&quot;points sampled&quot;</span><span class="p">)))</span>
+<span class="p">},</span> img.name <span class="o">=</span> <span class="s">&quot;samples_plot&quot;</span><span class="p">,</span> outdir <span class="o">=</span> <span class="kp">getwd</span><span class="p">(),</span> interval <span class="o">=</span> <span class="m">0.15</span><span class="p">)</span></code></pre></div>

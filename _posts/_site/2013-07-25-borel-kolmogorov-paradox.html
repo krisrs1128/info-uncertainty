@@ -1,133 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
-<title type="text">Notes of a Statistics Watcher</title>
-<generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
-<link rel="self" type="application/atom+xml" href="/info-uncertainty//feed.xml" />
-<link rel="alternate" type="text/html" href="/info-uncertainty/" />
-<updated>2014-08-29T06:14:28-04:00</updated>
-<id>/info-uncertainty//</id>
-<author>
-  <name>Kris Sankaran</name>
-  <uri>/info-uncertainty//</uri>
-  <email>krissankaran@stanford.edu</email>
-</author>
+<p>Let points be uniformly distributed on the surface of a sphere in
+$\mathbb{R}^{3}$. Two natural questions of conditional probability are</p>
 
+<ol>
+  <li>How are points distributed, conditional on their lying on a particular
+latitude?</li>
+  <li>Alternatively, how are points distributed conditional on their lying on a
+given longitude?</li>
+</ol>
 
-<entry>
-  <title type="html"><![CDATA[Gamma Moments]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//GammaMoments" />
-  <id>/info-uncertainty//GammaMoments</id>
-  <published>2013-08-09T00:00:00-04:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;Let $X \sim \text{Gamma}(\alpha, \lambda)$, that is, distributed with density
-&lt;script type=&quot;math/tex&quot;&gt;
-f_{X}(x) = \frac{\lambda^{\alpha}}{\Gamma\left(\alpha\right)}x^{\alpha - 1}e^{-\lambda x}.
-&lt;/script&gt;
-In this post, I’ll give one approach to calculating $E\left(X^{n}\right)$. The problem can be solved more directly than I do here,  but I think one of the ideas behind this approach – relating a Gamma$\left(\alpha, \lambda\right)$ variable to a simpler Gamma$\left(\alpha, 1\right)$ variable – is generally useful in other contexts, which is why I find it worth going through the extra effort here.&lt;/p&gt;
-
-&lt;p&gt;The overall approach is to first show that if $Y = \lambda X$ then, $Y \sim \text{Gamma}\left(\alpha,  1\right)$. Then, the moments of $Y$ are easy to compute, and the moments of $X$ then follow immediately.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Claim&lt;/strong&gt; &lt;em&gt;If $X \sim \text{Gamma}(\alpha, \lambda)$ then $Y = \lambda X \sim \text{Gamma}\left(\alpha,  1\right)$.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Pf.&lt;/strong&gt; This is a simple change of variables. The inverse mapping is $X = \frac{1}{\lambda}Y$, which has Jacobian $\frac{1}{\lambda}$, so the density of $Y$ is&lt;/p&gt;
-
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-
-\begin{align}
-f\_{Y}\left(y\right) &amp;= f\_{X}\left(\frac{1}{\lambda}y\right) \left|\frac{1}{\lambda}\right| \\\
-&amp;= \frac{\lambda^{\alpha}}{\Gamma\left(\alpha\right)}\left(\frac{y}{\lambda}\right)^{\alpha - 1}e^{- \lambda \frac{y}{\lambda}} \frac{1}{\lambda} \\\
-&amp;= \frac{1}{\Gamma\left(\alpha\right)}y^{\alpha - 1}e^{-y}
-\end{align},
- %]]&gt;&lt;/script&gt;
-which is the density of a Gamma$\left(\alpha, 1\right)$ variable, as needed.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Claim&lt;/strong&gt; &lt;em&gt;If $Y \sim \Gamma\left(\alpha, 1\right)$, then $E\left(Y^{n}\right) = \frac{\Gamma\left(\alpha + n\right)}{\Gamma\left(\alpha\right)}$.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Pf.&lt;/strong&gt;. Observe that
-&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-
-\begin{align}
-E\left(Y^{n}\right) &amp;= \int\_{0}^{\infty} \frac{1}{\Gamma\left(\alpha\right)}y^{n}y^{\alpha - 1}e^{-y} dy
-\\\
-&amp;= \frac{\Gamma\left(\alpha + n \right)}{\Gamma\left(\alpha \right)} \int_{0}^{\infty} \frac{1}{\Gamma\left(\alpha + n\right)} y^{\alpha + n - 1}e^{-y} dy \\\
-&amp;= \frac{\Gamma\left(\alpha + n\right)}{\Gamma\left(\alpha\right)},
-\end{align}
- %]]&gt;&lt;/script&gt;
-where, for the last equality, we recognized the integrand as the Gamma$\left(\alpha + n, 1\right)$ density.&lt;/p&gt;
-
-&lt;p&gt;We now can easily compute $E\left(X^{n}\right)$, our original goal. Using the previous scaling $X = \frac{1}{\lambda}Y$, we have
-&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-
-\begin{align}
-E\left(X^{n}\right) &amp;= E\left(\frac{Y^{n}}{\lambda^{n}}\right) \\\
-&amp;= \frac{1}{\lambda^{n}}\frac{\Gamma\left(\alpha + n\right)}{\Gamma\left(\alpha\right)} \\\
-&amp;= \frac{\alpha\left(\alpha + 1\right) \dots \left(\alpha + n - 1\right)}{\lambda^{n}},
-\end{align}
- %]]&gt;&lt;/script&gt;
-where for the last inequality we used the fact that $\Gamma\left(k\right) = \left(k - 1\right)!$ for integers $k$. This is the desired $n^{th}$ moment of a Gamma$\left(\alpha, \lambda\right)$ variable.&lt;/p&gt;
-
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//GammaMoments&quot;&gt;Gamma Moments&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on August 09, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Borel-Kolmogorov Paradox]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//borel-kolmogorov-paradox" />
-  <id>/info-uncertainty//borel-kolmogorov-paradox</id>
-  <published>2013-07-25T00:00:00-04:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;Let points be uniformly distributed on the surface of a sphere in
-$\mathbb{R}^{3}$. Two natural questions of conditional probability are&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;How are points distributed, conditional on their lying on a particular
-latitude?&lt;/li&gt;
-  &lt;li&gt;Alternatively, how are points distributed conditional on their lying on a
-given longitude?&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The Borel-Kolmogorov paradox is that these distributions are not the same!
+<p>The Borel-Kolmogorov paradox is that these distributions are not the same!
 In this post, we derive this counterintuitive result and supply an illustrative
-simulation.&lt;/p&gt;
+simulation.</p>
 
-&lt;h2 id=&quot;derivation&quot;&gt;Derivation&lt;/h2&gt;
-&lt;p&gt;Without loss of generality, assume that the sphere is the unit sphere. We convert
+<h2 id="derivation">Derivation</h2>
+<p>Without loss of generality, assume that the sphere is the unit sphere. We convert
 to spherical coordinates, letting $\varphi$ denote the angle between a point and
 the $z$-axis and $\theta$ denote the angle that the projection of the point into
 the $xy$-plane makes with the $x$-axis. Notice that $\varphi$ and $\theta$
 represent particular lattitudes and longitudes, respectively. From figure 1, we
-see that we can parameterize the surface of the unit sphere by&lt;/p&gt;
+see that we can parameterize the surface of the unit sphere by</p>
 
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+<p><script type="math/tex">% <![CDATA[
 
 \begin{align}
-r(\varphi, \theta) &amp;= \begin{pmatrix} cos\varphi cos\theta \\\  cos\varphi sin\theta \\\  sin\varphi \end{pmatrix},
+r(\varphi, \theta) &= \begin{pmatrix} cos\varphi cos\theta \\\  cos\varphi sin\theta \\\  sin\varphi \end{pmatrix},
 \end{align}
- %]]&gt;&lt;/script&gt;
-where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.&lt;/p&gt;
+ %]]></script>
+where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.</p>
 
-&lt;figure align=&quot;center&quot;&gt;
-        &lt;img src=&quot;/info-uncertainty//images/spherical_coord.svg&quot; /&gt;
-        &lt;figcaption&gt;Figure 1. Representation via spherical coordinates.&lt;/figcaption&gt;
-&lt;/figure&gt;
+<figure align="center">
+        <img src="/images/spherical_coord.svg" />
+        <figcaption>Figure 1. Representation via spherical coordinates.</figcaption>
+</figure>
 
-&lt;p&gt;In order to obtain the conditional distributions of interest, we first determine the
+<p>In order to obtain the conditional distributions of interest, we first determine the
 joint distribution of $\left(\varphi, \theta\right)$, that is, a function
 $f_{\Phi, \Theta}\left(\varphi, \theta\right)$
 such that
-$\int_{0}^{2\pi}\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} f_{\Phi, \Theta}\left(\varphi, \theta\right) d\varphi d\theta = 1$.&lt;/p&gt;
+$\int_{0}^{2\pi}\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} f_{\Phi, \Theta}\left(\varphi, \theta\right) d\varphi d\theta = 1$.</p>
 
-&lt;p&gt;To this end, either recall from multivariable calculus that the surface area of
+<p>To this end, either recall from multivariable calculus that the surface area of
 the unit sphere can be found as
 $4\pi = \int \int \left|\frac{\partial r}{\partial \varphi} \times \frac{\partial r}{\partial \theta}\right| d\varphi d \theta$,
 or consider the following argument. At any point $r\left(\varphi, \theta\right)$ on
@@ -136,41 +48,41 @@ parallelogram with edges
 $\frac{\partial r\left(\varphi, \theta\right)}{\partial \varphi} d\varphi$ and
 $\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\theta$
 that closely approximates the surface at that point. The area of this
-parallelogram can be found as by the square root determinant of the &lt;a href=&quot;http://www.math.harvard.edu/archive/23a_fall_00/docs/gramian.pdf&quot;&gt;Gramian&lt;/a&gt; of its edges,&lt;/p&gt;
+parallelogram can be found as by the square root determinant of the <a href="http://www.math.harvard.edu/archive/23a_fall_00/docs/gramian.pdf">Gramian</a> of its edges,</p>
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+<script type="math/tex; mode=display">% <![CDATA[
 
 \begin{align}
-\sqrt{ \det G\left(\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\varphi, \frac{\partial r\left(\varphi, \theta\right)}{\partial \theta}d\theta\right)} &amp;= \sqrt{\det \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}^{T} \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}} \\
-&amp;= \sqrt{\cos^{2}\varphi} d\varphi d\theta.
+\sqrt{ \det G\left(\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\varphi, \frac{\partial r\left(\varphi, \theta\right)}{\partial \theta}d\theta\right)} &= \sqrt{\det \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}^{T} \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}} \\
+&= \sqrt{\cos^{2}\varphi} d\varphi d\theta.
 \end{align}
- %]]&gt;&lt;/script&gt;
+ %]]></script>
 
-&lt;p&gt;Integrating over all such infinitesimal parallelograms yields&lt;/p&gt;
+<p>Integrating over all such infinitesimal parallelograms yields</p>
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+<script type="math/tex; mode=display">
 4\pi = \int_{0}^{2\pi}\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} cos \varphi d\varphi d\theta,
-&lt;/script&gt;
+</script>
 
-&lt;p&gt;so we can conclude that the joint density of $\varphi, \theta$ is&lt;/p&gt;
+<p>so we can conclude that the joint density of $\varphi, \theta$ is</p>
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+<script type="math/tex; mode=display">
  f_{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.
-&lt;/script&gt;
+</script>
 
-&lt;p&gt;The marginal and conditional densities then follow easily by integration:&lt;/p&gt;
+<p>The marginal and conditional densities then follow easily by integration:</p>
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+<script type="math/tex; mode=display">% <![CDATA[
 
 \begin{align}
-f_{\Phi}\left(\varphi\right) &amp;= \frac{\cos\varphi}{2} \\
-f_{\Theta}\left(\theta\right) &amp;=\frac{1}{2\pi} \\
-f_{\Phi \mid \Theta}\left(\varphi \mid \theta\right) &amp;= \frac{\cos\varphi}{2} \\
-f_{\Theta \mid \Phi}\left(\theta \mid \varphi\right) &amp;= \frac{1}{2\pi}.
+f_{\Phi}\left(\varphi\right) &= \frac{\cos\varphi}{2} \\
+f_{\Theta}\left(\theta\right) &=\frac{1}{2\pi} \\
+f_{\Phi \mid \Theta}\left(\varphi \mid \theta\right) &= \frac{\cos\varphi}{2} \\
+f_{\Theta \mid \Phi}\left(\theta \mid \varphi\right) &= \frac{1}{2\pi}.
 \end{align}
- %]]&gt;&lt;/script&gt;
+ %]]></script>
 
-&lt;p&gt;Hence, fixing a lattitude, the points are distributed uniformly around the
+<p>Hence, fixing a lattitude, the points are distributed uniformly around the
 associated horizontal ring, while fixing a longitude, they are distributed
 according to $\frac{\cos \varphi}{2}$. In particular, conditional on lying on
 a given longitude, they are more likely to fall near the equator than the poles.
@@ -178,46 +90,46 @@ In hindsight, this seems reasonable, since the angle $\varphi$ sweeps out a
 greater length near the equator than the poles. A number of other explanations
 have been put forth, highlighting the difficulty of conditioning on a set
 of measure zero and motivating the development of rigorous conditional
-probability, see for example &lt;a href=&quot;http://www-biba.inrialpes.fr/Jaynes/cc15b.pdf&quot;&gt;Jaynes&lt;/a&gt;, &lt;a href=&quot;http://www.mathematik.com/Kolmogorov/&quot;&gt;Kolmogorov&lt;/a&gt;, or &lt;a href=&quot;http://jmanton.wordpress.com/tag/borel-kolmogorov-paradox/&quot;&gt;Manton&lt;/a&gt;.&lt;/p&gt;
+probability, see for example <a href="http://www-biba.inrialpes.fr/Jaynes/cc15b.pdf">Jaynes</a>, <a href="http://www.mathematik.com/Kolmogorov/">Kolmogorov</a>, or <a href="http://jmanton.wordpress.com/tag/borel-kolmogorov-paradox/">Manton</a>.</p>
 
-&lt;h2 id=&quot;illustration&quot;&gt;Illustration&lt;/h2&gt;
-&lt;p&gt;We generate $n$ points uniformly on the surface of the sphere using the function
-&lt;code&gt;rsphere&lt;/code&gt; and convert to coordinates $\varphi$ and $\theta$ using
-&lt;code&gt;sphere.coord&lt;/code&gt;. The function &lt;code&gt;rsphere&lt;/code&gt; uses the fact that, since the standard
+<h2 id="illustration">Illustration</h2>
+<p>We generate $n$ points uniformly on the surface of the sphere using the function
+<code>rsphere</code> and convert to coordinates $\varphi$ and $\theta$ using
+<code>sphere.coord</code>. The function <code>rsphere</code> uses the fact that, since the standard
 Gaussian density is spherically symmetric, taking the projection of Gaussian
 points onto the surface of the sphere yields points uniformly distributed on
-it. The function &lt;code&gt;sphere.coord&lt;/code&gt; uses the transform
-&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+it. The function <code>sphere.coord</code> uses the transform
+<script type="math/tex">% <![CDATA[
 
 \begin{align}
-\varphi &amp;= \arcsin\left(z\right) \\\
-\theta &amp;= \arctan\left(\frac{y}{x}\right),
+\varphi &= \arcsin\left(z\right) \\\
+\theta &= \arctan\left(\frac{y}{x}\right),
 \end{align}
- %]]&gt;&lt;/script&gt;
+ %]]></script>
 which follows from the parametrization $r\left(\varphi, \theta\right)$.
 Figure 2 shows the points
-on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4. The results confirm the mathematical derivation above.&lt;/p&gt;
+on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4. The results confirm the mathematical derivation above.</p>
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;rsphere &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    X &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;matrix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;rnorm&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; n&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    X.sphere &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; MARGIN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; FUN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        x&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;norm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;as.matrix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-    &lt;span class=&quot;kp&quot;&gt;rownames&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.sphere&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;y&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;z&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.sphere&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+<div class="highlight"><pre><code class="language-r" data-lang="r">rsphere <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>n<span class="p">)</span> <span class="p">{</span>
+    X <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>rnorm<span class="p">(</span>n <span class="o">*</span> <span class="m">3</span><span class="p">),</span> n<span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+    X.sphere <span class="o">&lt;-</span> <span class="kp">apply</span><span class="p">(</span>X<span class="p">,</span> MARGIN <span class="o">=</span> <span class="m">1</span><span class="p">,</span> FUN <span class="o">=</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> <span class="p">{</span>
+        x<span class="o">/</span><span class="kp">norm</span><span class="p">(</span><span class="kp">as.matrix</span><span class="p">(</span>x<span class="p">),</span> <span class="s">&quot;2&quot;</span><span class="p">)</span>
+    <span class="p">})</span>
+    <span class="kp">rownames</span><span class="p">(</span>X.sphere<span class="p">)</span> <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;z&quot;</span><span class="p">)</span>
+    <span class="kr">return</span><span class="p">(</span><span class="kp">t</span><span class="p">(</span>X.sphere<span class="p">))</span>
+<span class="p">}</span>
 
-X &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; rsphere&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;rgl&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+X <span class="o">&lt;-</span> rsphere<span class="p">(</span><span class="m">10000</span><span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>rgl<span class="p">)</span>
+plot3d<span class="p">(</span>X<span class="p">)</span></code></pre></div>
 
-&lt;script src=&quot;/info-uncertainty//images/CanvasMatrix.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+<script src="/images/CanvasMatrix.js" type="text/javascript"></script>
 
-&lt;canvas id=&quot;rspheretextureCanvas&quot; style=&quot;display: none;&quot; width=&quot;256&quot; height=&quot;256&quot;&gt;
-&amp;lt;img src=&quot;/info-uncertainty//images/rspheresnapshot.png&quot; alt=&quot;rspheresnapshot&quot; width=505/&amp;gt;&lt;br /&gt;
-	Your browser does not support the HTML5 canvas element.&lt;/canvas&gt;
-&lt;!-- ****** points object 6 ****** --&gt;
-&lt;script id=&quot;rspherevshader6&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<canvas id="rspheretextureCanvas" style="display: none;" width="256" height="256">
+&lt;img src="/images/rspheresnapshot.png" alt="rspheresnapshot" width=505/&gt;<br />
+	Your browser does not support the HTML5 canvas element.</canvas>
+<!-- ****** points object 6 ****** -->
+<script id="rspherevshader6" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -230,9 +142,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  gl_PointSize = 3.;
 	  vCol = aCol;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader6&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader6" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -243,10 +155,10 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  vec4 lighteffect = colDiff;
 	  gl_FragColor = lighteffect;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;!-- ****** text object 8 ****** --&gt;
-&lt;script id=&quot;rspherevshader8&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<!-- ****** text object 8 ****** -->
+<script id="rspherevshader8" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -263,9 +175,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  pos = pos/pos.w;
 	  gl_Position = pos + vec4(aOfs, 0.,0.);
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader8&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader8" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -277,15 +189,15 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
       vec4 colDiff = vCol;
 	  vec4 lighteffect = colDiff;
 	  vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
-	  if (textureColor.a &lt; 0.1)
+	  if (textureColor.a < 0.1)
 	    discard;
 	  else
 	    gl_FragColor = textureColor;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;!-- ****** text object 9 ****** --&gt;
-&lt;script id=&quot;rspherevshader9&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<!-- ****** text object 9 ****** -->
+<script id="rspherevshader9" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -302,9 +214,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  pos = pos/pos.w;
 	  gl_Position = pos + vec4(aOfs, 0.,0.);
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader9&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader9" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -316,15 +228,15 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
       vec4 colDiff = vCol;
 	  vec4 lighteffect = colDiff;
 	  vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
-	  if (textureColor.a &lt; 0.1)
+	  if (textureColor.a < 0.1)
 	    discard;
 	  else
 	    gl_FragColor = textureColor;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;!-- ****** text object 10 ****** --&gt;
-&lt;script id=&quot;rspherevshader10&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<!-- ****** text object 10 ****** -->
+<script id="rspherevshader10" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -341,9 +253,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  pos = pos/pos.w;
 	  gl_Position = pos + vec4(aOfs, 0.,0.);
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader10&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader10" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -355,15 +267,15 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
       vec4 colDiff = vCol;
 	  vec4 lighteffect = colDiff;
 	  vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
-	  if (textureColor.a &lt; 0.1)
+	  if (textureColor.a < 0.1)
 	    discard;
 	  else
 	    gl_FragColor = textureColor;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;!-- ****** lines object 11 ****** --&gt;
-&lt;script id=&quot;rspherevshader11&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<!-- ****** lines object 11 ****** -->
+<script id="rspherevshader11" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -375,9 +287,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  gl_Position = prMatrix * vPosition;
 	  vCol = aCol;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader11&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader11" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -388,10 +300,10 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  vec4 lighteffect = colDiff;
 	  gl_FragColor = lighteffect;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;!-- ****** text object 12 ****** --&gt;
-&lt;script id=&quot;rspherevshader12&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<!-- ****** text object 12 ****** -->
+<script id="rspherevshader12" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -408,9 +320,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  pos = pos/pos.w;
 	  gl_Position = pos + vec4(aOfs, 0.,0.);
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader12&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader12" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -422,15 +334,15 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
       vec4 colDiff = vCol;
 	  vec4 lighteffect = colDiff;
 	  vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
-	  if (textureColor.a &lt; 0.1)
+	  if (textureColor.a < 0.1)
 	    discard;
 	  else
 	    gl_FragColor = textureColor;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;!-- ****** lines object 13 ****** --&gt;
-&lt;script id=&quot;rspherevshader13&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<!-- ****** lines object 13 ****** -->
+<script id="rspherevshader13" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -442,9 +354,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  gl_Position = prMatrix * vPosition;
 	  vCol = aCol;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader13&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader13" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -455,10 +367,10 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  vec4 lighteffect = colDiff;
 	  gl_FragColor = lighteffect;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;!-- ****** text object 14 ****** --&gt;
-&lt;script id=&quot;rspherevshader14&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<!-- ****** text object 14 ****** -->
+<script id="rspherevshader14" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -475,9 +387,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  pos = pos/pos.w;
 	  gl_Position = pos + vec4(aOfs, 0.,0.);
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader14&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader14" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -489,15 +401,15 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
       vec4 colDiff = vCol;
 	  vec4 lighteffect = colDiff;
 	  vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
-	  if (textureColor.a &lt; 0.1)
+	  if (textureColor.a < 0.1)
 	    discard;
 	  else
 	    gl_FragColor = textureColor;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;!-- ****** lines object 15 ****** --&gt;
-&lt;script id=&quot;rspherevshader15&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<!-- ****** lines object 15 ****** -->
+<script id="rspherevshader15" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -509,9 +421,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  gl_Position = prMatrix * vPosition;
 	  vCol = aCol;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader15&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader15" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -522,10 +434,10 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  vec4 lighteffect = colDiff;
 	  gl_FragColor = lighteffect;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;!-- ****** text object 16 ****** --&gt;
-&lt;script id=&quot;rspherevshader16&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<!-- ****** text object 16 ****** -->
+<script id="rspherevshader16" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -542,9 +454,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  pos = pos/pos.w;
 	  gl_Position = pos + vec4(aOfs, 0.,0.);
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader16&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader16" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -556,15 +468,15 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
       vec4 colDiff = vCol;
 	  vec4 lighteffect = colDiff;
 	  vec4 textureColor = lighteffect*texture2D(uSampler, vTexcoord);
-	  if (textureColor.a &lt; 0.1)
+	  if (textureColor.a < 0.1)
 	    discard;
 	  else
 	    gl_FragColor = textureColor;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;!-- ****** lines object 17 ****** --&gt;
-&lt;script id=&quot;rspherevshader17&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+<!-- ****** lines object 17 ****** -->
+<script id="rspherevshader17" type="x-shader/x-vertex">
 	attribute vec3 aPos;
 	attribute vec4 aCol;
 	uniform mat4 mvMatrix;
@@ -576,9 +488,9 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  gl_Position = prMatrix * vPosition;
 	  vCol = aCol;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script id=&quot;rspherefshader17&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+<script id="rspherefshader17" type="x-shader/x-fragment">
 	#ifdef GL_ES
 	precision highp float;
 	#endif
@@ -589,21 +501,21 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	  vec4 lighteffect = colDiff;
 	  gl_FragColor = lighteffect;
 	}
-&lt;/script&gt;
+</script>
 
-&lt;script type=&quot;text/javascript&quot;&gt;
+<script type="text/javascript">
 	function getShader ( gl, id ){
 	   var shaderScript = document.getElementById ( id );
-	   var str = &quot;&quot;;
+	   var str = "";
 	   var k = shaderScript.firstChild;
 	   while ( k ){
 	     if ( k.nodeType == 3 ) str += k.textContent;
 	     k = k.nextSibling;
 	   }
 	   var shader;
-	   if ( shaderScript.type == &quot;x-shader/x-fragment&quot; )
+	   if ( shaderScript.type == "x-shader/x-fragment" )
              shader = gl.createShader ( gl.FRAGMENT_SHADER );
-	   else if ( shaderScript.type == &quot;x-shader/x-vertex&quot; )
+	   else if ( shaderScript.type == "x-shader/x-vertex" )
              shader = gl.createShader(gl.VERTEX_SHADER);
 	   else return null;
 	   gl.shaderSource(shader, str);
@@ -624,23 +536,23 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	var exp = Math.exp;
 	function rspherewebGLStart() {
 	   var debug = function(msg) {
-	     document.getElementById(&quot;rspheredebug&quot;).innerHTML = msg;
+	     document.getElementById("rspheredebug").innerHTML = msg;
 	   }
-	   debug(&quot;&quot;);
-	   var canvas = document.getElementById(&quot;rspherecanvas&quot;);
+	   debug("");
+	   var canvas = document.getElementById("rspherecanvas");
 	   if (!window.WebGLRenderingContext){
-	     debug(&quot;&lt;img src=\&quot;rspheresnapshot.png\&quot; alt=\&quot;rspheresnapshot\&quot; width=505/&gt;&lt;br&gt; Your browser does not support WebGL. See &lt;a href=\&quot;http://get.webgl.org\&quot;&gt;http://get.webgl.org&lt;/a&gt;&quot;);
+	     debug("<img src=\"rspheresnapshot.png\" alt=\"rspheresnapshot\" width=505/><br> Your browser does not support WebGL. See <a href=\"http://get.webgl.org\">http://get.webgl.org</a>");
 	     return;
 	   }
 	   var gl;
 	   try {
 	     // Try to grab the standard context. If it fails, fallback to experimental.
-	     gl = canvas.getContext(&quot;webgl&quot;)
-	       || canvas.getContext(&quot;experimental-webgl&quot;);
+	     gl = canvas.getContext("webgl")
+	       || canvas.getContext("experimental-webgl");
 	   }
 	   catch(e) {}
 	   if ( !gl ) {
-	     debug(&quot;&lt;img src=\&quot;rspheresnapshot.png\&quot; alt=\&quot;rspheresnapshot\&quot; width=505/&gt;&lt;br&gt; Your browser appears to support WebGL, but did not create a WebGL context.  See &lt;a href=\&quot;http://get.webgl.org\&quot;&gt;http://get.webgl.org&lt;/a&gt;&quot;);
+	     debug("<img src=\"rspheresnapshot.png\" alt=\"rspheresnapshot\" width=505/><br> Your browser appears to support WebGL, but did not create a WebGL context.  See <a href=\"http://get.webgl.org\">http://get.webgl.org</a>");
 	     return;
 	   }
 	   var width = 505;  var height = 505;
@@ -663,7 +575,7 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 		]);
 	   function getPowerOfTwo(value) {
 	     var pow = 1;
-	     while(pow&lt;value) {
+	     while(pow<value) {
 	       pow *= 2;
 	     }
 	     return pow;
@@ -678,8 +590,8 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	     gl.bindTexture(gl.TEXTURE_2D, null);
 	   }
 	   function loadImageToTexture(filename, texture) {
-	     var canvas = document.getElementById(&quot;rspheretextureCanvas&quot;);
-	     var ctx = canvas.getContext(&quot;2d&quot;);
+	     var canvas = document.getElementById("rspheretextureCanvas");
+	     var ctx = canvas.getContext("2d");
 	     var image = new Image();
 	     image.onload = function() {
 	       var w = image.width;
@@ -699,17 +611,17 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	     var canvasX, canvasY;
 	     var textX, textY;
 	     var textHeight = 20 * cex;
-	     var textColour = &quot;white&quot;;
-	     var fontFamily = &quot;Arial&quot;;
-	     var backgroundColour = &quot;rgba(0,0,0,0)&quot;;
-	     var canvas = document.getElementById(&quot;rspheretextureCanvas&quot;);
-	     var ctx = canvas.getContext(&quot;2d&quot;);
-	     ctx.font = textHeight+&quot;px &quot;+fontFamily;
+	     var textColour = "white";
+	     var fontFamily = "Arial";
+	     var backgroundColour = "rgba(0,0,0,0)";
+	     var canvas = document.getElementById("rspheretextureCanvas");
+	     var ctx = canvas.getContext("2d");
+	     ctx.font = textHeight+"px "+fontFamily;
              canvasX = 1;
              var widths = [];
-	     for (var i = 0; i &lt; text.length; i++)  {
+	     for (var i = 0; i < text.length; i++)  {
 	       widths[i] = ctx.measureText(text[i]).width;
-	       canvasX = (widths[i] &gt; canvasX) ? widths[i] : canvasX;
+	       canvasX = (widths[i] > canvasX) ? widths[i] : canvasX;
 	     }
 	     canvasX = getPowerOfTwo(canvasX);
 	     var offset = 2*textHeight; // offset to first baseline
@@ -720,10 +632,10 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	     ctx.fillStyle = backgroundColour;
 	     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 	     ctx.fillStyle = textColour;
-	     ctx.textAlign = &quot;left&quot;;
-	     ctx.textBaseline = &quot;alphabetic&quot;;
-	     ctx.font = textHeight+&quot;px &quot;+fontFamily;
-	     for(var i = 0; i &lt; text.length; i++) {
+	     ctx.textAlign = "left";
+	     ctx.textBaseline = "alphabetic";
+	     ctx.font = textHeight+"px "+fontFamily;
+	     for(var i = 0; i < text.length; i++) {
 	       textY = i*skip + offset;
 	       ctx.fillText(text[i], 0,  textY);
 	     }
@@ -733,8 +645,8 @@ plot3d&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot
 	   }
 	   // ****** points object 6 ******
 	   var prog6  = gl.createProgram();
-	   gl.attachShader(prog6, getShader( gl, &quot;rspherevshader6&quot; ));
-	   gl.attachShader(prog6, getShader( gl, &quot;rspherefshader6&quot; ));
+	   gl.attachShader(prog6, getShader( gl, "rspherevshader6" ));
+	   gl.attachShader(prog6, getShader( gl, "rspherefshader6" ));
 	   gl.linkProgram(prog6);
 	   var v=new Float32Array([
 	    0.7650331, -0.3535735, -0.5382472,
@@ -10738,37 +10650,37 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	    -0.2095658, 0.956405, -0.2034003,
 	    -0.1134813, 0.01857518, 0.9933665
 	   ]);
-	   var posLoc6 = gl.getAttribLocation(prog6, &quot;aPos&quot;);
-	   var colLoc6 = gl.getAttribLocation(prog6, &quot;aCol&quot;);
+	   var posLoc6 = gl.getAttribLocation(prog6, "aPos");
+	   var colLoc6 = gl.getAttribLocation(prog6, "aCol");
 	   var buf6 = gl.createBuffer();
 	   gl.bindBuffer(gl.ARRAY_BUFFER, buf6);
 	   gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
-	   var mvMatLoc6 = gl.getUniformLocation(prog6,&quot;mvMatrix&quot;);
-	   var prMatLoc6 = gl.getUniformLocation(prog6,&quot;prMatrix&quot;);
+	   var mvMatLoc6 = gl.getUniformLocation(prog6,"mvMatrix");
+	   var prMatLoc6 = gl.getUniformLocation(prog6,"prMatrix");
 	   // ****** text object 8 ******
 	   var prog8  = gl.createProgram();
-	   gl.attachShader(prog8, getShader( gl, &quot;rspherevshader8&quot; ));
-	   gl.attachShader(prog8, getShader( gl, &quot;rspherefshader8&quot; ));
+	   gl.attachShader(prog8, getShader( gl, "rspherevshader8" ));
+	   gl.attachShader(prog8, getShader( gl, "rspherefshader8" ));
 	   gl.linkProgram(prog8);
 	   var texts = [
-	    &quot;x&quot;
+	    "x"
 	   ];
 	   var texinfo = drawTextToCanvas(texts, 1);
 	   var canvasX8 = texinfo.canvasX;
 	   var canvasY8 = texinfo.canvasY;
-	   var ofsLoc8 = gl.getAttribLocation(prog8, &quot;aOfs&quot;);
+	   var ofsLoc8 = gl.getAttribLocation(prog8, "aOfs");
 	   var texture8 = gl.createTexture();
-	   var texLoc8 = gl.getAttribLocation(prog8, &quot;aTexcoord&quot;);
-	   var sampler8 = gl.getUniformLocation(prog8,&quot;uSampler&quot;);
-    	   handleLoadedTexture(texture8, document.getElementById(&quot;rspheretextureCanvas&quot;));
+	   var texLoc8 = gl.getAttribLocation(prog8, "aTexcoord");
+	   var sampler8 = gl.getUniformLocation(prog8,"uSampler");
+    	   handleLoadedTexture(texture8, document.getElementById("rspheretextureCanvas"));
 	   var v=new Float32Array([
 	    3.126264e-05, -1.338886, -1.338889, 0, -0.5, 0.5, 0.5,
 	    3.126264e-05, -1.338886, -1.338889, 1, -0.5, 0.5, 0.5,
 	    3.126264e-05, -1.338886, -1.338889, 1, 1.5, 0.5, 0.5,
 	    3.126264e-05, -1.338886, -1.338889, 0, 1.5, 0.5, 0.5
 	   ]);
-	   for (var i=0; i&lt;1; i++)
-	     for (var j=0; j&lt;4; j++) {
+	   for (var i=0; i<1; i++)
+	     for (var j=0; j<4; j++) {
 	         ind = 7*(4*i + j) + 3;
 	         v[ind+2] = 2*(v[ind]-v[ind+2])*texinfo.widths[i]/width;
 	         v[ind+3] = 2*(v[ind+1]-v[ind+3])*texinfo.textHeight/height;
@@ -10776,8 +10688,8 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	         v[ind+1] = 1.0-(texinfo.offset + i*texinfo.skip
 	           - v[ind+1]*texinfo.textHeight)/texinfo.canvasY;
 	     }
-	   var posLoc8 = gl.getAttribLocation(prog8, &quot;aPos&quot;);
-	   var colLoc8 = gl.getAttribLocation(prog8, &quot;aCol&quot;);
+	   var posLoc8 = gl.getAttribLocation(prog8, "aPos");
+	   var colLoc8 = gl.getAttribLocation(prog8, "aCol");
 	   var f=new Uint16Array([
 	    0, 1, 2, 0, 2, 3
 	   ]);
@@ -10787,32 +10699,32 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	   var ibuf8 = gl.createBuffer();
 	   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf8);
 	   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, f, gl.STATIC_DRAW);
-	   var mvMatLoc8 = gl.getUniformLocation(prog8,&quot;mvMatrix&quot;);
-	   var prMatLoc8 = gl.getUniformLocation(prog8,&quot;prMatrix&quot;);
+	   var mvMatLoc8 = gl.getUniformLocation(prog8,"mvMatrix");
+	   var prMatLoc8 = gl.getUniformLocation(prog8,"prMatrix");
 	   // ****** text object 9 ******
 	   var prog9  = gl.createProgram();
-	   gl.attachShader(prog9, getShader( gl, &quot;rspherevshader9&quot; ));
-	   gl.attachShader(prog9, getShader( gl, &quot;rspherefshader9&quot; ));
+	   gl.attachShader(prog9, getShader( gl, "rspherevshader9" ));
+	   gl.attachShader(prog9, getShader( gl, "rspherefshader9" ));
 	   gl.linkProgram(prog9);
 	   var texts = [
-	    &quot;y&quot;
+	    "y"
 	   ];
 	   var texinfo = drawTextToCanvas(texts, 1);
 	   var canvasX9 = texinfo.canvasX;
 	   var canvasY9 = texinfo.canvasY;
-	   var ofsLoc9 = gl.getAttribLocation(prog9, &quot;aOfs&quot;);
+	   var ofsLoc9 = gl.getAttribLocation(prog9, "aOfs");
 	   var texture9 = gl.createTexture();
-	   var texLoc9 = gl.getAttribLocation(prog9, &quot;aTexcoord&quot;);
-	   var sampler9 = gl.getUniformLocation(prog9,&quot;uSampler&quot;);
-    	   handleLoadedTexture(texture9, document.getElementById(&quot;rspheretextureCanvas&quot;));
+	   var texLoc9 = gl.getAttribLocation(prog9, "aTexcoord");
+	   var sampler9 = gl.getUniformLocation(prog9,"uSampler");
+    	   handleLoadedTexture(texture9, document.getElementById("rspheretextureCanvas"));
 	   var v=new Float32Array([
 	    -1.338724, -1.740456e-05, -1.338889, 0, -0.5, 0.5, 0.5,
 	    -1.338724, -1.740456e-05, -1.338889, 1, -0.5, 0.5, 0.5,
 	    -1.338724, -1.740456e-05, -1.338889, 1, 1.5, 0.5, 0.5,
 	    -1.338724, -1.740456e-05, -1.338889, 0, 1.5, 0.5, 0.5
 	   ]);
-	   for (var i=0; i&lt;1; i++)
-	     for (var j=0; j&lt;4; j++) {
+	   for (var i=0; i<1; i++)
+	     for (var j=0; j<4; j++) {
 	         ind = 7*(4*i + j) + 3;
 	         v[ind+2] = 2*(v[ind]-v[ind+2])*texinfo.widths[i]/width;
 	         v[ind+3] = 2*(v[ind+1]-v[ind+3])*texinfo.textHeight/height;
@@ -10820,8 +10732,8 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	         v[ind+1] = 1.0-(texinfo.offset + i*texinfo.skip
 	           - v[ind+1]*texinfo.textHeight)/texinfo.canvasY;
 	     }
-	   var posLoc9 = gl.getAttribLocation(prog9, &quot;aPos&quot;);
-	   var colLoc9 = gl.getAttribLocation(prog9, &quot;aCol&quot;);
+	   var posLoc9 = gl.getAttribLocation(prog9, "aPos");
+	   var colLoc9 = gl.getAttribLocation(prog9, "aCol");
 	   var f=new Uint16Array([
 	    0, 1, 2, 0, 2, 3
 	   ]);
@@ -10831,32 +10743,32 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	   var ibuf9 = gl.createBuffer();
 	   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf9);
 	   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, f, gl.STATIC_DRAW);
-	   var mvMatLoc9 = gl.getUniformLocation(prog9,&quot;mvMatrix&quot;);
-	   var prMatLoc9 = gl.getUniformLocation(prog9,&quot;prMatrix&quot;);
+	   var mvMatLoc9 = gl.getUniformLocation(prog9,"mvMatrix");
+	   var prMatLoc9 = gl.getUniformLocation(prog9,"prMatrix");
 	   // ****** text object 10 ******
 	   var prog10  = gl.createProgram();
-	   gl.attachShader(prog10, getShader( gl, &quot;rspherevshader10&quot; ));
-	   gl.attachShader(prog10, getShader( gl, &quot;rspherefshader10&quot; ));
+	   gl.attachShader(prog10, getShader( gl, "rspherevshader10" ));
+	   gl.attachShader(prog10, getShader( gl, "rspherefshader10" ));
 	   gl.linkProgram(prog10);
 	   var texts = [
-	    &quot;z&quot;
+	    "z"
 	   ];
 	   var texinfo = drawTextToCanvas(texts, 1);
 	   var canvasX10 = texinfo.canvasX;
 	   var canvasY10 = texinfo.canvasY;
-	   var ofsLoc10 = gl.getAttribLocation(prog10, &quot;aOfs&quot;);
+	   var ofsLoc10 = gl.getAttribLocation(prog10, "aOfs");
 	   var texture10 = gl.createTexture();
-	   var texLoc10 = gl.getAttribLocation(prog10, &quot;aTexcoord&quot;);
-	   var sampler10 = gl.getUniformLocation(prog10,&quot;uSampler&quot;);
-    	   handleLoadedTexture(texture10, document.getElementById(&quot;rspheretextureCanvas&quot;));
+	   var texLoc10 = gl.getAttribLocation(prog10, "aTexcoord");
+	   var sampler10 = gl.getUniformLocation(prog10,"uSampler");
+    	   handleLoadedTexture(texture10, document.getElementById("rspheretextureCanvas"));
 	   var v=new Float32Array([
 	    -1.338724, -1.338886, 3.758073e-05, 0, -0.5, 0.5, 0.5,
 	    -1.338724, -1.338886, 3.758073e-05, 1, -0.5, 0.5, 0.5,
 	    -1.338724, -1.338886, 3.758073e-05, 1, 1.5, 0.5, 0.5,
 	    -1.338724, -1.338886, 3.758073e-05, 0, 1.5, 0.5, 0.5
 	   ]);
-	   for (var i=0; i&lt;1; i++)
-	     for (var j=0; j&lt;4; j++) {
+	   for (var i=0; i<1; i++)
+	     for (var j=0; j<4; j++) {
 	         ind = 7*(4*i + j) + 3;
 	         v[ind+2] = 2*(v[ind]-v[ind+2])*texinfo.widths[i]/width;
 	         v[ind+3] = 2*(v[ind+1]-v[ind+3])*texinfo.textHeight/height;
@@ -10864,8 +10776,8 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	         v[ind+1] = 1.0-(texinfo.offset + i*texinfo.skip
 	           - v[ind+1]*texinfo.textHeight)/texinfo.canvasY;
 	     }
-	   var posLoc10 = gl.getAttribLocation(prog10, &quot;aPos&quot;);
-	   var colLoc10 = gl.getAttribLocation(prog10, &quot;aCol&quot;);
+	   var posLoc10 = gl.getAttribLocation(prog10, "aPos");
+	   var colLoc10 = gl.getAttribLocation(prog10, "aCol");
 	   var f=new Uint16Array([
 	    0, 1, 2, 0, 2, 3
 	   ]);
@@ -10875,12 +10787,12 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	   var ibuf10 = gl.createBuffer();
 	   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf10);
 	   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, f, gl.STATIC_DRAW);
-	   var mvMatLoc10 = gl.getUniformLocation(prog10,&quot;mvMatrix&quot;);
-	   var prMatLoc10 = gl.getUniformLocation(prog10,&quot;prMatrix&quot;);
+	   var mvMatLoc10 = gl.getUniformLocation(prog10,"mvMatrix");
+	   var prMatLoc10 = gl.getUniformLocation(prog10,"prMatrix");
 	   // ****** lines object 11 ******
 	   var prog11  = gl.createProgram();
-	   gl.attachShader(prog11, getShader( gl, &quot;rspherevshader11&quot; ));
-	   gl.attachShader(prog11, getShader( gl, &quot;rspherefshader11&quot; ));
+	   gl.attachShader(prog11, getShader( gl, "rspherevshader11" ));
+	   gl.attachShader(prog11, getShader( gl, "rspherefshader11" ));
 	   gl.linkProgram(prog11);
 	   var v=new Float32Array([
 	    -0.5, -1.029916, -1.029906,
@@ -10892,31 +10804,31 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	    0.5, -1.029916, -1.029906,
 	    0.5, -1.081411, -1.081403
 	   ]);
-	   var posLoc11 = gl.getAttribLocation(prog11, &quot;aPos&quot;);
-	   var colLoc11 = gl.getAttribLocation(prog11, &quot;aCol&quot;);
+	   var posLoc11 = gl.getAttribLocation(prog11, "aPos");
+	   var colLoc11 = gl.getAttribLocation(prog11, "aCol");
 	   var buf11 = gl.createBuffer();
 	   gl.bindBuffer(gl.ARRAY_BUFFER, buf11);
 	   gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
-	   var mvMatLoc11 = gl.getUniformLocation(prog11,&quot;mvMatrix&quot;);
-	   var prMatLoc11 = gl.getUniformLocation(prog11,&quot;prMatrix&quot;);
+	   var mvMatLoc11 = gl.getUniformLocation(prog11,"mvMatrix");
+	   var prMatLoc11 = gl.getUniformLocation(prog11,"prMatrix");
 	   // ****** text object 12 ******
 	   var prog12  = gl.createProgram();
-	   gl.attachShader(prog12, getShader( gl, &quot;rspherevshader12&quot; ));
-	   gl.attachShader(prog12, getShader( gl, &quot;rspherefshader12&quot; ));
+	   gl.attachShader(prog12, getShader( gl, "rspherevshader12" ));
+	   gl.attachShader(prog12, getShader( gl, "rspherefshader12" ));
 	   gl.linkProgram(prog12);
 	   var texts = [
-	    &quot;-0.5&quot;,
-	    &quot;0&quot;,
-	    &quot;0.5&quot;
+	    "-0.5",
+	    "0",
+	    "0.5"
 	   ];
 	   var texinfo = drawTextToCanvas(texts, 1);
 	   var canvasX12 = texinfo.canvasX;
 	   var canvasY12 = texinfo.canvasY;
-	   var ofsLoc12 = gl.getAttribLocation(prog12, &quot;aOfs&quot;);
+	   var ofsLoc12 = gl.getAttribLocation(prog12, "aOfs");
 	   var texture12 = gl.createTexture();
-	   var texLoc12 = gl.getAttribLocation(prog12, &quot;aTexcoord&quot;);
-	   var sampler12 = gl.getUniformLocation(prog12,&quot;uSampler&quot;);
-    	   handleLoadedTexture(texture12, document.getElementById(&quot;rspheretextureCanvas&quot;));
+	   var texLoc12 = gl.getAttribLocation(prog12, "aTexcoord");
+	   var sampler12 = gl.getUniformLocation(prog12,"uSampler");
+    	   handleLoadedTexture(texture12, document.getElementById("rspheretextureCanvas"));
 	   var v=new Float32Array([
 	    -0.5, -1.184401, -1.184398, 0, -0.5, 0.5, 0.5,
 	    -0.5, -1.184401, -1.184398, 1, -0.5, 0.5, 0.5,
@@ -10931,8 +10843,8 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	    0.5, -1.184401, -1.184398, 1, 1.5, 0.5, 0.5,
 	    0.5, -1.184401, -1.184398, 0, 1.5, 0.5, 0.5
 	   ]);
-	   for (var i=0; i&lt;3; i++)
-	     for (var j=0; j&lt;4; j++) {
+	   for (var i=0; i<3; i++)
+	     for (var j=0; j<4; j++) {
 	         ind = 7*(4*i + j) + 3;
 	         v[ind+2] = 2*(v[ind]-v[ind+2])*texinfo.widths[i]/width;
 	         v[ind+3] = 2*(v[ind+1]-v[ind+3])*texinfo.textHeight/height;
@@ -10940,8 +10852,8 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	         v[ind+1] = 1.0-(texinfo.offset + i*texinfo.skip
 	           - v[ind+1]*texinfo.textHeight)/texinfo.canvasY;
 	     }
-	   var posLoc12 = gl.getAttribLocation(prog12, &quot;aPos&quot;);
-	   var colLoc12 = gl.getAttribLocation(prog12, &quot;aCol&quot;);
+	   var posLoc12 = gl.getAttribLocation(prog12, "aPos");
+	   var colLoc12 = gl.getAttribLocation(prog12, "aCol");
 	   var f=new Uint16Array([
 	    0, 1, 2, 0, 2, 3,
 	    4, 5, 6, 4, 6, 7,
@@ -10953,12 +10865,12 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	   var ibuf12 = gl.createBuffer();
 	   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf12);
 	   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, f, gl.STATIC_DRAW);
-	   var mvMatLoc12 = gl.getUniformLocation(prog12,&quot;mvMatrix&quot;);
-	   var prMatLoc12 = gl.getUniformLocation(prog12,&quot;prMatrix&quot;);
+	   var mvMatLoc12 = gl.getUniformLocation(prog12,"mvMatrix");
+	   var prMatLoc12 = gl.getUniformLocation(prog12,"prMatrix");
 	   // ****** lines object 13 ******
 	   var prog13  = gl.createProgram();
-	   gl.attachShader(prog13, getShader( gl, &quot;rspherevshader13&quot; ));
-	   gl.attachShader(prog13, getShader( gl, &quot;rspherefshader13&quot; ));
+	   gl.attachShader(prog13, getShader( gl, "rspherevshader13" ));
+	   gl.attachShader(prog13, getShader( gl, "rspherefshader13" ));
 	   gl.linkProgram(prog13);
 	   var v=new Float32Array([
 	    -1.029781, -0.5, -1.029906,
@@ -10970,31 +10882,31 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	    -1.029781, 0.5, -1.029906,
 	    -1.081271, 0.5, -1.081403
 	   ]);
-	   var posLoc13 = gl.getAttribLocation(prog13, &quot;aPos&quot;);
-	   var colLoc13 = gl.getAttribLocation(prog13, &quot;aCol&quot;);
+	   var posLoc13 = gl.getAttribLocation(prog13, "aPos");
+	   var colLoc13 = gl.getAttribLocation(prog13, "aCol");
 	   var buf13 = gl.createBuffer();
 	   gl.bindBuffer(gl.ARRAY_BUFFER, buf13);
 	   gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
-	   var mvMatLoc13 = gl.getUniformLocation(prog13,&quot;mvMatrix&quot;);
-	   var prMatLoc13 = gl.getUniformLocation(prog13,&quot;prMatrix&quot;);
+	   var mvMatLoc13 = gl.getUniformLocation(prog13,"mvMatrix");
+	   var prMatLoc13 = gl.getUniformLocation(prog13,"prMatrix");
 	   // ****** text object 14 ******
 	   var prog14  = gl.createProgram();
-	   gl.attachShader(prog14, getShader( gl, &quot;rspherevshader14&quot; ));
-	   gl.attachShader(prog14, getShader( gl, &quot;rspherefshader14&quot; ));
+	   gl.attachShader(prog14, getShader( gl, "rspherevshader14" ));
+	   gl.attachShader(prog14, getShader( gl, "rspherefshader14" ));
 	   gl.linkProgram(prog14);
 	   var texts = [
-	    &quot;-0.5&quot;,
-	    &quot;0&quot;,
-	    &quot;0.5&quot;
+	    "-0.5",
+	    "0",
+	    "0.5"
 	   ];
 	   var texinfo = drawTextToCanvas(texts, 1);
 	   var canvasX14 = texinfo.canvasX;
 	   var canvasY14 = texinfo.canvasY;
-	   var ofsLoc14 = gl.getAttribLocation(prog14, &quot;aOfs&quot;);
+	   var ofsLoc14 = gl.getAttribLocation(prog14, "aOfs");
 	   var texture14 = gl.createTexture();
-	   var texLoc14 = gl.getAttribLocation(prog14, &quot;aTexcoord&quot;);
-	   var sampler14 = gl.getUniformLocation(prog14,&quot;uSampler&quot;);
-    	   handleLoadedTexture(texture14, document.getElementById(&quot;rspheretextureCanvas&quot;));
+	   var texLoc14 = gl.getAttribLocation(prog14, "aTexcoord");
+	   var sampler14 = gl.getUniformLocation(prog14,"uSampler");
+    	   handleLoadedTexture(texture14, document.getElementById("rspheretextureCanvas"));
 	   var v=new Float32Array([
 	    -1.184253, -0.5, -1.184398, 0, -0.5, 0.5, 0.5,
 	    -1.184253, -0.5, -1.184398, 1, -0.5, 0.5, 0.5,
@@ -11009,8 +10921,8 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	    -1.184253, 0.5, -1.184398, 1, 1.5, 0.5, 0.5,
 	    -1.184253, 0.5, -1.184398, 0, 1.5, 0.5, 0.5
 	   ]);
-	   for (var i=0; i&lt;3; i++)
-	     for (var j=0; j&lt;4; j++) {
+	   for (var i=0; i<3; i++)
+	     for (var j=0; j<4; j++) {
 	         ind = 7*(4*i + j) + 3;
 	         v[ind+2] = 2*(v[ind]-v[ind+2])*texinfo.widths[i]/width;
 	         v[ind+3] = 2*(v[ind+1]-v[ind+3])*texinfo.textHeight/height;
@@ -11018,8 +10930,8 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	         v[ind+1] = 1.0-(texinfo.offset + i*texinfo.skip
 	           - v[ind+1]*texinfo.textHeight)/texinfo.canvasY;
 	     }
-	   var posLoc14 = gl.getAttribLocation(prog14, &quot;aPos&quot;);
-	   var colLoc14 = gl.getAttribLocation(prog14, &quot;aCol&quot;);
+	   var posLoc14 = gl.getAttribLocation(prog14, "aPos");
+	   var colLoc14 = gl.getAttribLocation(prog14, "aCol");
 	   var f=new Uint16Array([
 	    0, 1, 2, 0, 2, 3,
 	    4, 5, 6, 4, 6, 7,
@@ -11031,12 +10943,12 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	   var ibuf14 = gl.createBuffer();
 	   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf14);
 	   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, f, gl.STATIC_DRAW);
-	   var mvMatLoc14 = gl.getUniformLocation(prog14,&quot;mvMatrix&quot;);
-	   var prMatLoc14 = gl.getUniformLocation(prog14,&quot;prMatrix&quot;);
+	   var mvMatLoc14 = gl.getUniformLocation(prog14,"mvMatrix");
+	   var prMatLoc14 = gl.getUniformLocation(prog14,"prMatrix");
 	   // ****** lines object 15 ******
 	   var prog15  = gl.createProgram();
-	   gl.attachShader(prog15, getShader( gl, &quot;rspherevshader15&quot; ));
-	   gl.attachShader(prog15, getShader( gl, &quot;rspherefshader15&quot; ));
+	   gl.attachShader(prog15, getShader( gl, "rspherevshader15" ));
+	   gl.attachShader(prog15, getShader( gl, "rspherefshader15" ));
 	   gl.linkProgram(prog15);
 	   var v=new Float32Array([
 	    -1.029781, -1.029916, -0.5,
@@ -11048,31 +10960,31 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	    -1.029781, -1.029916, 0.5,
 	    -1.081271, -1.081411, 0.5
 	   ]);
-	   var posLoc15 = gl.getAttribLocation(prog15, &quot;aPos&quot;);
-	   var colLoc15 = gl.getAttribLocation(prog15, &quot;aCol&quot;);
+	   var posLoc15 = gl.getAttribLocation(prog15, "aPos");
+	   var colLoc15 = gl.getAttribLocation(prog15, "aCol");
 	   var buf15 = gl.createBuffer();
 	   gl.bindBuffer(gl.ARRAY_BUFFER, buf15);
 	   gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
-	   var mvMatLoc15 = gl.getUniformLocation(prog15,&quot;mvMatrix&quot;);
-	   var prMatLoc15 = gl.getUniformLocation(prog15,&quot;prMatrix&quot;);
+	   var mvMatLoc15 = gl.getUniformLocation(prog15,"mvMatrix");
+	   var prMatLoc15 = gl.getUniformLocation(prog15,"prMatrix");
 	   // ****** text object 16 ******
 	   var prog16  = gl.createProgram();
-	   gl.attachShader(prog16, getShader( gl, &quot;rspherevshader16&quot; ));
-	   gl.attachShader(prog16, getShader( gl, &quot;rspherefshader16&quot; ));
+	   gl.attachShader(prog16, getShader( gl, "rspherevshader16" ));
+	   gl.attachShader(prog16, getShader( gl, "rspherefshader16" ));
 	   gl.linkProgram(prog16);
 	   var texts = [
-	    &quot;-0.5&quot;,
-	    &quot;0&quot;,
-	    &quot;0.5&quot;
+	    "-0.5",
+	    "0",
+	    "0.5"
 	   ];
 	   var texinfo = drawTextToCanvas(texts, 1);
 	   var canvasX16 = texinfo.canvasX;
 	   var canvasY16 = texinfo.canvasY;
-	   var ofsLoc16 = gl.getAttribLocation(prog16, &quot;aOfs&quot;);
+	   var ofsLoc16 = gl.getAttribLocation(prog16, "aOfs");
 	   var texture16 = gl.createTexture();
-	   var texLoc16 = gl.getAttribLocation(prog16, &quot;aTexcoord&quot;);
-	   var sampler16 = gl.getUniformLocation(prog16,&quot;uSampler&quot;);
-    	   handleLoadedTexture(texture16, document.getElementById(&quot;rspheretextureCanvas&quot;));
+	   var texLoc16 = gl.getAttribLocation(prog16, "aTexcoord");
+	   var sampler16 = gl.getUniformLocation(prog16,"uSampler");
+    	   handleLoadedTexture(texture16, document.getElementById("rspheretextureCanvas"));
 	   var v=new Float32Array([
 	    -1.184253, -1.184401, -0.5, 0, -0.5, 0.5, 0.5,
 	    -1.184253, -1.184401, -0.5, 1, -0.5, 0.5, 0.5,
@@ -11087,8 +10999,8 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	    -1.184253, -1.184401, 0.5, 1, 1.5, 0.5, 0.5,
 	    -1.184253, -1.184401, 0.5, 0, 1.5, 0.5, 0.5
 	   ]);
-	   for (var i=0; i&lt;3; i++)
-	     for (var j=0; j&lt;4; j++) {
+	   for (var i=0; i<3; i++)
+	     for (var j=0; j<4; j++) {
 	         ind = 7*(4*i + j) + 3;
 	         v[ind+2] = 2*(v[ind]-v[ind+2])*texinfo.widths[i]/width;
 	         v[ind+3] = 2*(v[ind+1]-v[ind+3])*texinfo.textHeight/height;
@@ -11096,8 +11008,8 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	         v[ind+1] = 1.0-(texinfo.offset + i*texinfo.skip
 	           - v[ind+1]*texinfo.textHeight)/texinfo.canvasY;
 	     }
-	   var posLoc16 = gl.getAttribLocation(prog16, &quot;aPos&quot;);
-	   var colLoc16 = gl.getAttribLocation(prog16, &quot;aCol&quot;);
+	   var posLoc16 = gl.getAttribLocation(prog16, "aPos");
+	   var colLoc16 = gl.getAttribLocation(prog16, "aCol");
 	   var f=new Uint16Array([
 	    0, 1, 2, 0, 2, 3,
 	    4, 5, 6, 4, 6, 7,
@@ -11109,12 +11021,12 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	   var ibuf16 = gl.createBuffer();
 	   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf16);
 	   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, f, gl.STATIC_DRAW);
-	   var mvMatLoc16 = gl.getUniformLocation(prog16,&quot;mvMatrix&quot;);
-	   var prMatLoc16 = gl.getUniformLocation(prog16,&quot;prMatrix&quot;);
+	   var mvMatLoc16 = gl.getUniformLocation(prog16,"mvMatrix");
+	   var prMatLoc16 = gl.getUniformLocation(prog16,"prMatrix");
 	   // ****** lines object 17 ******
 	   var prog17  = gl.createProgram();
-	   gl.attachShader(prog17, getShader( gl, &quot;rspherevshader17&quot; ));
-	   gl.attachShader(prog17, getShader( gl, &quot;rspherefshader17&quot; ));
+	   gl.attachShader(prog17, getShader( gl, "rspherevshader17" ));
+	   gl.attachShader(prog17, getShader( gl, "rspherefshader17" ));
 	   gl.linkProgram(prog17);
 	   var v=new Float32Array([
 	    -1.029781, -1.029916, -1.029906,
@@ -11142,13 +11054,13 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	    1.029843, 1.029882, -1.029906,
 	    1.029843, 1.029882, 1.029981
 	   ]);
-	   var posLoc17 = gl.getAttribLocation(prog17, &quot;aPos&quot;);
-	   var colLoc17 = gl.getAttribLocation(prog17, &quot;aCol&quot;);
+	   var posLoc17 = gl.getAttribLocation(prog17, "aPos");
+	   var colLoc17 = gl.getAttribLocation(prog17, "aCol");
 	   var buf17 = gl.createBuffer();
 	   gl.bindBuffer(gl.ARRAY_BUFFER, buf17);
 	   gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
-	   var mvMatLoc17 = gl.getUniformLocation(prog17,&quot;mvMatrix&quot;);
-	   var prMatLoc17 = gl.getUniformLocation(prog17,&quot;prMatrix&quot;);
+	   var mvMatLoc17 = gl.getUniformLocation(prog17,"mvMatrix");
+	   var prMatLoc17 = gl.getUniformLocation(prog17,"prMatrix");
 	   gl.enable(gl.DEPTH_TEST);
 	   gl.depthFunc(gl.LEQUAL);
 	   gl.clearDepth(1.0);
@@ -11167,7 +11079,7 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	     var hlen = t*near;
 	     var aspect = width/height;
 	     prMatrix.makeIdentity();
-	     if (aspect &gt; 1)
+	     if (aspect > 1)
 	       prMatrix.frustum(-hlen*aspect*zoom, hlen*aspect*zoom,
 	                        -hlen*zoom, hlen*zoom, near, far);
 	     else
@@ -11359,7 +11271,7 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	     var px = (x-cx)/radius;
 	     var py = (y-cy)/radius;
 	     var plen = sqrt(px*px+py*py);
-	     if (plen &gt; 1.e-6) {
+	     if (plen > 1.e-6) {
 	       px = px/plen;
 	       py = py/plen;
 	     }
@@ -11452,174 +11364,50 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 	   var wheelHandler = function(ev) {
 	     var del = 1.1;
 	     if (ev.shiftKey) del = 1.01;
-	     var ds = ((ev.detail || ev.wheelDelta) &gt; 0) ? del : (1 / del);
+	     var ds = ((ev.detail || ev.wheelDelta) > 0) ? del : (1 / del);
 	     zoom *= ds;
 	     drawScene();
 	     ev.preventDefault();
 	   };
-	   canvas.addEventListener(&quot;DOMMouseScroll&quot;, wheelHandler, false);
-	   canvas.addEventListener(&quot;mousewheel&quot;, wheelHandler, false);
+	   canvas.addEventListener("DOMMouseScroll", wheelHandler, false);
+	   canvas.addEventListener("mousewheel", wheelHandler, false);
 	}
-&lt;/script&gt;
+</script>
 
-&lt;canvas id=&quot;rspherecanvas&quot; width=&quot;1&quot; height=&quot;1&quot;&gt;&lt;/canvas&gt;
-&lt;p id=&quot;rspheredebug&quot;&gt;
-&amp;lt;img src=&quot;rspheresnapshot.png&quot; alt=&quot;rspheresnapshot&quot; width=505/&amp;gt;&lt;br /&gt;
-	You must enable Javascript to view this page properly.&lt;/p&gt;
-&lt;script&gt;rspherewebGLStart();&lt;/script&gt;
+<canvas id="rspherecanvas" width="1" height="1"></canvas>
+<p id="rspheredebug">
+&lt;img src="rspheresnapshot.png" alt="rspheresnapshot" width=505/&gt;<br />
+	You must enable Javascript to view this page properly.</p>
+<script>rspherewebGLStart();</script>
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;sphere.coord &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    sphere.coord.point &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        phi &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;asin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-        theta &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;atan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-        &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;phi&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; theta&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+<div class="highlight"><pre><code class="language-r" data-lang="r">sphere.coord <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>X<span class="p">)</span> <span class="p">{</span>
+    sphere.coord.point <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> <span class="p">{</span>
+        phi <span class="o">&lt;-</span> <span class="kp">asin</span><span class="p">(</span>x<span class="p">[</span><span class="m">3</span><span class="p">])</span>
+        theta <span class="o">&lt;-</span> <span class="kp">atan</span><span class="p">(</span>x<span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="o">/</span>x<span class="p">[</span><span class="m">1</span><span class="p">])</span>
+        <span class="kr">return</span><span class="p">(</span><span class="kt">c</span><span class="p">(</span>phi<span class="p">,</span> theta<span class="p">))</span>
+    <span class="p">}</span>
 
-    X.coord &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;data.frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; MARGIN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; FUN &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; sphere.coord.point&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-    &lt;span class=&quot;kp&quot;&gt;colnames&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.coord&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;phi&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;theta&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.coord&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    X.coord <span class="o">&lt;-</span> <span class="kt">data.frame</span><span class="p">(</span><span class="kp">t</span><span class="p">(</span><span class="kp">apply</span><span class="p">(</span>X<span class="p">,</span> MARGIN <span class="o">=</span> <span class="m">1</span><span class="p">,</span> FUN <span class="o">=</span> sphere.coord.point<span class="p">)))</span>
+    <span class="kp">colnames</span><span class="p">(</span>X.coord<span class="p">)</span> <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;phi&quot;</span><span class="p">,</span> <span class="s">&quot;theta&quot;</span><span class="p">)</span>
+    <span class="kr">return</span><span class="p">(</span>X.coord<span class="p">)</span>
+<span class="p">}</span>
 
-X.tilde &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; sphere.coord&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+X.tilde <span class="o">&lt;-</span> sphere.coord<span class="p">(</span>X<span class="p">)</span></code></pre></div>
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;reshape2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.tilde&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; geom_point&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;aes&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; phi&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; y &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; theta&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span class="kn">library</span><span class="p">(</span>ggplot2<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>reshape2<span class="p">)</span>
+ggplot<span class="p">(</span>X.tilde<span class="p">)</span> <span class="o">+</span> geom_point<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> phi<span class="p">,</span> y <span class="o">=</span> theta<span class="p">))</span></code></pre></div>
 
-&lt;figure&gt;
-        &lt;img src=&quot;/info-uncertainty//images/joint_dist_borel_kolmogorov.png&quot; /&gt;
-        &lt;figcaption&gt;Figure 3. Joint distribution of $\theta$ and $\varphi$.&lt;/figcaption&gt;
-&lt;/figure&gt;
+<figure>
+        <img src="/images/joint_dist_borel_kolmogorov.png" />
+        <figcaption>Figure 3. Joint distribution of $\theta$ and $\varphi$.</figcaption>
+</figure>
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;mX &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; melt&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;X.tilde&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; variable.name &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Coordinate&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;mX&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; geom_histogram&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;aes&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; value&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; facet_grid&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;Coordinate&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+<div class="highlight"><pre><code class="language-r" data-lang="r">mX <span class="o">&lt;-</span> melt<span class="p">(</span>X.tilde<span class="p">,</span> variable.name <span class="o">=</span> <span class="s">&quot;Coordinate&quot;</span><span class="p">)</span>
+ggplot<span class="p">(</span>mX<span class="p">)</span> <span class="o">+</span> geom_histogram<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> value<span class="p">))</span> <span class="o">+</span> facet_grid<span class="p">(</span><span class="o">~</span>Coordinate<span class="p">)</span></code></pre></div>
 
-&lt;figure&gt;
-        &lt;img src=&quot;/info-uncertainty//images/marginal_dist_borel_kolmogorov.png&quot; /&gt;
-        &lt;figcaption&gt;Figure 4. Marginal distributions of $\theta$ and $\varphi$ &lt;/figcaption&gt;
-&lt;/figure&gt;
+<figure>
+        <img src="/images/marginal_dist_borel_kolmogorov.png" />
+        <figcaption>Figure 4. Marginal distributions of $\theta$ and $\varphi$ </figcaption>
+</figure>
 
-
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//borel-kolmogorov-paradox&quot;&gt;Borel-Kolmogorov Paradox&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on July 25, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Problem from Random Iterated Functions]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//problem-from-random-iterated-functions" />
-  <id>/info-uncertainty//problem-from-random-iterated-functions</id>
-  <published>2013-06-27T00:00:00-04:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;Here’s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful &lt;a href=&quot;http://www.stat.berkeley.edu/~census/511.pdf&quot;&gt;theory of random iterated functions&lt;/a&gt;, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.&lt;/p&gt;
-
-&lt;p&gt;The particular problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $[0, 1]$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.&lt;/p&gt;
-
-&lt;p&gt;More formally, $X_{n}$ is a Markov chain with the transition kernel&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-
-\begin{aligned}
-k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \frac{\mathbb{1}(x_{n + 1} \in (x_{n}, 1])}{2 ( 1 - x_{n})}.
-\end{aligned}
- %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;This chain is irreducible and aperiodic, so converges to a unique stationary distribution $\pi$. To find it, recall that $\pi$ is a stationary distribution for a chain with kernel $K$ if and only if $\pi K = \pi$. Hence, $\pi$ must satisfy&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-
-\begin{aligned}
-\pi(x_{n + 1}) &amp;= \int_{0}^{1} k\left(x_{n}, x_{n + 1}\right)\pi(x_{n}) dx_{n} \\
-&amp;= \frac{1}{2}\int_{x_{n + 1}}^{1} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n} \\
-&amp;= -\frac{1}{2}\int_{1}^{x_{n + 1}} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n}.
-\end{aligned}
- %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;Applying the fundamental theorem of calculus, we find that the stationary distribution $\pi$ is the solution to the ODE&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-
-\begin{aligned}
-\frac{d\pi(x)}{dx} &amp;= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
-\end{aligned}
- %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;To solve this ODE, we integrate&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-
-\begin{aligned}
-\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &amp;= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx \\
-\implies \log\left(\pi\left(x\right)\right) &amp;= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) \\
-\implies \pi\left(x\right) &amp;\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
-\end{aligned}
- %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;Hence, we find that $\pi$ must be the &lt;a href=&quot;http://en.wikipedia.org/wiki/Arcsine_distribution&quot;&gt;arcsine distribution&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X_{n}$ is already close to one of the edges, then $X_{n + 1}$ has a 50% chance of being &lt;em&gt;even&lt;/em&gt; closer to that edge.&lt;/p&gt;
-
-&lt;p&gt;Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.&lt;/p&gt;
-
-&lt;figure&gt;
-        &lt;img src=&quot;/info-uncertainty//images/RIF_convergence.gif&quot; /&gt;
-        &lt;figcaption&gt;An instance of samples converging to the arcsine distribution.&lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;next.point &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x.prev&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    u &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; runif&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;u &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        x.next &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; runif&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; x.prev&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        x.next &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; runif&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; x.prev&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-sample.n &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; x0 &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    x &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;length &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; n &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; x0
-    &lt;span class=&quot;kr&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;i &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;n &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;i&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; next.point&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;i &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;kr&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;data.frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-data &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; sample.n&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot2&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;animation&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-saveGIF&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;i &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    data.cur &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;data.frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;x&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; i&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;
-    &lt;span class=&quot;kp&quot;&gt;colnames&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data.cur&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;
-    &lt;span class=&quot;kp&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;ggplot&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;data.cur&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
-        geom_histogram&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;aes&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;x &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; x&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; binwidth &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.01&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
-        ggtitle&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;paste&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; i&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;points sampled&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; img.name &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;samples_plot&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; outdir &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;getwd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; interval &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//problem-from-random-iterated-functions&quot;&gt;Problem from Random Iterated Functions&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 27, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[First Post]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//first-post" />
-  <id>/info-uncertainty//first-post</id>
-  <published>2013-06-26T00:00:00-04:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;Just a test. I’m thinking about switching from my
- &lt;a href=&quot;https://notesofastatisticswatcher.wordpress.com/&quot;&gt;Old blog&lt;/a&gt;
-to this site.&lt;/p&gt;
-
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//first-post&quot;&gt;First Post&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 26, 2013.&lt;/p&gt;</content>
-</entry>
-
-</feed>
