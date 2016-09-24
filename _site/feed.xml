@@ -4,13 +4,258 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="/feed.xml" />
 <link rel="alternate" type="text/html" href="" />
-<updated>2016-09-24T14:48:30-07:00</updated>
+<updated>2016-09-24T14:49:11-07:00</updated>
 <id>/</id>
 <author>
   <name>Kris Sankaran</name>
   <uri>/</uri>
   <email>krissankaran@stanford.edu</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[(an electronic post-it note)]]></title>
+  <link rel="alternate" type="text/html" href="/computing/an-electornic-post-it" />
+  <id>/computing/an-electornic-post-it</id>
+  <published>2016-09-24T00:00:00-07:00</published>
+  
+  <author>
+    <name>Kris Sankaran</name>
+    <uri>/</uri>
+    <email>krissankaran@stanford.edu</email>
+  </author>
+  <content type="html">&lt;p&gt;Alas, the days of “sharing gems” are gone, replaced by the scribbles of a disheveled
+(but still statistics-obsessed) mind. But I figure I need to become less self-concious
+about sharing my writing, and what better way to start than sharing something that no
+one will read!&lt;/p&gt;
+
+&lt;p&gt;Anyways, I learned how to use a bunch of new tools this summer, and I might not
+work with them for a little while, so it seems worth jotting down some notes for
+future reference. But who knows, maybe future Kris will have found better workflows (or
+become a mathematician).&lt;/p&gt;
+
+&lt;h2 id=&quot;writing&quot;&gt;Writing&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bookdown&lt;/code&gt; is a potential alternative to &lt;code class=&quot;highlighter-rouge&quot;&gt;knitr&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;sweave&lt;/code&gt; for writing more involved
+statistical reports. It seems to address the main limitations with plain rmarkdown that
+had me still writing in &lt;code class=&quot;highlighter-rouge&quot;&gt;.rnw&lt;/code&gt; – easy compilation to pdf, cross-referencing,
+bibliographies, and actual latex preambles and math. To compile to pdf, use &lt;code class=&quot;highlighter-rouge&quot;&gt;pdf_book()&lt;/code&gt;;
+you can specify a preamble and a bibliography package by including a section like this
+in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_output.yml&lt;/code&gt; file,&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-markdown&quot; data-lang=&quot;markdown&quot;&gt;bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: pdflatex
+  citation_package: natbib&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You can include R images as usual by plotting within the code chunk. If you have
+a .png, you can write&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-markdown&quot; data-lang=&quot;markdown&quot;&gt;knitr::include_graphics(&quot;figures/image.png&quot;)&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This is different from sweave, where you’d write &lt;code class=&quot;highlighter-rouge&quot;&gt;\includegraphics{}&lt;/code&gt;. A
+last tidbit is that a new alternative to &lt;code class=&quot;highlighter-rouge&quot;&gt;xtable&lt;/code&gt; for including tables built from
+R &lt;code class=&quot;highlighter-rouge&quot;&gt;data.frames&lt;/code&gt; is &lt;code class=&quot;highlighter-rouge&quot;&gt;kable&lt;/code&gt;. It’s main advantage is that it works even if you choose
+to compile as an html document (instead of pdf) – &lt;code class=&quot;highlighter-rouge&quot;&gt;xtable&lt;/code&gt; just generates the
+latex code for a table.&lt;/p&gt;
+
+&lt;h2 id=&quot;emacs&quot;&gt;Emacs&lt;/h2&gt;
+
+&lt;p&gt;This summer probably had the highest emacs-commands-per-day learning
+rate since I first started (it helps to be around a bunch of very good emacs users).
+In no particular order,&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;You can use MAGIT for git tracking. The main commands I ended up using are
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;C-x g&lt;/code&gt; opens MAGIT&lt;/li&gt;
+      &lt;li&gt;Pressing &lt;code class=&quot;highlighter-rouge&quot;&gt;s&lt;/code&gt; on unstaged files stages them, &lt;code class=&quot;highlighter-rouge&quot;&gt;u&lt;/code&gt; unstages staged files. You can
+also stage and unstage blocks with the usual &lt;code class=&quot;highlighter-rouge&quot;&gt;C-space C-n ...&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;Commit staged files by pressing &lt;code class=&quot;highlighter-rouge&quot;&gt;c c&lt;/code&gt; within the MAGIT window.&lt;/li&gt;
+      &lt;li&gt;Push your current branch to origin using &lt;code class=&quot;highlighter-rouge&quot;&gt;P p&lt;/code&gt;.&lt;/li&gt;
+      &lt;li&gt;Pull a branch from origin using  &lt;code class=&quot;highlighter-rouge&quot;&gt;F p&lt;/code&gt;.&lt;/li&gt;
+      &lt;li&gt;Create a new branch using &lt;code class=&quot;highlighter-rouge&quot;&gt;b n&lt;/code&gt;. It will prompt where to branch from and what
+to call it. Beware, this does not switch you to that branch.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;b b&lt;/code&gt; lets you switch branches.&lt;/li&gt;
+      &lt;li&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;m&lt;/code&gt; to merge a branch (and &lt;code class=&quot;highlighter-rouge&quot;&gt;m m&lt;/code&gt; to merge with master).&lt;/li&gt;
+      &lt;li&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;l l&lt;/code&gt; to view the full branching history. From here you can reset to a
+previous commit by moving the cursor to that commit and typing &lt;code class=&quot;highlighter-rouge&quot;&gt;C-u x&lt;/code&gt;.&lt;/li&gt;
+      &lt;li&gt;In the inevitable “I accidentally committed on master” situation, first
+checkout a new branch (&lt;code class=&quot;highlighter-rouge&quot;&gt;b n&lt;/code&gt;, this saves the current work) then hard
+reset on master (&lt;code class=&quot;highlighter-rouge&quot;&gt;l l C-u x&lt;/code&gt;) (see
+&lt;a href=&quot;http://stackoverflow.com/questions/1628563/move-the-most-recent-commits-to-a-new-branch-with-git&quot;&gt;this&lt;/a&gt;).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/emacs-helm/helm&quot;&gt;helm&lt;/a&gt; is nice for file system navigation (and
+can be installed with the usual &lt;code class=&quot;highlighter-rouge&quot;&gt;M-x package-list-packages&lt;/code&gt;).&lt;/li&gt;
+  &lt;li&gt;There’s a SQL mode which can evaluate code blocks in a SQL process in another
+window (kind of like ESS).
+    &lt;ul&gt;
+      &lt;li&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;M-x sql-postgres&lt;/code&gt; to start a postgres process in emacs. There are analogous
+  commands for other databases.&lt;/li&gt;
+      &lt;li&gt;To avoid typing in credentials each time you log in, you can put this in your &lt;code class=&quot;highlighter-rouge&quot;&gt;.emacs&lt;/code&gt;
+  (with defaults filled-in),&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-elisp&quot; data-lang=&quot;elisp&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sql-postgres-login-params&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;quote&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:default&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+     &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:default&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+     &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:default&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+     &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;database&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:default&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+     &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;port&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:default&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1234&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;You can use &lt;code class=&quot;highlighter-rouge&quot;&gt;M-x replace-regexp&lt;/code&gt; to do find-replace with regexes. Two nice substitutions are are
+&lt;code class=&quot;highlighter-rouge&quot;&gt;$&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;^&lt;/code&gt; – this will replace everything at the end and start of the highlighted block,
+respectively (e.g., you can add commas to the end of each line).&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;M-;&lt;/code&gt; can comment / uncomment blocks.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;C-x r t&lt;/code&gt; can be used to insert the same string across a block.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;C-_&lt;/code&gt; undos, and &lt;code class=&quot;highlighter-rouge&quot;&gt;C-g C-_&lt;/code&gt; redos.&lt;/li&gt;
+  &lt;li&gt;When editing markdown files, you can insert links with &lt;code class=&quot;highlighter-rouge&quot;&gt;C-c C-a l&lt;/code&gt;, cross-references
+with &lt;code class=&quot;highlighter-rouge&quot;&gt;C-c C-a L&lt;/code&gt;, code blocks with &lt;code class=&quot;highlighter-rouge&quot;&gt;C-c C-s P&lt;/code&gt;, and headers with &lt;code class=&quot;highlighter-rouge&quot;&gt;C-c C-t {number #&#39;s}&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;postgres&quot;&gt;Postgres&lt;/h2&gt;
+&lt;p&gt;I hadn’t written much SQL before, so this was all new. Hopefully you won’t have
+forgotten &lt;code class=&quot;highlighter-rouge&quot;&gt;SELECTS&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;WHERE&lt;/code&gt;’s by the time you read this again, but there were
+a bunch of smaller things that do seem worth writing somewhere.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Creating indices will dramatically speed up joins. You create one on an existing
+column using &lt;code class=&quot;highlighter-rouge&quot;&gt;CREATE INDEX index_name ON schema_name.table_name(column_to_index)&lt;/code&gt;.
+You can drop it using &lt;code class=&quot;highlighter-rouge&quot;&gt;DROP INDEX IF EXISTS schema_name.index_name&lt;/code&gt;. Every once in a
+while, it’s good to &lt;code class=&quot;highlighter-rouge&quot;&gt;VACUUM&lt;/code&gt; tables, to keep the database from bloating.&lt;/li&gt;
+  &lt;li&gt;You can manipulate GIS data using POSTGIS.
+    &lt;ul&gt;
+      &lt;li&gt;You can upload shapefiles to a postgres database using &lt;code class=&quot;highlighter-rouge&quot;&gt;shp2pgsql&lt;/code&gt;.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;You can get the latitude / longitude of the center a polygon (in a column called geom)
+using&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ST_Y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ST_CENTROID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;latitude&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ST_X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ST_CENTROID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;longitude&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;schema&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;You can check whether one geometry is within a certain distance of another using
+&lt;code class=&quot;highlighter-rouge&quot;&gt;ST_DWithin&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;You can switch coordinate systems using &lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT ST_Transform(ST_SetSRID(old_geom, old_coord), new_coord) AS new_geom&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;You probably want to use &lt;a href=&quot;http://spatialreference.org/ref/epsg/wgs-84/&quot;&gt;4326&lt;/a&gt; for the new coordinate system.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.qgis.org/en/site/&quot;&gt;QGIS&lt;/a&gt; makes it relatively straightforwards to visualize spatial
+data in a database. Just right-click the postgres elephant in the browser panel and type in
+the login credentials. Then, you can visualize layers from the layers panel.&lt;/li&gt;
+  &lt;li&gt;You can use &lt;code class=&quot;highlighter-rouge&quot;&gt;to_sql&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;from_sql&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;pandas&lt;/code&gt; to fetch and save database tables without
+leaving python. For larger transactions though, it’s much faster to use &lt;code class=&quot;highlighter-rouge&quot;&gt;\copy&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;psql&lt;/code&gt;;
+&lt;a href=&quot;http://odo.pydata.org/en/latest/perf.html&quot;&gt;odo&lt;/a&gt; also seems useful (though I never got around
+to using it). For more general operations, &lt;code class=&quot;highlighter-rouge&quot;&gt;psycopg2&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;sqlalchemy&lt;/code&gt; are available. For example,
+for selecting rows that meet a condition, you could write (assuming &lt;code class=&quot;highlighter-rouge&quot;&gt;params&lt;/code&gt; has the login info)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;psycopg2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cursor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SELECT * from &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;s.&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;s &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;s&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;schema&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;field_names&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;To copy a database table to a csv, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;psql -F&quot;,&quot;&lt;/code&gt;, followed by the usual &lt;code class=&quot;highlighter-rouge&quot;&gt;-h&lt;/code&gt;,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;-p&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;-U&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;-d&lt;/code&gt; options (host, port, user, database) you would use to login to the
+database.&lt;/li&gt;
+  &lt;li&gt;You can dump a postgres table using &lt;code class=&quot;highlighter-rouge&quot;&gt;pg_dump&lt;/code&gt; (make sure to set the &lt;code class=&quot;highlighter-rouge&quot;&gt;--no-owner&lt;/code&gt; flag if
+you want to restore it on a new machine).&lt;/li&gt;
+  &lt;li&gt;You can restore a postgres dump using &lt;code class=&quot;highlighter-rouge&quot;&gt;psql -f name_of_dump.sql&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Don’t try to store model binaries in a database not beacuse the database can’t handle it,
+but because &lt;code class=&quot;highlighter-rouge&quot;&gt;psycopg2&lt;/code&gt; sometimes fails on the import (or export, I can’t remember). Instead,
+just load the path to binary in the database, and hope the link doesn’t go stale.&lt;/li&gt;
+  &lt;li&gt;You can use &lt;code class=&quot;highlighter-rouge&quot;&gt;explain analyze&lt;/code&gt; to check if what you were about to start would take until
+the heat death of the universe.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;luigi&quot;&gt;Luigi&lt;/h2&gt;
+
+&lt;p&gt;We spent a while this summer writing an ML pipeline in &lt;a href=&quot;https://luigi.readthedocs.io&quot;&gt;luigi&lt;/a&gt;,
+and it’s probably out of scope to write any detailed examples here. But a basic summary is
+that each &lt;code class=&quot;highlighter-rouge&quot;&gt;requires()&lt;/code&gt; method in a &lt;code class=&quot;highlighter-rouge&quot;&gt;Task()&lt;/code&gt; class implicitly specifies a file / database
+table entry that checks to see whether previosu steps have been accomplished. The &lt;code class=&quot;highlighter-rouge&quot;&gt;output()&lt;/code&gt;
+method specifies the file / &lt;code class=&quot;highlighter-rouge&quot;&gt;table_update&lt;/code&gt; that dependent tasks will check to see if the
+current task is complete. I say implicit because you just write the name of the required
+tasks in &lt;code class=&quot;highlighter-rouge&quot;&gt;requires()&lt;/code&gt;, and luigi knows to check for the file in each of those tasks’
+&lt;code class=&quot;highlighter-rouge&quot;&gt;output()&lt;/code&gt; method. Of course, the &lt;code class=&quot;highlighter-rouge&quot;&gt;run()&lt;/code&gt; method does all the actually interesting
+computation.&lt;/p&gt;
+
+&lt;p&gt;The only other points I can think of are
+* It’s generally easier to touch logging files in a shared disk than to use the automatic
+table updates, because this gives more control over how names look (so you can experiment
+with “faking” added and deleted dependencies).
+* It’s useful to have a debug-mode version of the pipeline that runs very quickly, because
+it can be tedious to debug a long running pipeline.&lt;/p&gt;
+
+&lt;h2 id=&quot;docker&quot;&gt;Docker&lt;/h2&gt;
+
+&lt;p&gt;Dockerfiles are instructions for setting up Docker containers, which are like lightweight
+VMs. Dockerfiles have the feel of a bash installation script, except the environment is
+completely controlled (you know exactly what the OS is and which programs are installed).
+So, it’s more reliable to to share docker images than installation scripts.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker ps&lt;/code&gt; checks the running containers.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker images&lt;/code&gt; lists all the local images (which might not be associated with running
+containers yet).&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker run user/image&lt;/code&gt; runs an image from dockerhub, and &lt;code class=&quot;highlighter-rouge&quot;&gt;docker run imageid&lt;/code&gt; runs from
+a local image.&lt;/li&gt;
+  &lt;li&gt;You can “get inside” a running container using &lt;code class=&quot;highlighter-rouge&quot;&gt;docker exec -it {docker process id} bash&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;You can use &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose rm&lt;/code&gt; to remove unused containers.&lt;/li&gt;
+  &lt;li&gt;You can change the directory where images are built by changing the &lt;code class=&quot;highlighter-rouge&quot;&gt;DOCKER_OPTS&lt;/code&gt; environmental
+variable in &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/&lt;/code&gt;. This is useful if you have one partition (&lt;code class=&quot;highlighter-rouge&quot;&gt;/mnt/&lt;/code&gt;) with a lot more space than
+where Docker will usually save images.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There were a few points that tripped me up, so keep this in mind,
+* &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose&lt;/code&gt; let’s you run several containers that speak to each other through exposed
+ports. Make sure to run docker in &lt;code class=&quot;highlighter-rouge&quot;&gt;-network=&quot;bridge&quot;&lt;/code&gt; mode, note &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;host&quot;&lt;/code&gt;, if you want to
+use this (because &lt;code class=&quot;highlighter-rouge&quot;&gt;host&lt;/code&gt; mode
+&lt;a href=&quot;https://docs.docker.com/engine/reference/run/#network-settings&quot;&gt;doesn’t support inter-container communication&lt;/a&gt;).
+* When you write a Dockerfile, changing users &lt;a href=&quot;https://github.com/docker/docker/issues/6119&quot;&gt;doesn’t change permissions when using COPY&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;misc&quot;&gt;Misc.&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;screen&lt;/code&gt; isn’t so complicated after all.  If you want to run something that will take a long time, log into
+the cluster, create a new screen using &lt;code class=&quot;highlighter-rouge&quot;&gt;screen -S name-of-screen&lt;/code&gt;, start the process you want,
+and type &lt;code class=&quot;highlighter-rouge&quot;&gt;C-a d&lt;/code&gt; to detach the screen. Now you can log off the cluster, and it’ll keep on running.
+To see what is happening again, log back on and type &lt;code class=&quot;highlighter-rouge&quot;&gt;screen -r name-of-screen&lt;/code&gt;. You can see all
+the running screens using &lt;code class=&quot;highlighter-rouge&quot;&gt;screen -ls&lt;/code&gt;, and you can remove old ones with &lt;code class=&quot;highlighter-rouge&quot;&gt;screen -X -S name-of-screen quit&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;There’s a python &lt;a href=&quot;https://github.com/googlemaps/google-maps-services-python&quot;&gt;package&lt;/a&gt;
+for sending geocoding queries to google maps.&lt;/li&gt;
+  &lt;li&gt;You can create new EC2 instances, RDS databases, and S3 buckets from &lt;a href=&quot;us-west-2.console.aws.amazon.com/console/&quot;&gt;here&lt;/a&gt;,
+though it’s probably better to stick with Sherlock while at Stanford.&lt;/li&gt;
+  &lt;li&gt;You can see the sorted disk usage usign &lt;code class=&quot;highlighter-rouge&quot;&gt;du -ch | sort -h&lt;/code&gt;, or to shame people for using
+too much space, &lt;code class=&quot;highlighter-rouge&quot;&gt;du -sch | sort -h&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;It’s helpful to setup aliases for cluster logins that you use all the time.&lt;/li&gt;
+  &lt;li&gt;You can see the few lines around grep matches using the &lt;code class=&quot;highlighter-rouge&quot;&gt;-C&lt;/code&gt; flag, e.g., &lt;code class=&quot;highlighter-rouge&quot;&gt;grep -C 4 &#39;search&#39; .&lt;/code&gt;shows
+the 4 lines before and after each line containing &lt;code class=&quot;highlighter-rouge&quot;&gt;search&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;You can view all the processes matching some string using &lt;code class=&quot;highlighter-rouge&quot;&gt;ps -fea | grep name&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;You can kill processes with specific PIDs using &lt;code class=&quot;highlighter-rouge&quot;&gt;kill -9 pid&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;To view all the processes sorted by memory / compute usage, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;htop&lt;/code&gt; (instead
+of activity monitor).&lt;/li&gt;
+  &lt;li&gt;You can’t just copy id_rsa’s and expect to have permissions – you need to use ssh-keygen.&lt;/li&gt;
+  &lt;li&gt;If you want to impress people with no effort, use &lt;code class=&quot;highlighter-rouge&quot;&gt;DT&lt;/code&gt; in Shiny. Actually, same comment
+applies to QGIS.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Sigh, my writing has become insufferable, but that’s OK, see paragraph 1.&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/computing/an-electornic-post-it&quot;&gt;(an electronic post-it note)&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on September 24, 2016.&lt;/p&gt;</content>
+</entry>
 
 
 <entry>
