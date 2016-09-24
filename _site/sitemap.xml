@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>http://stat.stanford.edu/~kriss1/</loc>
+        <loc></loc>
     </url>
     
     
     <url>
-        <loc>http://stat.stanford.edu/~kriss1//GammaMoments</loc>
+        <loc>/computing/an-electornic-post-it</loc>
     </url>
     
     <url>
-        <loc>http://stat.stanford.edu/~kriss1//borel-kolmogorov-paradox</loc>
+        <loc>/GammaMoments</loc>
     </url>
     
     <url>
-        <loc>http://stat.stanford.edu/~kriss1//problem-from-random-iterated-functions</loc>
+        <loc>/borel-kolmogorov-paradox</loc>
     </url>
     
     <url>
-        <loc>http://stat.stanford.edu/~kriss1//first-post</loc>
+        <loc>/problem-from-random-iterated-functions</loc>
+    </url>
+    
+    <url>
+        <loc>/first-post</loc>
     </url>
     
 </urlset>
