@@ -2,7 +2,7 @@ title:            Notes of a Statistics Watcher
 description:      Kris Sankaran's Blog
 logo:             site-logo.png
 #Comment out url when working locally to resolve base urls correctly
-url:              http://stat.stanford.edu/~kriss1/
+url:	     	 http://krisrs1128.github.io/info-uncertainty/
 
 # Owner/author information
 owner:
@@ -17,28 +17,10 @@ links:
   - title: Articles
     url: /articles
 
-# http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-timezone:    America/New_York
-future:      true
-pygments:    true
-markdown:    kramdown
+highlighter: rouge
 
 # https://github.com/mojombo/jekyll/wiki/Permalinks
 permalink:   /:categories/:title
-
-kramdown:
-  auto_ids: true
-  footnote_nr: 1
-  entity_output: as_char
-  toc_levels: 1..6
-  use_coderay: false
-
-  coderay:
-    coderay_line_numbers:
-    coderay_line_numbers_start: 1
-    coderay_tab_width: 4
-    coderay_bold_every: 10
-    coderay_css: class
 
 include: [".htaccess"]
 exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "so-simple-theme.sublime-project", "so-simple-theme.sublime-workspace"]
