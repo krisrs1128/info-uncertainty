@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>/info-uncertainty/</loc>
+        <loc></loc>
     </url>
     
     
     <url>
-        <loc>/info-uncertainty//GammaMoments</loc>
+        <loc>/borel-kolmogorov-paradox</loc>
     </url>
     
     <url>
-        <loc>/info-uncertainty//borel-kolmogorov-paradox</loc>
+        <loc>/problem-from-random-iterated-functions</loc>
     </url>
     
     <url>
-        <loc>/info-uncertainty//problem-from-random-iterated-functions</loc>
-    </url>
-    
-    <url>
-        <loc>/info-uncertainty//first-post</loc>
+        <loc>/first-post</loc>
     </url>
     
 </urlset>
