@@ -6,7 +6,7 @@ category: notes
 tags: [variational inference, notes]
 ---
 
-I prepared these [slides]("{{ site.url }}/images/vae_notes.pdf") for
+I prepared these [slides]({{ site.url }}/images/vae_notes.pdf) for
 a reading group lecture on variational autoencoders and sequence-to-sequence
 modeling. My aim was to provide some visual intuition without sacrificing
 mathematical precision. I hope you enjoy the notes, feel free to use the images
