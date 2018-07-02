@@ -16,3 +16,7 @@ visualization tools. I recently made another version using
 [here](https://beta.observablehq.com/@krisrs1128/untitled).
 Try fiddling with parameters in the code blocks -- you can see the
 visualizations update in real time.
+
+<figure>
+        <img src="{{ site.url }}/images/erosion.png">
+</figure>
