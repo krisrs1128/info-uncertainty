@@ -15,5 +15,3 @@ in any of your work.
 <figure>
         <img src="{{ site.url }}/images/vae_screenshot.png">
 </figure>
-
-{% highlight r %}
