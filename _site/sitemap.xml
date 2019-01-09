@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc></loc>
+        <loc>/info-uncertainty/</loc>
     </url>
     
     
     <url>
-        <loc>/computing/an-electornic-post-it</loc>
+        <loc>/info-uncertainty//nepal-school-notes</loc>
     </url>
     
     <url>
-        <loc>/borel-kolmogorov-paradox</loc>
+        <loc>/info-uncertainty//visualizations/erosion-process</loc>
     </url>
     
     <url>
-        <loc>/problem-from-random-iterated-functions</loc>
+        <loc>/info-uncertainty//notes/autoencoder-notes</loc>
     </url>
     
     <url>
-        <loc>/first-post</loc>
+        <loc>/info-uncertainty//computing/an-electornic-post-it</loc>
+    </url>
+    
+    <url>
+        <loc>/info-uncertainty//borel-kolmogorov-paradox</loc>
+    </url>
+    
+    <url>
+        <loc>/info-uncertainty//problem-from-random-iterated-functions</loc>
+    </url>
+    
+    <url>
+        <loc>/info-uncertainty//first-post</loc>
     </url>
     
 </urlset>
