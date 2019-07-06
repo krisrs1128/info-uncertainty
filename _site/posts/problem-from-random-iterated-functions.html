@@ -1,0 +1,159 @@
+
+<!doctype>
+<html lang="en">
+  <head>
+    <meta content='Problem from Random Iterated Functions - Info, Uncertainty' name='title' />
+    <meta content='Problem from Random Iterated Functions - Info, Uncertainty' name='og:title' />
+    <title>Problem from Random Iterated Functions - Info, Uncertainty</title>
+    <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
+<link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000/posts/problem-from-random-iterated-functions' property='og:url' />
+  <meta content="Here’s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful theory of random..." property='og:description' />
+  <meta content="article" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+  </head>
+  <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
+    <header class="tc mt4">
+      <a href="http://localhost:4000">
+        <img src="http://localhost:4000/images/distn.png" alt="Home" width="53" height="59">
+      </a>
+      <p>Info, Uncertainty</p>
+    </header>
+    <div class="mw7 bg-white mt4 mb3 center br2-ns bt bb ba-ns b--light-gray">
+      <nav class="bb b--light-gray pv4 tc" aria-label="Main">
+        
+          <a class="link blue hover-mid-gray mh2 pv1"
+             href="http://localhost:4000/">
+             Posts
+           </a>
+        
+          <a class="link blue hover-mid-gray mh2 pv1"
+             href="http://localhost:4000/about">
+             About me
+           </a>
+        
+      </nav>
+
+      <main class="tl f6 relative pa4 pa5-ns overflow-hidden">
+        
+          <div class="mb4">
+            <div class="fw600 light-silver mt1">27 Jun 2013</div>
+            <h1 class="ttu f3 mt0 lh-title cb mb2">
+              
+              Problem from Random Iterated Functions
+            </h1>
+            
+          </div>
+        
+        <div class="markdown-body">
+          <p>Here’s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful <a href="http://www.stat.berkeley.edu/~census/511.pdf">theory of random iterated functions</a>, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.</p>
+
+<p>The particular problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $[0, 1]$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.</p>
+
+<p>More formally, $X_{n}$ is a Markov chain with the transition kernel</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+k(x_{n}, x_{n + 1}) &:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \frac{\mathbb{1}(x_{n + 1} \in (x_{n}, 1])}{2 ( 1 - x_{n})}.
+\end{aligned} %]]></script>
+
+<p>This chain is irreducible and aperiodic, so converges to a unique stationary distribution $\pi$. To find it, recall that $\pi$ is a stationary distribution for a chain with kernel $K$ if and only if $\pi K = \pi$. Hence, $\pi$ must satisfy</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\pi(x_{n + 1}) &= \int_{0}^{1} k\left(x_{n}, x_{n + 1}\right)\pi(x_{n}) dx_{n} \\
+&= \frac{1}{2}\int_{x_{n + 1}}^{1} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n} \\
+&= -\frac{1}{2}\int_{1}^{x_{n + 1}} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n}.
+\end{aligned} %]]></script>
+
+<p>Applying the fundamental theorem of calculus, we find that the stationary distribution $\pi$ is the solution to the ODE</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\frac{d\pi(x)}{dx} &= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
+\end{aligned} %]]></script>
+
+<p>To solve this ODE, we integrate</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx \\
+\implies \log\left(\pi\left(x\right)\right) &= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) \\
+\implies \pi\left(x\right) &\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
+\end{aligned} %]]></script>
+
+<p>Hence, we find that $\pi$ must be the <a href="http://en.wikipedia.org/wiki/Arcsine_distribution">arcsine distribution</a>.</p>
+
+<p>This result might be a little surprising: we start with a scheme that uniformly choose between two uniform distributions, and end up with a stationary distribution that is far from uniform. However, consider that, if $X_{n}$ is already close to one of the edges, then $X_{n + 1}$ has a 50% chance of being <em>even</em> closer to that edge.</p>
+
+<p>Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.</p>
+
+<figure>
+        <img src="http://localhost:4000/images/RIF_convergence.gif" />
+        <figcaption>An instance of samples converging to the arcsine distribution.</figcaption>
+</figure>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">next.point</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x.prev</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">u</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">runif</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">u</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">x.next</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">runif</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">x.prev</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">x.next</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">runif</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">x.prev</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">sample.n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="m">0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vector</span><span class="p">(</span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+    </span><span class="n">x</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span><span class="m">0</span><span class="w">
+    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span><span class="o">:</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">next.point</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">])</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="nf">return</span><span class="p">(</span><span class="n">data.frame</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sample.n</span><span class="p">(</span><span class="m">10000</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">)</span><span class="w">
+</span><span class="n">saveGIF</span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">500</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">data.cur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">x</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="m">20</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="p">)])</span><span class="w">
+    </span><span class="n">colnames</span><span class="p">(</span><span class="n">data.cur</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"x"</span><span class="w">
+    </span><span class="n">print</span><span class="p">(</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data.cur</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+        </span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">binwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.01</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+        </span><span class="n">ggtitle</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="m">20</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s2">"points sampled"</span><span class="p">)))</span><span class="w">
+</span><span class="p">},</span><span class="w"> </span><span class="n">img.name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"samples_plot"</span><span class="p">,</span><span class="w"> </span><span class="n">outdir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getwd</span><span class="p">(),</span><span class="w"> </span><span class="n">interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.15</span><span class="p">)</span></code></pre></figure>
+
+
+        </div>
+        <p class="mt4">
+  Kris
+  <span class="silver">at 00:00</span>
+</p>
+
+      </main>
+      <section class="fixed-l mw7 center w-100 top-50 tc pb4 nt4">
+  
+    <a href="http://localhost:4000/posts/first-post" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
+  
+  
+    <a href="http://localhost:4000/posts/borel-kolmogorov-paradox" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
+  
+</section>
+    </div>
+    <footer class="mw7 center tc pt3 pb4 silver">
+      Built with Jekyll using <a href="http://github.com/muan/scribble" class="link silver hover-blue pv1">Scribble</a>.
+      <img src="http://localhost:4000/images/scribble2.png" alt="scribble" class="mt4 db center" />
+    </footer>
+  </body>
+</html>

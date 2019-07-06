@@ -1,9 +1,5 @@
 ---
-layout: post
 title: "Erosion Process Visualization"
-description: ""
-category: visualizations
-tags: [observables, visualization, probability]
 ---
 
 Once upon a time, I made a [processing

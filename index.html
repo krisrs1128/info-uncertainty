@@ -1,12 +1,13 @@
 ---
-layout: page
-title: Latest Posts
-description: A blog mainly about statistics.
-tags: [statistics, probability, data, statistical learning]
 ---
 
-{% for post in site.posts limit:10 %}
-<ul class="post-list">
-  <li><article itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost"><a href="{{ site.url }}{{ post.url }}">{{ post.title }}<span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%B %d, %Y" }}</time></span></a></article></li>
+<ul class="list pa0">
+  {% for post in site.posts %}
+  <li class="mv2">
+    <a href="{{ site.url }}{{ post.url }}" class="db pv1 link blue hover-mid-gray">
+      <time class="fr silver ttu">{{ post.date | date_to_string }} </time>
+      {{ post.title }}
+    </a>
+  </li>
+  {% endfor %}
 </ul>
-{% endfor %}

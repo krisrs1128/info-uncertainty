@@ -1,9 +1,5 @@
 ---
-layout: post
 title: "Nepal AI Winter School Lecture Notes"
-description: "Introductions to topics in deep learning"
-category:
-tags: [deep learning, NAAMII, notes]
 ---
 
 Last month, I prepared a series of lectures for the (really wonderfully

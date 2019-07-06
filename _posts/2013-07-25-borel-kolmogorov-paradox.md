@@ -1,9 +1,5 @@
 ---
-layout: post
 title: "Borel-Kolmogorov Paradox"
-description: "Derivation and illustration of the Borel-Kolmogorov Paradox."
-category:
-tags: [paradox, conditional probability, simulation]
 ---
 
 Let points be uniformly distributed on the surface of a sphere in

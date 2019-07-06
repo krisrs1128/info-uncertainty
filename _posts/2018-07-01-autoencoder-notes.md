@@ -1,9 +1,5 @@
 ---
-layout: post
 title: "Notes on VAEs"
-description: ""
-category: notes
-tags: [variational inference, notes]
 ---
 
 I prepared these [slides]({{ site.url }}/images/vae_notes.pdf) for

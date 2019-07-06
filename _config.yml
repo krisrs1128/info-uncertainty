@@ -1,26 +1,22 @@
-title:            Notes of a Statistics Watcher
-description:      Kris Sankaran's Blog
-logo:             site-logo.png
-#Comment out url when working locally to resolve base urls correctly
-url:              /info-uncertainty/
+# ----------- CONFIGURABLE START -----------
+title:            "Info, Uncertainty"
+description:      ""
+url:              http://krisrs1128.github.io/
+signoff:          "Kris" # Your name
+facebook_appid:   # APP ID for like button, remove from /_includes/share.html if unwanted.
+google_analytics: # Set tracking, remove from /javascripts/basic.js if unwanted.
+share:            false # Turn on twitter and facebook share buttons
 
-# Owner/author information
-owner:
-  name:           Kris Sankaran
-  avatar:         kris-sankaran-photo.jpg
-  email:          krissankaran@stanford.edu
-
-# Internal pages/posts to include in top navigation
 links:
-  - title: About
-    url: /about
-  - title: Articles
-    url: /articles
+  - name:         Posts
+    url:          /
+    external:     false
+  - name:         About me
+    url:          /about
+    external:     false
+# ------------ CONFIGURABLE END ------------
 
-highlighter: rouge
-
-# https://github.com/mojombo/jekyll/wiki/Permalinks
-permalink:   /:categories/:title
-
-include: [".htaccess"]
-exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "so-simple-theme.sublime-project", "so-simple-theme.sublime-workspace"]
+permalink:        /posts/:title
+defaults:
+  - values:
+      layout: "default"
