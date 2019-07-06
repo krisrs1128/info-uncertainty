@@ -1,30 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
-<title type="text">Notes of a Statistics Watcher</title>
-<generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
-<link rel="self" type="application/atom+xml" href="/info-uncertainty//feed.xml" />
-<link rel="alternate" type="text/html" href="/info-uncertainty/" />
-<updated>2019-01-08T21:44:57-05:00</updated>
-<id>/info-uncertainty//</id>
-<author>
-  <name>Kris Sankaran</name>
-  <uri>/info-uncertainty//</uri>
-  <email>krissankaran@stanford.edu</email>
-</author>
-
-
-<entry>
-  <title type="html"><![CDATA[Nepal AI Winter School Lecture Notes]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//nepal-school-notes" />
-  <id>/info-uncertainty//nepal-school-notes</id>
-  <published>2019-01-07T00:00:00-05:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;Last month, I prepared a series of lectures for the (really wonderfully
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Info, Uncertainty</title>
+    <description></description>
+    <link>http://localhost:4000</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Nepal AI Winter School Lecture Notes</title>
+        <description>&lt;p&gt;Last month, I prepared a series of lectures for the (really wonderfully
 organized) first &lt;a href=&quot;https://nepalschool.naamii.com.np/&quot;&gt;Nepal AI Winter School&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The main talks were,&lt;/p&gt;
@@ -53,23 +37,15 @@ I kept from a discussion with students from a lab session during the school. I
 think the most useful pair of pictures was the per-pixel gaussians from the
 encoder (first page bottom left) and latent-space axis-aligned gaussians (second
 page top right)&lt;/p&gt;
-
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//nepal-school-notes&quot;&gt;Nepal AI Winter School Lecture Notes&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on January 07, 2019.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Erosion Process Visualization]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//visualizations/erosion-process" />
-  <id>/info-uncertainty//visualizations/erosion-process</id>
-  <published>2018-07-01T00:00:00-04:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;Once upon a time, I made a &lt;a href=&quot;https://www.openprocessing.org/sketch/48684&quot;&gt;processing
+</description>
+        <pubDate>Mon, 07 Jan 2019 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/posts/nepal-school-notes</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/nepal-school-notes</guid>
+      </item>
+    
+      <item>
+        <title>Erosion Process Visualization</title>
+        <description>&lt;p&gt;Once upon a time, I made a &lt;a href=&quot;https://www.openprocessing.org/sketch/48684&quot;&gt;processing
 sketch&lt;/a&gt; of an erosion process,
 inspired by lectures in a probability course I was taking.&lt;/p&gt;
 
@@ -81,50 +57,34 @@ Try fiddling with parameters in the code blocks – you can see the
 visualizations update in real time.&lt;/p&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;/info-uncertainty//images/erosion.png&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/images/erosion.png&quot; /&gt;
 &lt;/figure&gt;
-
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//visualizations/erosion-process&quot;&gt;Erosion Process Visualization&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on July 01, 2018.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Notes on VAEs]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//notes/autoencoder-notes" />
-  <id>/info-uncertainty//notes/autoencoder-notes</id>
-  <published>2018-07-01T00:00:00-04:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;I prepared these &lt;a href=&quot;/info-uncertainty//images/vae_notes.pdf&quot;&gt;slides&lt;/a&gt; for
+</description>
+        <pubDate>Sun, 01 Jul 2018 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/posts/erosion-process</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/erosion-process</guid>
+      </item>
+    
+      <item>
+        <title>Notes on VAEs</title>
+        <description>&lt;p&gt;I prepared these &lt;a href=&quot;http://localhost:4000/images/vae_notes.pdf&quot;&gt;slides&lt;/a&gt; for
 a reading group lecture on variational autoencoders and sequence-to-sequence
 modeling. My aim was to provide some visual intuition without sacrificing
 mathematical precision. I hope you enjoy the notes, feel free to use the images
 in any of your work.&lt;/p&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;/info-uncertainty//images/vae_screenshot.png&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/images/vae_screenshot.png&quot; /&gt;
 &lt;/figure&gt;
-
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//notes/autoencoder-notes&quot;&gt;Notes on VAEs&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on July 01, 2018.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[(an electronic post-it note)]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//computing/an-electornic-post-it" />
-  <id>/info-uncertainty//computing/an-electornic-post-it</id>
-  <published>2016-09-24T00:00:00-04:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;Alas, the days of “sharing gems” are gone, replaced by the scribbles of a disheveled
+</description>
+        <pubDate>Sun, 01 Jul 2018 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/posts/autoencoder-notes</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/autoencoder-notes</guid>
+      </item>
+    
+      <item>
+        <title>(an electronic post-it note)</title>
+        <description>&lt;p&gt;Alas, the days of “sharing gems” are gone, replaced by the scribbles of a disheveled
 (but still statistics-obsessed) mind. But I figure I need to become less self-concious
 about sharing my writing, and what better way to start than sharing something that no
 one will read!&lt;/p&gt;
@@ -357,23 +317,15 @@ applies to QGIS.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Sigh, my writing has become insufferable, but that’s OK, see paragraph 1.&lt;/p&gt;
-
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//computing/an-electornic-post-it&quot;&gt;(an electronic post-it note)&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on September 24, 2016.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Borel-Kolmogorov Paradox]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//borel-kolmogorov-paradox" />
-  <id>/info-uncertainty//borel-kolmogorov-paradox</id>
-  <published>2013-07-25T00:00:00-04:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;Let points be uniformly distributed on the surface of a sphere in
+</description>
+        <pubDate>Sat, 24 Sep 2016 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/posts/an-electornic-post-it</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/an-electornic-post-it</guid>
+      </item>
+    
+      <item>
+        <title>Borel-Kolmogorov Paradox</title>
+        <description>&lt;p&gt;Let points be uniformly distributed on the surface of a sphere in
 $\mathbb{R}^{3}$. Two natural questions of conditional probability are&lt;/p&gt;
 
 &lt;ol&gt;
@@ -402,7 +354,7 @@ r(\varphi, \theta) &amp;= \begin{pmatrix} cos\varphi cos\theta \\\  cos\varphi s
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.&lt;/p&gt;
 
 &lt;figure align=&quot;center&quot;&gt;
-        &lt;img src=&quot;/info-uncertainty//images/spherical_coord.svg&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/images/spherical_coord.svg&quot; /&gt;
         &lt;figcaption&gt;Figure 1. Representation via spherical coordinates.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -486,10 +438,10 @@ on the sphere surface. We can view the joint distribution of points in figure 3 
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rgl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot3d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;script src=&quot;/info-uncertainty//images/CanvasMatrix.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://localhost:4000/images/CanvasMatrix.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 
 &lt;canvas id=&quot;rspheretextureCanvas&quot; style=&quot;display: none;&quot; width=&quot;256&quot; height=&quot;256&quot;&gt;
-&amp;lt;img src=&quot;/info-uncertainty//images/rspheresnapshot.png&quot; alt=&quot;rspheresnapshot&quot; width=505/&amp;gt;&lt;br /&gt;
+&amp;lt;img src=&quot;http://localhost:4000/images/rspheresnapshot.png&quot; alt=&quot;rspheresnapshot&quot; width=505/&amp;gt;&lt;br /&gt;
 	Your browser does not support the HTML5 canvas element.&lt;/canvas&gt;
 &lt;!-- ****** points object 6 ****** --&gt;
 &lt;script id=&quot;rspherevshader6&quot; type=&quot;x-shader/x-vertex&quot;&gt;
@@ -11762,7 +11714,7 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggplot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X.tilde&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom_point&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;theta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;/info-uncertainty//images/joint_dist_borel_kolmogorov.png&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/images/joint_dist_borel_kolmogorov.png&quot; /&gt;
         &lt;figcaption&gt;Figure 3. Joint distribution of $\theta$ and $\varphi$.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -11770,27 +11722,19 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggplot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom_histogram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;facet_grid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Coordinate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;/info-uncertainty//images/marginal_dist_borel_kolmogorov.png&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/images/marginal_dist_borel_kolmogorov.png&quot; /&gt;
         &lt;figcaption&gt;Figure 4. Marginal distributions of $\theta$ and $\varphi$ &lt;/figcaption&gt;
 &lt;/figure&gt;
 
-
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//borel-kolmogorov-paradox&quot;&gt;Borel-Kolmogorov Paradox&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on July 25, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[Problem from Random Iterated Functions]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//problem-from-random-iterated-functions" />
-  <id>/info-uncertainty//problem-from-random-iterated-functions</id>
-  <published>2013-06-27T00:00:00-04:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;Here’s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful &lt;a href=&quot;http://www.stat.berkeley.edu/~census/511.pdf&quot;&gt;theory of random iterated functions&lt;/a&gt;, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 25 Jul 2013 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/posts/borel-kolmogorov-paradox</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/borel-kolmogorov-paradox</guid>
+      </item>
+    
+      <item>
+        <title>Problem from Random Iterated Functions</title>
+        <description>&lt;p&gt;Here’s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful &lt;a href=&quot;http://www.stat.berkeley.edu/~census/511.pdf&quot;&gt;theory of random iterated functions&lt;/a&gt;, a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.&lt;/p&gt;
 
 &lt;p&gt;The particular problem is to estimate the stationary distribution of the Markov chain $X_{n}$ defined on $[0, 1]$ by the following procedure: Let $X_{n + 1}$ be uniformly distributed on the interval to the left of $x_{n}$ with probability $1/2$, else draw $X_{n + 1}$ uniformly from the interval to the right of $x_{n}$.&lt;/p&gt;
 
@@ -11833,7 +11777,7 @@ k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}}
 &lt;p&gt;Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.&lt;/p&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;/info-uncertainty//images/RIF_convergence.gif&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/images/RIF_convergence.gif&quot; /&gt;
         &lt;figcaption&gt;An instance of samples converging to the arcsine distribution.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -11867,26 +11811,22 @@ k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}}
         &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggtitle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;paste&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;points sampled&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;img.name&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;samples_plot&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outdir&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getwd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interval&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0.15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//problem-from-random-iterated-functions&quot;&gt;Problem from Random Iterated Functions&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 27, 2013.&lt;/p&gt;</content>
-</entry>
-
-
-<entry>
-  <title type="html"><![CDATA[First Post]]></title>
-  <link rel="alternate" type="text/html" href="/info-uncertainty//first-post" />
-  <id>/info-uncertainty//first-post</id>
-  <published>2013-06-26T00:00:00-04:00</published>
-  
-  <author>
-    <name>Kris Sankaran</name>
-    <uri>/info-uncertainty//</uri>
-    <email>krissankaran@stanford.edu</email>
-  </author>
-  <content type="html">&lt;p&gt;Just a test. I’m thinking about switching from my
+</description>
+        <pubDate>Thu, 27 Jun 2013 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/posts/problem-from-random-iterated-functions</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/problem-from-random-iterated-functions</guid>
+      </item>
+    
+      <item>
+        <title>First Post</title>
+        <description>&lt;p&gt;Just a test. I’m thinking about switching from my
  &lt;a href=&quot;https://notesofastatisticswatcher.wordpress.com/&quot;&gt;Old blog&lt;/a&gt;
 to this site.&lt;/p&gt;
-
-  &lt;p&gt;&lt;a href=&quot;/info-uncertainty//first-post&quot;&gt;First Post&lt;/a&gt; was originally published by Kris Sankaran at &lt;a href=&quot;/info-uncertainty/&quot;&gt;Notes of a Statistics Watcher&lt;/a&gt; on June 26, 2013.&lt;/p&gt;</content>
-</entry>
-
-</feed>
+</description>
+        <pubDate>Wed, 26 Jun 2013 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/posts/first-post</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/first-post</guid>
+      </item>
+    
+  </channel>
+</rss>

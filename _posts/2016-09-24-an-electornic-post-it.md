@@ -1,9 +1,5 @@
 ---
-layout: post
 title: "(an electronic post-it note)"
-description: ""
-category: computing
-tags: [rambling, emacs, docker]
 ---
 Alas, the days of "sharing gems" are gone, replaced by the scribbles of a disheveled
 (but still statistics-obsessed) mind. But I figure I need to become less self-concious
