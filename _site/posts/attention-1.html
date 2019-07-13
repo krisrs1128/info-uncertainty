@@ -1,0 +1,201 @@
+
+<!doctype>
+<html lang="en">
+  <head>
+    <meta content='Teaching attention, part 1 / N - Info, Uncertainty' name='title' />
+    <meta content='Teaching attention, part 1 / N - Info, Uncertainty' name='og:title' />
+    <title>Teaching attention, part 1 / N - Info, Uncertainty</title>
+    <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
+<link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000/posts/attention-1' property='og:url' />
+  <meta content="Why is it hard to make sense of attention in the deep learning literature?I’ve been preparing some notes for a tutori..." property='og:description' />
+  <meta content="article" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+  </head>
+  <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
+    <header class="tc mt4">
+      <a href="http://localhost:4000">
+        <img src="http://localhost:4000/images/distn.png" alt="Home" width="53" height="59">
+      </a>
+      <p>Info, Uncertainty</p>
+    </header>
+    <div class="mw7 bg-white mt4 mb3 center br2-ns bt bb ba-ns b--light-gray">
+      <nav class="bb b--light-gray pv4 tc" aria-label="Main">
+        
+          <a class="link blue hover-mid-gray mh2 pv1"
+             href="http://localhost:4000/">
+             Posts
+           </a>
+        
+          <a class="link blue hover-mid-gray mh2 pv1"
+             href="http://localhost:4000/about">
+             About
+           </a>
+        
+      </nav>
+
+      <main class="tl f6 relative pa4 pa5-ns overflow-hidden">
+        
+          <div class="mb4">
+            <div class="fw600 light-silver mt1">13 Jul 2019</div>
+            <h1 class="ttu f3 mt0 lh-title cb mb2">
+              
+              Teaching attention, part 1 / N
+            </h1>
+            
+          </div>
+        
+        <div class="markdown-body">
+          <p>Why is it hard to make sense of attention in the deep learning literature?</p>
+
+<p>I’ve been preparing some notes for a tutorial on memory and attention, and while
+the material for memory seems to be coming together relatively smoothly,
+designing a coherent discussion around attention has been harder.</p>
+
+<p>The main difficulty seems to be that the same word (“attention”) is used to
+refer to many distinct things in practice. For example, there are differences
+between</p>
+
+<ul>
+  <li>Implicit vs. explicit attention</li>
+  <li>Location-based vs. content-based attention</li>
+  <li>Hard vs. soft attention</li>
+  <li>External vs. self attention</li>
+</ul>
+
+<p>It’s not worth going into the distinctions now – the point is that, you have to
+be able to hold many different definitions in your head, in order to hold a
+conversation on attention. In the same spirit, if you talk to someone who says
+that their model “uses attention,” you have to be a bit of a gadfly to figure
+out what’s actually going on.</p>
+
+<p>Learning many definitions in and of itself wouldn’t be such a big problem,
+though it does take a concerted effort. But I suspect that the issue runs a bit
+deeper, and that attention is treated more like a problem solving technique,
+rather than any concrete computational device. The analogy that comes to mind is
+the standard machine in analysis: you use it to prove all sorts of theorems, and
+people become comfortable using it in conversations, but no one ever really
+bothers to define it.</p>
+
+<p>This can make it complicated to talk attention across problem domains. While it
+speaks the general utility of attention as a problem solving technique, it can
+be a little discomforting to have to keep track of many small variants on
+something that you thought you understood. Here’s a small sampling of problem
+areas where I’ve seen attention come in handy,</p>
+
+<ul>
+  <li>Text translation</li>
+  <li>Image classification in presence of clutter</li>
+  <li>Caption generation</li>
+  <li>Speech recognition</li>
+  <li>Image generation</li>
+  <li>Language modeling</li>
+  <li>Algorithm learning (from examples)</li>
+  <li>Handwriting generation</li>
+  <li>Graph modeling</li>
+</ul>
+
+<p>In each domain, you can usually find any number papers claiming to have solved
+the problem using attention. A jaded researcher (<em>cough cough</em>) would think that
+people have discovered that a recipe for writing papers is to pick a random
+combination of types of attention and apply it to a problem area (“hard
+content-based self-attention for handwriting generation”), but let’s be
+positive and say that human creativity knows no limits.</p>
+
+<p>Within and across these domains, people propose different attention mechanisms.
+For example, both DRAW and Self-Attention GANs both have a way of sequentially
+attending to parts of an image during generation, but that’s about the only
+thing in common. In contrast, it’s not hard to find attention mechanisms for
+language translation that differ by things as seemingly inconsequential as
+concatenating or linearly mixing inputs (turns out choices like this <em>do</em> have
+an impact on training and performance).</p>
+
+<p>In some domains, certain heuristics are useful, but they are far from universal.
+For example, the “translation” analogy is useful in modalities like image
+captioning and speech recognition, not just language. But it doesn’t apply at
+all for, say, self-attention. Alternatively, consider the cognitive science
+parallel to foveal attention. This is a nice way to understand models that
+sequentially process parts of an image, but what to make of attention in
+settings that have no clear cognitive science parallel (prediction on graphs
+using graph attention?). Another common analogy is to differentiable computers
+– attention modules can be thought of as reading from memory on an as-needed
+basis. But even this analogy (which I prefer) can lead to to some confusion, as
+architectures inspired by this analogy often explicitly include writing
+mechanisms to accompany attention, and these can mechanisms can exist
+independently.</p>
+
+<p>One small quirk, just to add to the confusion, is that attention has a
+meandering history. Location-based and hard attention appeared first, and while
+they are no longer dominant, there are still reasons to prefer them in certain
+circumstances, which make them very relevant in current research. Papers
+involving attention also have a bad habit of making a splash – I’m sure you can
+name a few attention papers by name – but as a consequence, attention might
+seem like a hat trick that you can pull to solve a few specialized problems
+(e.g., translation and caption generation), rather than problem solving
+principle that can be applied in more general settings.</p>
+
+<h2 id="but-not-all-is-lost">But Not All is Lost</h2>
+
+<p>Just writing about how key ideas are covered in the overgrowth of novel research
+doesn’t actually help anyone. It also doesn’t do justice to people who <em>have</em>
+created excellent explanations of attention – I’m thinking of Alex Graves’
+lectures and several posts on the distill blog.</p>
+
+<p>What are strategies that seem useful for learning about attention?</p>
+
+<p>A starting point seems to be understanding a few examples in depth. I mean,
+being able to describe the problem and architectural context, and then saying
+what new computational / mathematical operations are introduced which warrant
+the name “attention.” Visual, geometric, and probabilistic interpretations –
+even those in toy, sandbox examples – can also build fluency. And being able to
+implement them in a deep learning library of course doesn’t hurt.</p>
+
+<p>Second, it seems worth building a catalog of examples, appearing across the
+literature. This gives reference points when encountering new ideas, abstract
+things become concrete when they can be compared to something you are confident
+you understand. In my mind, if I could take two random papers talking about
+attention, and if I could relate them to one another (what is similar? what is
+different?), only then would I say that I deeply understand attention.</p>
+
+<p>But this is probably not the right way to think of it. It’s probably more
+fruitful to think of shades of understanding in this situation – in some of its
+variants, or in some of its contexts, attention might be a familiar friend, in
+others, it might require a bit more digging to see what is happening and why
+anyone would have wanted it to have happened in that way. This isn’t a bad
+thing, it just means you might discover yourself learning afresh something that
+you thought you had mastered long ago.</p>
+
+<p>Anyways, isn’t it impressive how much I’ve written without actually defining
+attention? But this is just part one of N…</p>
+
+        </div>
+        <p class="mt4">
+  Kris
+  <span class="silver">at 18:40</span>
+</p>
+
+      </main>
+      <section class="fixed-l mw7 center w-100 top-50 tc pb4 nt4">
+  
+    <a href="http://localhost:4000/posts/nepal-school-notes" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
+  
+  
+</section>
+    </div>
+    <footer class="mw7 center tc pt3 pb4 silver">
+      Built with Jekyll using <a href="http://github.com/muan/scribble" class="link silver hover-blue pv1">Scribble</a>.
+      <img src="http://localhost:4000/images/scribble2.png" alt="scribble" class="mt4 db center" />
+    </footer>
+  </body>
+</html>
