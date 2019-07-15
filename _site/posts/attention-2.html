@@ -118,10 +118,9 @@ should look like this:</p>
   <img src="http://localhost:4000/images/attn-2-rnn-series.png" />
 </a>
   <figcaption>
-  Click on the figure to go to an interactive version. The original data
-  $$x_{t}$$ are the upper series, and the summary $$h_{t}$$ are given in the
-  lower panel. These $$h_{t}$$'s count the number of distinct blue segments seen
-  so far.
+  Click on the figure to go to an interactive version. The original input data
+  are the upper series, and the summary is given in the lower panel, counting
+  the number of distinct blue segments seen so far.
   </figcaption>
 </figure>
 
@@ -143,13 +142,13 @@ its value, because an entrance has just occurred.</p>
 
 <figure>
 <a href="https://observablehq.com/@krisrs1128/rnn-entrance-counting">
-  <img src="http://localhost:4000/images/attn-2-rnn-series.png" />
+  <img src="http://localhost:4000/images/attn-2-rnn-states.png" />
 </a>
   <figcaption>
   Again, you can click on the figure to go to an interactive version. The two
-  rows of rectangles correspond to the two coordinates of the hidden state
-  $$h_{t}$$. The first coordinate activates whenever the series passes through
-  the range $$\left[0, 1\right]$, and the second uses this to build a counter.
+  rows of rectangles correspond to the two coordinates of the hidden state. The
+  first coordinate activates whenever the series passes through the blue range,
+  and the second uses this to build a counter.
   </figcaption>
 </figure>
 
