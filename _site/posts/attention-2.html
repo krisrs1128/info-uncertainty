@@ -111,7 +111,19 @@ summary based on new data <script type="math/tex">x_t</script>.</p>
 
 <p>For example, let’s say that in our summary, we only care about the number of
 times our time series enters the interval <script type="math/tex">\left[0, 1\right]</script>. Our series
-should look like this.</p>
+should look like this:</p>
+
+<figure>
+<a href="https://observablehq.com/@krisrs1128/untitled/3">
+  <img src="http://localhost:4000/images/attn-2-rnn-series.png" />
+</a>
+  <figcaption>
+  Click on the figure to go to an interactive version. The original data
+  $$x_{t}$$ are the upper series, and the summary $$h_{t}$$ are given in the
+  lower panel. These $$h_{t}$$'s count the number of distinct blue segments seen
+  so far.
+  </figcaption>
+</figure>
 
 <p>This can be easily implemented according by choosing a function <script type="math/tex">f_{\theta}</script>
 appropriately<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>,</p>
@@ -129,20 +141,31 @@ h_{t,2} + \mathbb{1}\{h_{t, 1} = 0 \text{ and } x_{t + 1} \in \left[0, 1\right]\
 this range, and if and if at the previous step we <em>weren’t</em>, then it increments
 its value, because an entrance has just occurred.</p>
 
-<p>This works as a counter, you can play around with the figure below. This is
-maybe one of the simplest examples of a system with memory. It takes a
+<figure>
+<a href="https://observablehq.com/@krisrs1128/rnn-entrance-counting">
+  <img src="http://localhost:4000/images/attn-2-rnn-series.png" />
+</a>
+  <figcaption>
+  Again, you can click on the figure to go to an interactive version. The two
+  rows of rectangles correspond to the two coordinates of the hidden state
+  $$h_{t}$$. The first coordinate activates whenever the series passes through
+  the range $$\left[0, 1\right]$, and the second uses this to build a counter.
+  </figcaption>
+</figure>
+
+<p>This is maybe one of the simplest examples of a system with memory. It takes a
 complicated stream of input, and carefully records the number of <script type="math/tex">\left[0,
 1\right]</script> entrances. If you task at the end of each sequence were to report
 this count, then you can call it a day, this processor $f_{\theta}$ solves that
 problem entirely.</p>
 
-<h2 id="everything-i-have-told-you-is-a-lie">Everything I have told you is a lie</h2>
+<h2 id="okay-its-not-that-actually-that-simple">Okay it’s not that actually that simple</h2>
 
-<p>Alright, not everything. The general definition <script type="math/tex">f_{\theta}</script> I’ve given is a
-technically correct one, but in our formulation of a counter, we’ve committed a
-grave sin of deep learning: we have hard-coded our features. We looked at the
-problem, declared that the number of <script type="math/tex">\left[0, 1\right]</script> entrances was what
-really mattered, and hand-engineered the necessary processing unit.</p>
+<p>The general definition <script type="math/tex">f_{\theta}</script> I’ve given is a technically correct one,
+but in our formulation of a counter, we’ve committed a grave sin of deep
+learning: we have hard-coded our features. We looked at the problem, declared
+that the number of <script type="math/tex">\left[0, 1\right]</script> entrances was what really mattered, and
+hand-engineered the necessary processing unit.</p>
 
 <p>In the real-world, this usually won’t be possible. Consider the problem of
 sentiment analysis – you’re trying to tell whether a movie review is positive
