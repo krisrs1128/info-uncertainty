@@ -7,6 +7,185 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Teaching attention, part 2 / N</title>
+        <description>&lt;p&gt;It’s a little cliche to start a post by saying that a certain type of data (in
+this case, sequential data) are everywhere. There’s a risk of being vague, and
+writing things that will become outdated, like the phrase, “&lt;a href=&quot;https://www.cia.gov/library/readingroom/docs/CIA-RDP75-00149R000100400004-6.pdf&quot;&gt;soviet
+cybernetics&lt;/a&gt;”.&lt;/p&gt;
+
+&lt;p&gt;BuThe two coordinates of &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; encode two features. The first checks whether
+&lt;script type=&quot;math/tex&quot;&gt;x_t&lt;/script&gt; is in $\left[0, 1\right]$. The second coordinate checks whether we’re in
+this range, and if and if at the previous step we &lt;em&gt;weren’t&lt;/em&gt;, then it
+increments its value, because an entrance has just occurred.
+t sequential data &lt;em&gt;are&lt;/em&gt; everywhere, and they are here to stay. The words in
+this sentence are sequential data. The order of bus stops you took to get here
+are sequential data. They are everywhere in society – the current capacity of
+water reservoirs, the cost of rice, the reach of an influenza outbreak. They are
+also everywhere in science – the trajectory of high energy particles at the
+LHC, and the sequence of biological reactions that allow cells to divide. The
+history of the top trending animal videos on youtube are sequential data&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;Even data that are not inherently sequential are often reformulated to be so:
+large images or databases can be processed one piece at a time.&lt;/p&gt;
+
+&lt;p&gt;These data are complicated because everything is related to everything, even if
+only weakly. A lot of hte videos trending from last week are still popular.&lt;/p&gt;
+
+&lt;p&gt;This interconnectedness makes things harder to manage, because you can’t just
+discard a datapoint once you’ve seen it, which is more or less what we do in
+settings where we claim the data are i.i.d&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. A the same time, trying to keep
+track of everything is untenable – you would become overloaded very quickly.&lt;/p&gt;
+
+&lt;p&gt;What we need is a way to summarize and store everything that is important, as it
+arrives. We also need a way of revisiting relevant information on an as-needed
+basis. In the deep learning literature, these two processes are implemented
+through mechanisms for memory and attention.&lt;/p&gt;
+
+&lt;h2 id=&quot;rnns-revisited&quot;&gt;RNNs, Revisited&lt;/h2&gt;
+
+&lt;p&gt;Before answering such lofty questions, we will need to have a foundation in the
+basics&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. We begin with the humblest of sequential data proceses, the
+recurrent neural network (RNN) cell,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+h_t &amp;= f_{\theta}\left(x_t, h_{t - 1}\right).
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;x_t&lt;/script&gt; are your raw input data at the &lt;script type=&quot;math/tex&quot;&gt;t^{th}&lt;/script&gt; position in your sequence (“time
+&lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt;”). Think of &lt;script type=&quot;math/tex&quot;&gt;h_{t}&lt;/script&gt; as a running summary of everything you’ve seen so far.
+Concretely, the input and summary data are just vectors: &lt;script type=&quot;math/tex&quot;&gt;x_t \in
+\mathbb{R}^{n}, h_{t} \in \mathbb{R}^{k}&lt;/script&gt;. The vectors are related by the
+function &lt;script type=&quot;math/tex&quot;&gt;f_{\theta}&lt;/script&gt;, parameterized by &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;, which updates the current
+summary based on new data &lt;script type=&quot;math/tex&quot;&gt;x_t&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;For example, let’s say that in our summary, we only care about the number of
+times our time series enters the interval &lt;script type=&quot;math/tex&quot;&gt;\left[0, 1\right]&lt;/script&gt;. Our series
+should look like this:&lt;/p&gt;
+
+&lt;figure&gt;
+&lt;a href=&quot;https://observablehq.com/@krisrs1128/untitled/3&quot;&gt;
+  &lt;img src=&quot;http://localhost:4000/images/attn-2-rnn-series.png&quot; /&gt;
+&lt;/a&gt;
+  &lt;figcaption&gt;
+  Click on the figure to go to an interactive version. The original data
+  $$x_{t}$$ are the upper series, and the summary $$h_{t}$$ are given in the
+  lower panel. These $$h_{t}$$'s count the number of distinct blue segments seen
+  so far.
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;This can be easily implemented according by choosing a function &lt;script type=&quot;math/tex&quot;&gt;f_{\theta}&lt;/script&gt;
+appropriately&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+h_{t + 1} = f_{\theta}\left(x_{t + 1}, h_t\right) 
+:= \begin{pmatrix}
+\mathbb{1}\{x_{t + 1} \in \left[0, 1\right]\} \\
+h_{t,2} + \mathbb{1}\{h_{t, 1} = 0 \text{ and } x_{t + 1} \in \left[0, 1\right]\}
+\end{pmatrix}
+\end{align}.&lt;/script&gt;
+
+&lt;p&gt;The two coordinates of &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; encode two features. The first checks whether
+&lt;script type=&quot;math/tex&quot;&gt;x_t&lt;/script&gt; is in $\left[0, 1\right]$. The second coordinate checks whether we’re in
+this range, and if and if at the previous step we &lt;em&gt;weren’t&lt;/em&gt;, then it increments
+its value, because an entrance has just occurred.&lt;/p&gt;
+
+&lt;figure&gt;
+&lt;a href=&quot;https://observablehq.com/@krisrs1128/rnn-entrance-counting&quot;&gt;
+  &lt;img src=&quot;http://localhost:4000/images/attn-2-rnn-series.png&quot; /&gt;
+&lt;/a&gt;
+  &lt;figcaption&gt;
+  Again, you can click on the figure to go to an interactive version. The two
+  rows of rectangles correspond to the two coordinates of the hidden state
+  $$h_{t}$$. The first coordinate activates whenever the series passes through
+  the range $$\left[0, 1\right]$, and the second uses this to build a counter.
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;This is maybe one of the simplest examples of a system with memory. It takes a
+complicated stream of input, and carefully records the number of &lt;script type=&quot;math/tex&quot;&gt;\left[0,
+1\right]&lt;/script&gt; entrances. If you task at the end of each sequence were to report
+this count, then you can call it a day, this processor $f_{\theta}$ solves that
+problem entirely.&lt;/p&gt;
+
+&lt;h2 id=&quot;okay-its-not-that-actually-that-simple&quot;&gt;Okay it’s not that actually that simple&lt;/h2&gt;
+
+&lt;p&gt;The general definition &lt;script type=&quot;math/tex&quot;&gt;f_{\theta}&lt;/script&gt; I’ve given is a technically correct one,
+but in our formulation of a counter, we’ve committed a grave sin of deep
+learning: we have hard-coded our features. We looked at the problem, declared
+that the number of &lt;script type=&quot;math/tex&quot;&gt;\left[0, 1\right]&lt;/script&gt; entrances was what really mattered, and
+hand-engineered the necessary processing unit.&lt;/p&gt;
+
+&lt;p&gt;In the real-world, this usually won’t be possible. Consider the problem of
+sentiment analysis – you’re trying to tell whether a movie review is positive
+or negative. No one’s going to debate that the number of occurrences of
+“fantastic” and “&lt;a href=&quot;https://www.imdb.com/list/ls076596691/&quot;&gt;this movie is honestly the worst movie I’ve ever
+seen&lt;/a&gt;” are probably very good
+predictors, but it would be foolish to try to engineer all possibly predictive
+features by hand.&lt;/p&gt;
+
+&lt;h2 id=&quot;enter-deep-learning&quot;&gt;Enter, Deep Learning&lt;/h2&gt;
+
+&lt;p&gt;To resolve this, we appeal to one of the central tenets of deep learning,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;By composing simple differentiable units, we can learn useful features
+automatically.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Graphically, we shift our perspective from chains of RNN cells,&lt;/p&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;f_{\theta}&lt;/script&gt; might be a complex hand-engineered function, to chains &lt;em&gt;and
+layers&lt;/em&gt; of simpler processing units.&lt;/p&gt;
+
+&lt;p&gt;The left-to-right arrows are still used to build a type of temporal memory, but
+now we have bottom-up function composition arrows, which help in learning
+complex features from otherwise simple units. A common “atom” from which these
+sheets are defined is the function,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+h_{t} &amp;= \tanh\left(W_{x}x_{t} + W_{h}h_{t - 1} + b\right)
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;which has the form &lt;script type=&quot;math/tex&quot;&gt;f_{\theta}\left(x_t, h_t - 1\right)&lt;/script&gt; where &lt;script type=&quot;math/tex&quot;&gt;\theta =
+\{W_{x}, W_{h}, b\}&lt;/script&gt;. It’s admittedly a relatively restricted class of
+functions. Through &lt;script type=&quot;math/tex&quot;&gt;W_{x}&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;W_{h}&lt;/script&gt;, it can tell whether certain linear
+mixtures of components of &lt;script type=&quot;math/tex&quot;&gt;x_{t}&lt;/script&gt; or &lt;script type=&quot;math/tex&quot;&gt;h_{t}&lt;/script&gt; are large or small, but in the
+end it can only return monotone functions of this mixtures, and restricted to
+&lt;script type=&quot;math/tex&quot;&gt;\left[-1, 1\right]&lt;/script&gt; at that. That makes things sound more abstract than they
+really are – you can actually visualize the entire family of functions in the
+case that the input and summary are both two-dimensional,&lt;/p&gt;
+
+&lt;p&gt;These are simple, but by stacking them, we can achieve complexity, just like how
+stacks of ReLU units can become complicated feature detectors in computer
+vision. In fact, we can almost recover our &lt;script type=&quot;math/tex&quot;&gt;\left[0, 1\right]&lt;/script&gt; entrance
+counter just by stacking a few of these units.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;For that matter, the videos themselves are sequences of image frames. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://stats.stackexchange.com/questions/17391/what-are-i-i-d-random-variables&quot;&gt;Independent and identically distributed&lt;/a&gt;, sometimes called “the big lie of machine learning.” &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;It turns out that the state-of-the-art are just clever combinations of these core components, anyways. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;Notice that this definition doesn’t have any parameters, the notation &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is actually superfluous here. &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Mon, 15 Jul 2019 13:43:00 -0400</pubDate>
+        <link>http://localhost:4000/posts/attention-2</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/attention-2</guid>
+      </item>
+    
+      <item>
         <title>Teaching attention, part 1 / N</title>
         <description>&lt;p&gt;Why is it hard to make sense of attention in the deep learning literature?&lt;/p&gt;
 

@@ -1,0 +1,252 @@
+
+<!doctype>
+<html lang="en">
+  <head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <meta content='Teaching attention, part 2 / N - Info, Uncertainty' name='title' />
+    <meta content='Teaching attention, part 2 / N - Info, Uncertainty' name='og:title' />
+    <title>Teaching attention, part 2 / N - Info, Uncertainty</title>
+    <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
+<link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000/posts/attention-2' property='og:url' />
+  <meta content="It’s a little cliche to start a post by saying that a certain type of data (inthis case, sequential data) are everywh..." property='og:description' />
+  <meta content="article" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+  </head>
+  <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
+    <header class="tc mt4">
+      <a href="http://localhost:4000">
+        <img src="http://localhost:4000/images/distn.png" alt="Home" width="53" height="59">
+      </a>
+      <p>Info, Uncertainty</p>
+    </header>
+    <div class="mw7 bg-white mt4 mb3 center br2-ns bt bb ba-ns b--light-gray">
+      <nav class="bb b--light-gray pv4 tc" aria-label="Main">
+        
+          <a class="link blue hover-mid-gray mh2 pv1"
+             href="http://localhost:4000/">
+             Posts
+           </a>
+        
+          <a class="link blue hover-mid-gray mh2 pv1"
+             href="http://localhost:4000/about">
+             About
+           </a>
+        
+      </nav>
+
+      <main class="tl f6 relative pa4 pa5-ns overflow-hidden">
+        
+          <div class="mb4">
+            <div class="fw600 light-silver mt1">15 Jul 2019</div>
+            <h1 class="ttu f3 mt0 lh-title cb mb2">
+              
+              Teaching attention, part 2 / N
+            </h1>
+            
+          </div>
+        
+        <div class="markdown-body">
+          <p>It’s a little cliche to start a post by saying that a certain type of data (in
+this case, sequential data) are everywhere. There’s a risk of being vague, and
+writing things that will become outdated, like the phrase, “<a href="https://www.cia.gov/library/readingroom/docs/CIA-RDP75-00149R000100400004-6.pdf">soviet
+cybernetics</a>”.</p>
+
+<p>BuThe two coordinates of <script type="math/tex">h_t</script> encode two features. The first checks whether
+<script type="math/tex">x_t</script> is in $\left[0, 1\right]$. The second coordinate checks whether we’re in
+this range, and if and if at the previous step we <em>weren’t</em>, then it
+increments its value, because an entrance has just occurred.
+t sequential data <em>are</em> everywhere, and they are here to stay. The words in
+this sentence are sequential data. The order of bus stops you took to get here
+are sequential data. They are everywhere in society – the current capacity of
+water reservoirs, the cost of rice, the reach of an influenza outbreak. They are
+also everywhere in science – the trajectory of high energy particles at the
+LHC, and the sequence of biological reactions that allow cells to divide. The
+history of the top trending animal videos on youtube are sequential data<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>.</p>
+
+<p>Even data that are not inherently sequential are often reformulated to be so:
+large images or databases can be processed one piece at a time.</p>
+
+<p>These data are complicated because everything is related to everything, even if
+only weakly. A lot of hte videos trending from last week are still popular.</p>
+
+<p>This interconnectedness makes things harder to manage, because you can’t just
+discard a datapoint once you’ve seen it, which is more or less what we do in
+settings where we claim the data are i.i.d<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>. A the same time, trying to keep
+track of everything is untenable – you would become overloaded very quickly.</p>
+
+<p>What we need is a way to summarize and store everything that is important, as it
+arrives. We also need a way of revisiting relevant information on an as-needed
+basis. In the deep learning literature, these two processes are implemented
+through mechanisms for memory and attention.</p>
+
+<h2 id="rnns-revisited">RNNs, Revisited</h2>
+
+<p>Before answering such lofty questions, we will need to have a foundation in the
+basics<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>. We begin with the humblest of sequential data proceses, the
+recurrent neural network (RNN) cell,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+h_t &= f_{\theta}\left(x_t, h_{t - 1}\right).
+\end{align} %]]></script>
+
+<p><script type="math/tex">x_t</script> are your raw input data at the <script type="math/tex">t^{th}</script> position in your sequence (“time
+<script type="math/tex">t</script>”). Think of <script type="math/tex">h_{t}</script> as a running summary of everything you’ve seen so far.
+Concretely, the input and summary data are just vectors: <script type="math/tex">x_t \in
+\mathbb{R}^{n}, h_{t} \in \mathbb{R}^{k}</script>. The vectors are related by the
+function <script type="math/tex">f_{\theta}</script>, parameterized by <script type="math/tex">\theta</script>, which updates the current
+summary based on new data <script type="math/tex">x_t</script>.</p>
+
+<p>For example, let’s say that in our summary, we only care about the number of
+times our time series enters the interval <script type="math/tex">\left[0, 1\right]</script>. Our series
+should look like this:</p>
+
+<figure>
+<a href="https://observablehq.com/@krisrs1128/untitled/3">
+  <img src="http://localhost:4000/images/attn-2-rnn-series.png" />
+</a>
+  <figcaption>
+  Click on the figure to go to an interactive version. The original data
+  $$x_{t}$$ are the upper series, and the summary $$h_{t}$$ are given in the
+  lower panel. These $$h_{t}$$'s count the number of distinct blue segments seen
+  so far.
+  </figcaption>
+</figure>
+
+<p>This can be easily implemented according by choosing a function <script type="math/tex">f_{\theta}</script>
+appropriately<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>,</p>
+
+<script type="math/tex; mode=display">\begin{align}
+h_{t + 1} = f_{\theta}\left(x_{t + 1}, h_t\right) 
+:= \begin{pmatrix}
+\mathbb{1}\{x_{t + 1} \in \left[0, 1\right]\} \\
+h_{t,2} + \mathbb{1}\{h_{t, 1} = 0 \text{ and } x_{t + 1} \in \left[0, 1\right]\}
+\end{pmatrix}
+\end{align}.</script>
+
+<p>The two coordinates of <script type="math/tex">h_t</script> encode two features. The first checks whether
+<script type="math/tex">x_t</script> is in $\left[0, 1\right]$. The second coordinate checks whether we’re in
+this range, and if and if at the previous step we <em>weren’t</em>, then it increments
+its value, because an entrance has just occurred.</p>
+
+<figure>
+<a href="https://observablehq.com/@krisrs1128/rnn-entrance-counting">
+  <img src="http://localhost:4000/images/attn-2-rnn-series.png" />
+</a>
+  <figcaption>
+  Again, you can click on the figure to go to an interactive version. The two
+  rows of rectangles correspond to the two coordinates of the hidden state
+  $$h_{t}$$. The first coordinate activates whenever the series passes through
+  the range $$\left[0, 1\right]$, and the second uses this to build a counter.
+  </figcaption>
+</figure>
+
+<p>This is maybe one of the simplest examples of a system with memory. It takes a
+complicated stream of input, and carefully records the number of <script type="math/tex">\left[0,
+1\right]</script> entrances. If you task at the end of each sequence were to report
+this count, then you can call it a day, this processor $f_{\theta}$ solves that
+problem entirely.</p>
+
+<h2 id="okay-its-not-that-actually-that-simple">Okay it’s not that actually that simple</h2>
+
+<p>The general definition <script type="math/tex">f_{\theta}</script> I’ve given is a technically correct one,
+but in our formulation of a counter, we’ve committed a grave sin of deep
+learning: we have hard-coded our features. We looked at the problem, declared
+that the number of <script type="math/tex">\left[0, 1\right]</script> entrances was what really mattered, and
+hand-engineered the necessary processing unit.</p>
+
+<p>In the real-world, this usually won’t be possible. Consider the problem of
+sentiment analysis – you’re trying to tell whether a movie review is positive
+or negative. No one’s going to debate that the number of occurrences of
+“fantastic” and “<a href="https://www.imdb.com/list/ls076596691/">this movie is honestly the worst movie I’ve ever
+seen</a>” are probably very good
+predictors, but it would be foolish to try to engineer all possibly predictive
+features by hand.</p>
+
+<h2 id="enter-deep-learning">Enter, Deep Learning</h2>
+
+<p>To resolve this, we appeal to one of the central tenets of deep learning,</p>
+
+<blockquote>
+  <p>By composing simple differentiable units, we can learn useful features
+automatically.</p>
+</blockquote>
+
+<p>Graphically, we shift our perspective from chains of RNN cells,</p>
+
+<p>where <script type="math/tex">f_{\theta}</script> might be a complex hand-engineered function, to chains <em>and
+layers</em> of simpler processing units.</p>
+
+<p>The left-to-right arrows are still used to build a type of temporal memory, but
+now we have bottom-up function composition arrows, which help in learning
+complex features from otherwise simple units. A common “atom” from which these
+sheets are defined is the function,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+h_{t} &= \tanh\left(W_{x}x_{t} + W_{h}h_{t - 1} + b\right)
+\end{align} %]]></script>
+
+<p>which has the form <script type="math/tex">f_{\theta}\left(x_t, h_t - 1\right)</script> where <script type="math/tex">\theta =
+\{W_{x}, W_{h}, b\}</script>. It’s admittedly a relatively restricted class of
+functions. Through <script type="math/tex">W_{x}</script> and <script type="math/tex">W_{h}</script>, it can tell whether certain linear
+mixtures of components of <script type="math/tex">x_{t}</script> or <script type="math/tex">h_{t}</script> are large or small, but in the
+end it can only return monotone functions of this mixtures, and restricted to
+<script type="math/tex">\left[-1, 1\right]</script> at that. That makes things sound more abstract than they
+really are – you can actually visualize the entire family of functions in the
+case that the input and summary are both two-dimensional,</p>
+
+<p>These are simple, but by stacking them, we can achieve complexity, just like how
+stacks of ReLU units can become complicated feature detectors in computer
+vision. In fact, we can almost recover our <script type="math/tex">\left[0, 1\right]</script> entrance
+counter just by stacking a few of these units.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>For that matter, the videos themselves are sequences of image frames. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p><a href="https://stats.stackexchange.com/questions/17391/what-are-i-i-d-random-variables">Independent and identically distributed</a>, sometimes called “the big lie of machine learning.” <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>It turns out that the state-of-the-art are just clever combinations of these core components, anyways. <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>Notice that this definition doesn’t have any parameters, the notation <script type="math/tex">\theta</script> is actually superfluous here. <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </div>
+        <p class="mt4">
+  Kris
+  <span class="silver">at 13:43</span>
+</p>
+
+      </main>
+      <section class="fixed-l mw7 center w-100 top-50 tc pb4 nt4">
+  
+    <a href="http://localhost:4000/posts/attention-1" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
+  
+  
+</section>
+    </div>
+    <footer class="mw7 center tc pt3 pb4 silver">
+      Built with Jekyll using <a href="http://github.com/muan/scribble" class="link silver hover-blue pv1">Scribble</a>.
+      <img src="http://localhost:4000/images/scribble2.png" alt="scribble" class="mt4 db center" />
+    </footer>
+  </body>
+</html>
