@@ -7,17 +7,150 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
-        <title>Teaching attention, part 2 / N</title>
+        <title>Teaching attention, part 3 / N: Thinking more creatively</title>
+        <description>&lt;p&gt;To this point, our memory mechanisms all have had the same flavor. We had a
+running summary &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt;, which we update with every new input, though gating
+might mean we prevent some coordinates from changing too much. However, it’s
+possible to think more creatively about how we should record and attend to new
+memories. For example,&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;We don’t need to throw away all but the last &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; when making some
+prediction. We’ve been saying that a model “forgets” if there are values for
+&lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; early on which are erased by new inputs. But what if we just kept all
+the &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt;’s, and avoided overload by having a smart lookup strategy?&lt;/li&gt;
+  &lt;li&gt;Why are we forcing the memory &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; to architecturally mirror the inputs
+&lt;script type=&quot;math/tex&quot;&gt;x_t&lt;/script&gt; – that is, why does &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; need to be a sequence? Considering that,
+due to gating, we only update some cells at a time, it makes sense to design
+architectures specifically adapted to recording and looking up useful
+summaries.&lt;/li&gt;
+  &lt;li&gt;We’ve assumed a pretty diligent sequential processor, which knows to check
+every input datapoint as it arrives. What if we had a lazy one, which played
+it fast and loose and tried to process only those inputs that seemed really
+crucial to the process.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;These sorts of preposterous questions will help illuminate the more fundamental
+principles of memory and attention in deep learning&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;First though, a warning, reiterating points from part 1. Attention is not a
+well-defined, clearly demarcated mathematical term. It is a principle that is
+useful for reasoning about many problems, but which is always in flux, as people
+find variants that are suited to their particular settings.&lt;/p&gt;
+
+&lt;p&gt;To keep our discussion grounded, and to leave you with something mathematical
+examples (and not just cool paper titles) that you can take home, we’re going to
+explore a few attention mechanisms in detail, before briefly touring across
+other highlights of the memory and attention literature.&lt;/p&gt;
+
+&lt;p&gt;Our three methods mirror the three questions from before.&lt;/p&gt;
+
+&lt;h2 id=&quot;attention-in-translation-models&quot;&gt;Attention in Translation Models&lt;/h2&gt;
+
+&lt;p&gt;We don’t need to force &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; to condense everything from &lt;script type=&quot;math/tex&quot;&gt;x_1, \dots, x_t&lt;/script&gt;.
+This observation lies at the heart of attention-based encoder-decoder sequence
+translation models. Before explaining the mechanism in more detail, a refresher
+on how translation works with neural networks.&lt;/p&gt;
+
+&lt;p&gt;Abstractly, the problem of translation is to map a sequence of words in one
+language to the corresponding sequence in another. For example,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I don’t speak French –&amp;gt; Je ne parle pas Francais.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;We make this an ML problem by treating each word as a datapoint in a sequence,
+and hoping to map the first trajectory into the second. That is, we want to map&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+\left(x_1, x_2, x_3, x_4\right) \to \left(y_1, y_2, y_3, y_4, y_5, y_6\right)
+\end{align}&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;x_i = \left(0, \dots, 0, 1, 0, \dots, 0\right)&lt;/script&gt; is a one-hot encoding
+of the &lt;script type=&quot;math/tex&quot;&gt;i^{th}&lt;/script&gt; word in the sentence (with respect to the &lt;script type=&quot;math/tex&quot;&gt;V&lt;/script&gt; words in
+English that we bother taking into account), and &lt;script type=&quot;math/tex&quot;&gt;y_i&lt;/script&gt; does the same for
+French.&lt;/p&gt;
+
+&lt;p&gt;The encoder-decoder approach to the problem is to take the &lt;script type=&quot;math/tex&quot;&gt;x_t&lt;/script&gt; and summarize
+(“encode”) them using an RNN&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. The final state $h_{T}$ is then used as the
+used as the initial state to a separate RNN, whose states are used to predict
+the words of the translation. Here’s a basic picture. The shading means that teh
+same values are copied over.&lt;/p&gt;
+
+&lt;p&gt;At the &lt;script type=&quot;math/tex&quot;&gt;t^{th}&lt;/script&gt; time step during decoding, we use a processor &lt;script type=&quot;math/tex&quot;&gt;s_t =
+f_{\text{dec}}\left(\hat{y}_{t - 1}, h_{t - 1}\right)&lt;/script&gt;, and then predict
+&lt;script type=&quot;math/tex&quot;&gt;p\left(y_t \vert s_t, s_{0}, \hat{y}_{t - 1}\right)&lt;/script&gt; using logistic
+regression. A good processor should be able to capture the salient features of
+&lt;script type=&quot;math/tex&quot;&gt;x_1, \dots, x_{T}&lt;/script&gt;, and these are used for translation.&lt;/p&gt;
+
+&lt;p&gt;This seems like a large burden for the encoder to carry. Intuitively, at time
+&lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt; of decoding, you really only care about the words in the corresponding
+neigorhood of time &lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt; in the source sentence. If the sentences were already
+aligned, you’d expect the neighborhood around &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; to be most relevant for
+being able to translate &lt;script type=&quot;math/tex&quot;&gt;y_t&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;So, consider the mechanism, &lt;script type=&quot;math/tex&quot;&gt;s_{t^{\prime}} = \sum_{t = 1}^{T} w_{t t^{\prime}}
+h_t&lt;/script&gt;, which adds columns &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; weighted by &lt;script type=&quot;math/tex&quot;&gt;w_t t^{prime}&lt;/script&gt;’s, which we call attention
+weights. Of course, we need the &lt;script type=&quot;math/tex&quot;&gt;w_{tt^{\prime}}&lt;/script&gt;’s to be learned directly
+from data – this is the same problem as in gatings. The solution shouldn’t be a
+surprise: we use a differentiable, parameterized function. For example, we could
+use&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+w_{t t^{\prime}} \propto a_{W_{a}}\left(h_t, s_{t^{\prime}}\right) = h_t^{T} W_{a} s_{t^{\prime}}
+\end{align}&lt;/script&gt;
+
+&lt;p&gt;to measure the angle between particular coordinates of the encodings.&lt;/p&gt;
+
+&lt;p&gt;It’s worth highlighting what &lt;em&gt;doesn’t&lt;/em&gt; directly appear in this definition – the
+times &lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;t^{\prime}&lt;/script&gt; themselves. This version of attention is a purely
+“content-based” form of attention, which cares only about the encodings &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt;
+and &lt;script type=&quot;math/tex&quot;&gt;s_t^{\prime}&lt;/script&gt;. There are variants that take the times themselves into
+account, so that the decoding at time &lt;script type=&quot;math/tex&quot;&gt;t^{\prime}&lt;/script&gt; explicitly upweights
+encodings at around that time in the original sequence&lt;sup id=&quot;fnref:2:1&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are a lot of moving parts here – an encoder, a decoder, and an attention
+module to link them together. But everythign is end-to-end differentiable, and
+you can take the gradients of mistranslations with respect to all parameters.&lt;/p&gt;
+
+&lt;p&gt;Stepping back, this is a way of reweighting – or attending to – specific
+encodings as a function of our current position in the decoding task at hand. We
+have provided some much needed relief for our lone encoder by more richly
+relating elements of our differentiable system. We no longer need a processor
+that compresses everything into one statistic &lt;script type=&quot;math/tex&quot;&gt;h_{T}&lt;/script&gt; because we have a more
+sophisticated way of navigating a large collection of summaries and pulling out
+what is useful.&lt;/p&gt;
+
+&lt;p&gt;This kind of search for locally relevant information is a hallmark of attention
+mechanisms. More specifically, this pattern of breaking a task into pieces
+&lt;script type=&quot;math/tex&quot;&gt;t^{\prime}&lt;/script&gt; and finding a way to learn different distributions &lt;script type=&quot;math/tex&quot;&gt;w_{\cdot
+t^{\prime}}&lt;/script&gt; over relevant summaries is one that appears througout the
+literature on soft-attention mechanisms.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;I mean, if there are any. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;See, for example, “local attention” in http://arxiv.org/abs/1508.04025. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt; &lt;a href=&quot;#fnref:2:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Fri, 19 Jul 2019 09:12:00 -0400</pubDate>
+        <link>http://localhost:4000/posts/attention-3</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/attention-3</guid>
+      </item>
+    
+      <item>
+        <title>Teaching attention, part 2 / N: In which I don't even talk about attention</title>
         <description>&lt;p&gt;It’s a little cliche to start a post by saying that a certain type of data (in
 this case, sequential data) are everywhere. There’s a risk of being vague, and
 writing things that will become outdated, like the phrase, “&lt;a href=&quot;https://www.cia.gov/library/readingroom/docs/CIA-RDP75-00149R000100400004-6.pdf&quot;&gt;soviet
 cybernetics&lt;/a&gt;”.&lt;/p&gt;
 
-&lt;p&gt;BuThe two coordinates of &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; encode two features. The first checks whether
-&lt;script type=&quot;math/tex&quot;&gt;x_t&lt;/script&gt; is in $\left[0, 1\right]$. The second coordinate checks whether we’re in
-this range, and if and if at the previous step we &lt;em&gt;weren’t&lt;/em&gt;, then it
-increments its value, because an entrance has just occurred.
-t sequential data &lt;em&gt;are&lt;/em&gt; everywhere, and they are here to stay. The words in
+&lt;p&gt;But sequential data &lt;em&gt;are&lt;/em&gt; everywhere, and they are here to stay. The words in
 this sentence are sequential data. The order of bus stops you took to get here
 are sequential data. They are everywhere in society – the current capacity of
 water reservoirs, the cost of rice, the reach of an influenza outbreak. They are
@@ -162,6 +295,159 @@ stacks of ReLU units can become complicated feature detectors in computer
 vision. In fact, we can almost recover our &lt;script type=&quot;math/tex&quot;&gt;\left[0, 1\right]&lt;/script&gt; entrance
 counter just by stacking a few of these units.&lt;/p&gt;
 
+&lt;p&gt;Define the first layer by,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+h^{1}_{t} &amp;= \tanh\left(\begin{pmatrix} + \\ - \end{pmatrix}x + \begin{pmatrix} 0 \\ -\end{pmatrix}\right)
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;so that the first coordinate tells us if we’re larger than 0, and the second
+tells us if we’re less than 1. Here, &lt;script type=&quot;math/tex&quot;&gt;+&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;-&lt;/script&gt; are arbitrary positive and
+negative values, respectively.&lt;/p&gt;
+
+&lt;p&gt;In the second layer, we combine these two pieces of information, to see if we’re
+in the &lt;script type=&quot;math/tex&quot;&gt;\left[0, 1\right]&lt;/script&gt; range,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+h_{t}^{2} &amp;= \tanh(1^{T} h_{t}^{1}).
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;These two units are visualized in the interactive figure linked below.&lt;/p&gt;
+
+&lt;figure&gt;
+&lt;a href=&quot;https://observablehq.com/@krisrs1128/composition-and-counting&quot;&gt;
+  &lt;img src=&quot;http://localhost:4000/images/counter_layers.png&quot; /&gt;
+&lt;/a&gt;
+  &lt;figcaption&gt;
+  When composed, simple, smooth monotone functions can start approximating
+  things like indicators (and much more).
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In the last, we need to introduce a sense of history,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+h_{t}^{3} &amp;= \tanh\left(w_{1} h_{t - 1}^{3} + w_{2} h_{t}^{2}\right)
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Remember, we want to build a counter, but only have access to &lt;script type=&quot;math/tex&quot;&gt;\tanh&lt;/script&gt;-like
+units, which are bounded&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;. The here is to use the first term, &lt;script type=&quot;math/tex&quot;&gt;w_{1}{h_{t -
+1}^{3}}&lt;/script&gt; to maintain a memory of the current counter state, while the second,
+&lt;script type=&quot;math/tex&quot;&gt;w_{2}{h_{t}^{2}}&lt;/script&gt; adds to the counter whenever it detects that we have made
+a &lt;script type=&quot;math/tex&quot;&gt;\left[0, 1\right]&lt;/script&gt; entrance.&lt;/p&gt;
+
+&lt;p&gt;The figure below shows that this more or less works, but that there is a
+tradeoff. Making &lt;script type=&quot;math/tex&quot;&gt;w_{1} \gg w_{2}&lt;/script&gt; means that increments to the count are hard
+to notice, but they are retained in memory for a long time. On the other hand,
+when &lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+w_1 &lt;&lt; w_2 %]]&gt;&lt;/script&gt;, we can easily see when we’ve entered the state, but there
+is a risk that the counter “forgets” what it’s earlier value was.&lt;/p&gt;
+
+&lt;h2 id=&quot;gating-and-memory&quot;&gt;Gating and Memory&lt;/h2&gt;
+
+&lt;p&gt;What we’re noticing is an instance of the “vanishing gradient” problem, which is
+elegantly illustrated by Figure 4.1&lt;sup id=&quot;fnref:6&quot;&gt;&lt;a href=&quot;#fn:6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt; from Graves’ Sequence Labeling book,&lt;/p&gt;
+
+&lt;figure&gt;
+  &lt;img src=&quot;http://localhost:4000/images/graves_vg_411.png&quot; /&gt;
+  &lt;figcaption&gt;
+  By nature of the RNN update mechanism, new inputs gradually overwrite new
+  ones, and it becomes hard for the network to remember anything from long ago.
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;There is a remarkably simple solution to this problem: gating. The idea is that
+if the value of a feature at a particular point is potentially important for
+something later on, we block off any updates to it that would otherwise be made
+by all the incoming data. This process of blocking off updates is called
+“gating”. It’s like we decide the current value is important, and we place it
+under a glass case, where it is untouched by anything else in the world. At any
+point, it’s value can be read, but not changed.&lt;/p&gt;
+
+&lt;p&gt;If at some future point, we decide we need to change the feature’s value, we
+take it out of the case. We ungate what had been a gated value.&lt;/p&gt;
+
+&lt;p&gt;How do you actually implement something like this? In principle, you could
+define a binary value for each feature coordinate, demarcating whether the value
+can be changed at the current timestep. Then, you could try to learn a good
+pattern of 0s and 1s from training examples – you might realize that certain
+types of input are useful in the long run, and should always be gated.&lt;/p&gt;
+
+&lt;p&gt;In practice, learning binary patterns is difficult, since such a mask wouldn’t
+be differentiable. Instead, we use sigmoid units, which are smooth surrogates
+that achieve the same effect. If you pursue this line of thinking for long
+enough, you woudl probably arrive at something similar (if not identical) to
+LSTM or GRUs&lt;sup id=&quot;fnref:7&quot;&gt;&lt;a href=&quot;#fn:7&quot; class=&quot;footnote&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;mechanics-of-grus&quot;&gt;Mechanics of GRUs&lt;/h3&gt;
+
+&lt;p&gt;A GRU is defined by the update,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+h_t &amp;= \left(1 - z_t\right)h_{t - 1} + z_{t}\tilde{h}_{t}
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;which interpolates between the previous state and some new candidate, according
+to some factor &lt;script type=&quot;math/tex&quot;&gt;z_{t}&lt;/script&gt;. To make &lt;script type=&quot;math/tex&quot;&gt;z_{t}&lt;/script&gt; learnable, it’s set to a sigmoid
+over inputs and states,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+z_t &amp;= \sigma\left(W_z x_t + U_z h_{t - 1}\right)
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The candidate is tricker, because it has a notion of a reset &lt;script type=&quot;math/tex&quot;&gt;r_{t}&lt;/script&gt;,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+\tilde{h}_{t} &amp;= \tanh\left(Wx_t + U\left(r_t \circ h_{t - 1}\right)\right)
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;I think of &lt;script type=&quot;math/tex&quot;&gt;z_t&lt;/script&gt; as a kind of hesitant forgetting: overwriting you have to do
+in order to write anything new to &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt;, while &lt;script type=&quot;math/tex&quot;&gt;r_t&lt;/script&gt; is a brutal
+“deliberate” forgetting, which wasn’t strictly necessary.&lt;/p&gt;
+
+&lt;p&gt;Note that to adapt the toy counter, it’s only necessary to introduce gatings
+through &lt;script type=&quot;math/tex&quot;&gt;z_t&lt;/script&gt;’s.&lt;/p&gt;
+
+&lt;h2 id=&quot;finally-a-real-example&quot;&gt;Finally, a real example&lt;/h2&gt;
+
+&lt;p&gt;To be honest, I didn’t want to spend so much time on gated RNNs. However,&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;So many of the diagrams explaining these ideas are so complicated (at least
+to me, I mean, as useful as they are, does any get geometric intuition from
+computational graphs?), that I couldn’t just copy and paste&lt;sup id=&quot;fnref:8&quot;&gt;&lt;a href=&quot;#fn:8&quot; class=&quot;footnote&quot;&gt;8&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
+  &lt;li&gt;Gating is central to understanding memory and attention. All the other
+mechanisms discussed in this series are variants of the basic recipe of
+knowing what to write as features for long-term reference and having clear
+ways to access them when needed.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I’m also a little tired of coming up with all these weights by hand – don’t
+take your optimizers for granted!&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Exercise: Train a gated RNN to perform the &lt;script type=&quot;math/tex&quot;&gt;\left[0, 1\right]&lt;/script&gt; entrance
+counting task, starting from a random initialization. How does the number of
+layers / number of units in each layer affect the ease of training? How does
+that relate to what we know about being able to hand-craft an RNN that solves
+the task using only very few units.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To see this working on a real-world task, I’ve trained a gated RNN on the
+language modeling problem from this practical. Everything is the same as before,
+but the &lt;script type=&quot;math/tex&quot;&gt;x_t&lt;/script&gt; are now words, which are one-hot vectors in &lt;script type=&quot;math/tex&quot;&gt;\mathbb{R}^{V}&lt;/script&gt;,
+and the features &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; are passed into linear classifiers to predict the word
+&lt;script type=&quot;math/tex&quot;&gt;x_{t + 1}&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;Rows of the &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; that are constant over regions are examples of memory in
+action.&lt;/p&gt;
+
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
@@ -175,6 +461,18 @@ counter just by stacking a few of these units.&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:4&quot;&gt;
       &lt;p&gt;Notice that this definition doesn’t have any parameters, the notation &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is actually superfluous here. &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
+      &lt;p&gt;In theory, we could use a linear layer to get integer counts. But this would violate the principle of creating generic architectures, which discover features with minimal hand-crafted input. &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:6&quot;&gt;
+      &lt;p&gt;Some of the most compelling graphics are the least intricate! &lt;a href=&quot;#fnref:6&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:7&quot;&gt;
+      &lt;p&gt;These are cool-kids shorthand for the otherwise dissonant phrases “Long Term Short Term Memory” and “Gated Recurrent Units.” Don’t worry about the names, we’ll explain the math in a second, at least for GRUs. &lt;a href=&quot;#fnref:7&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:8&quot;&gt;
+      &lt;p&gt;Believe me, if I could, I would. &lt;a href=&quot;#fnref:8&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
