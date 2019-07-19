@@ -3,9 +3,9 @@
 <html lang="en">
   <head>
     <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-    <meta content='Teaching attention, part 2 / N - Info, Uncertainty' name='title' />
-    <meta content='Teaching attention, part 2 / N - Info, Uncertainty' name='og:title' />
-    <title>Teaching attention, part 2 / N - Info, Uncertainty</title>
+    <meta content='Teaching attention, part 2 / N: In which I don't even talk about attention - Info, Uncertainty' name='title' />
+    <meta content='Teaching attention, part 2 / N: In which I don't even talk about attention - Info, Uncertainty' name='og:title' />
+    <title>Teaching attention, part 2 / N: In which I don't even talk about attention - Info, Uncertainty</title>
     <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
 <link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
 <link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
@@ -52,7 +52,7 @@
             <div class="fw600 light-silver mt1">15 Jul 2019</div>
             <h1 class="ttu f3 mt0 lh-title cb mb2">
               
-              Teaching attention, part 2 / N
+              Teaching attention, part 2 / N: In which I don't even talk about attention
             </h1>
             
           </div>
@@ -63,11 +63,7 @@ this case, sequential data) are everywhere. There’s a risk of being vague, and
 writing things that will become outdated, like the phrase, “<a href="https://www.cia.gov/library/readingroom/docs/CIA-RDP75-00149R000100400004-6.pdf">soviet
 cybernetics</a>”.</p>
 
-<p>BuThe two coordinates of <script type="math/tex">h_t</script> encode two features. The first checks whether
-<script type="math/tex">x_t</script> is in $\left[0, 1\right]$. The second coordinate checks whether we’re in
-this range, and if and if at the previous step we <em>weren’t</em>, then it
-increments its value, because an entrance has just occurred.
-t sequential data <em>are</em> everywhere, and they are here to stay. The words in
+<p>But sequential data <em>are</em> everywhere, and they are here to stay. The words in
 this sentence are sequential data. The order of bus stops you took to get here
 are sequential data. They are everywhere in society – the current capacity of
 water reservoirs, the cost of rice, the reach of an influenza outbreak. They are
@@ -212,6 +208,159 @@ stacks of ReLU units can become complicated feature detectors in computer
 vision. In fact, we can almost recover our <script type="math/tex">\left[0, 1\right]</script> entrance
 counter just by stacking a few of these units.</p>
 
+<p>Define the first layer by,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+h^{1}_{t} &= \tanh\left(\begin{pmatrix} + \\ - \end{pmatrix}x + \begin{pmatrix} 0 \\ -\end{pmatrix}\right)
+\end{align} %]]></script>
+
+<p>so that the first coordinate tells us if we’re larger than 0, and the second
+tells us if we’re less than 1. Here, <script type="math/tex">+</script> and <script type="math/tex">-</script> are arbitrary positive and
+negative values, respectively.</p>
+
+<p>In the second layer, we combine these two pieces of information, to see if we’re
+in the <script type="math/tex">\left[0, 1\right]</script> range,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+h_{t}^{2} &= \tanh(1^{T} h_{t}^{1}).
+\end{align} %]]></script>
+
+<p>These two units are visualized in the interactive figure linked below.</p>
+
+<figure>
+<a href="https://observablehq.com/@krisrs1128/composition-and-counting">
+  <img src="http://localhost:4000/images/counter_layers.png" />
+</a>
+  <figcaption>
+  When composed, simple, smooth monotone functions can start approximating
+  things like indicators (and much more).
+  </figcaption>
+</figure>
+
+<p>In the last, we need to introduce a sense of history,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+h_{t}^{3} &= \tanh\left(w_{1} h_{t - 1}^{3} + w_{2} h_{t}^{2}\right)
+\end{align} %]]></script>
+
+<p>Remember, we want to build a counter, but only have access to <script type="math/tex">\tanh</script>-like
+units, which are bounded<sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup>. The here is to use the first term, <script type="math/tex">w_{1}{h_{t -
+1}^{3}}</script> to maintain a memory of the current counter state, while the second,
+<script type="math/tex">w_{2}{h_{t}^{2}}</script> adds to the counter whenever it detects that we have made
+a <script type="math/tex">\left[0, 1\right]</script> entrance.</p>
+
+<p>The figure below shows that this more or less works, but that there is a
+tradeoff. Making <script type="math/tex">w_{1} \gg w_{2}</script> means that increments to the count are hard
+to notice, but they are retained in memory for a long time. On the other hand,
+when <script type="math/tex">% <![CDATA[
+w_1 << w_2 %]]></script>, we can easily see when we’ve entered the state, but there
+is a risk that the counter “forgets” what it’s earlier value was.</p>
+
+<h2 id="gating-and-memory">Gating and Memory</h2>
+
+<p>What we’re noticing is an instance of the “vanishing gradient” problem, which is
+elegantly illustrated by Figure 4.1<sup id="fnref:6"><a href="#fn:6" class="footnote">6</a></sup> from Graves’ Sequence Labeling book,</p>
+
+<figure>
+  <img src="http://localhost:4000/images/graves_vg_411.png" />
+  <figcaption>
+  By nature of the RNN update mechanism, new inputs gradually overwrite new
+  ones, and it becomes hard for the network to remember anything from long ago.
+  </figcaption>
+</figure>
+
+<p>There is a remarkably simple solution to this problem: gating. The idea is that
+if the value of a feature at a particular point is potentially important for
+something later on, we block off any updates to it that would otherwise be made
+by all the incoming data. This process of blocking off updates is called
+“gating”. It’s like we decide the current value is important, and we place it
+under a glass case, where it is untouched by anything else in the world. At any
+point, it’s value can be read, but not changed.</p>
+
+<p>If at some future point, we decide we need to change the feature’s value, we
+take it out of the case. We ungate what had been a gated value.</p>
+
+<p>How do you actually implement something like this? In principle, you could
+define a binary value for each feature coordinate, demarcating whether the value
+can be changed at the current timestep. Then, you could try to learn a good
+pattern of 0s and 1s from training examples – you might realize that certain
+types of input are useful in the long run, and should always be gated.</p>
+
+<p>In practice, learning binary patterns is difficult, since such a mask wouldn’t
+be differentiable. Instead, we use sigmoid units, which are smooth surrogates
+that achieve the same effect. If you pursue this line of thinking for long
+enough, you woudl probably arrive at something similar (if not identical) to
+LSTM or GRUs<sup id="fnref:7"><a href="#fn:7" class="footnote">7</a></sup>.</p>
+
+<h3 id="mechanics-of-grus">Mechanics of GRUs</h3>
+
+<p>A GRU is defined by the update,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+h_t &= \left(1 - z_t\right)h_{t - 1} + z_{t}\tilde{h}_{t}
+\end{align} %]]></script>
+
+<p>which interpolates between the previous state and some new candidate, according
+to some factor <script type="math/tex">z_{t}</script>. To make <script type="math/tex">z_{t}</script> learnable, it’s set to a sigmoid
+over inputs and states,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+z_t &= \sigma\left(W_z x_t + U_z h_{t - 1}\right)
+\end{align} %]]></script>
+
+<p>The candidate is tricker, because it has a notion of a reset <script type="math/tex">r_{t}</script>,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\tilde{h}_{t} &= \tanh\left(Wx_t + U\left(r_t \circ h_{t - 1}\right)\right)
+\end{align} %]]></script>
+
+<p>I think of <script type="math/tex">z_t</script> as a kind of hesitant forgetting: overwriting you have to do
+in order to write anything new to <script type="math/tex">h_t</script>, while <script type="math/tex">r_t</script> is a brutal
+“deliberate” forgetting, which wasn’t strictly necessary.</p>
+
+<p>Note that to adapt the toy counter, it’s only necessary to introduce gatings
+through <script type="math/tex">z_t</script>’s.</p>
+
+<h2 id="finally-a-real-example">Finally, a real example</h2>
+
+<p>To be honest, I didn’t want to spend so much time on gated RNNs. However,</p>
+
+<ol>
+  <li>So many of the diagrams explaining these ideas are so complicated (at least
+to me, I mean, as useful as they are, does any get geometric intuition from
+computational graphs?), that I couldn’t just copy and paste<sup id="fnref:8"><a href="#fn:8" class="footnote">8</a></sup>.</li>
+  <li>Gating is central to understanding memory and attention. All the other
+mechanisms discussed in this series are variants of the basic recipe of
+knowing what to write as features for long-term reference and having clear
+ways to access them when needed.</li>
+</ol>
+
+<p>I’m also a little tired of coming up with all these weights by hand – don’t
+take your optimizers for granted!</p>
+
+<blockquote>
+  <p>Exercise: Train a gated RNN to perform the <script type="math/tex">\left[0, 1\right]</script> entrance
+counting task, starting from a random initialization. How does the number of
+layers / number of units in each layer affect the ease of training? How does
+that relate to what we know about being able to hand-craft an RNN that solves
+the task using only very few units.</p>
+</blockquote>
+
+<p>To see this working on a real-world task, I’ve trained a gated RNN on the
+language modeling problem from this practical. Everything is the same as before,
+but the <script type="math/tex">x_t</script> are now words, which are one-hot vectors in <script type="math/tex">\mathbb{R}^{V}</script>,
+and the features <script type="math/tex">h_t</script> are passed into linear classifiers to predict the word
+<script type="math/tex">x_{t + 1}</script>.</p>
+
+<p>Rows of the <script type="math/tex">h_t</script> that are constant over regions are examples of memory in
+action.</p>
+
 <div class="footnotes">
   <ol>
     <li id="fn:1">
@@ -225,6 +374,18 @@ counter just by stacking a few of these units.</p>
     </li>
     <li id="fn:4">
       <p>Notice that this definition doesn’t have any parameters, the notation <script type="math/tex">\theta</script> is actually superfluous here. <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p>In theory, we could use a linear layer to get integer counts. But this would violate the principle of creating generic architectures, which discover features with minimal hand-crafted input. <a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:6">
+      <p>Some of the most compelling graphics are the least intricate! <a href="#fnref:6" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:7">
+      <p>These are cool-kids shorthand for the otherwise dissonant phrases “Long Term Short Term Memory” and “Gated Recurrent Units.” Don’t worry about the names, we’ll explain the math in a second, at least for GRUs. <a href="#fnref:7" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:8">
+      <p>Believe me, if I could, I would. <a href="#fnref:8" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>
@@ -240,6 +401,8 @@ counter just by stacking a few of these units.</p>
   
     <a href="http://localhost:4000/posts/attention-1" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
   
+  
+    <a href="http://localhost:4000/posts/attention-3" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
   
 </section>
     </div>
