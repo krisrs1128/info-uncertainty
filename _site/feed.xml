@@ -56,7 +56,7 @@ on how translation works with neural networks.&lt;/p&gt;
 language to the corresponding sequence in another. For example,&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;I don’t speak French –&amp;gt; Je ne parle pas Francais.&lt;/p&gt;
+  &lt;p&gt;I don’t speak French –&amp;gt; Je ne parle pas le Francais.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;We make this an ML problem by treating each word as a datapoint in a sequence,
@@ -110,7 +110,7 @@ account, so that the decoding at time &lt;script type=&quot;math/tex&quot;&gt;t^
 encodings at around that time in the original sequence&lt;sup id=&quot;fnref:2:1&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
 &lt;p&gt;There are a lot of moving parts here – an encoder, a decoder, and an attention
-module to link them together. But everythign is end-to-end differentiable, and
+module to link them together. But everything is end-to-end differentiable, and
 you can take the gradients of mistranslations with respect to all parameters.&lt;/p&gt;
 
 &lt;p&gt;Stepping back, this is a way of reweighting – or attending to – specific
@@ -126,6 +126,47 @@ mechanisms. More specifically, this pattern of breaking a task into pieces
 &lt;script type=&quot;math/tex&quot;&gt;t^{\prime}&lt;/script&gt; and finding a way to learn different distributions &lt;script type=&quot;math/tex&quot;&gt;w_{\cdot
 t^{\prime}}&lt;/script&gt; over relevant summaries is one that appears througout the
 literature on soft-attention mechanisms.&lt;/p&gt;
+
+&lt;h2 id=&quot;neural-turing-machines&quot;&gt;Neural Turing Machines&lt;/h2&gt;
+
+&lt;p&gt;This discussion suggests that more carefully structured (if potentially
+intricate) mechanisms for looking thigns up can alleviate problems of
+remembering information that was introduced long ago. This is actually a general
+principle, not just some quirk about encoder-decoder architectures. To
+illustrate this, we consider the Neural Turing Machine.&lt;/p&gt;
+
+&lt;p&gt;Again, there is a bit going on. The diagram below introduces the cast of
+characters.&lt;/p&gt;
+
+&lt;p&gt;Given new input, we produce a weight distribution for what seem like the most
+relevant memory locations. Notice that if the rows correspond to times &lt;script type=&quot;math/tex&quot;&gt;1,
+\dots, T&lt;/script&gt;, then the matrix &lt;script type=&quot;math/tex&quot;&gt;M&lt;/script&gt; is a lot like a stacked version of the &lt;script type=&quot;math/tex&quot;&gt;h_1,
+\dots, h_T&lt;/script&gt; from the RNN models before. And, the &lt;script type=&quot;math/tex&quot;&gt;w_{t}&lt;/script&gt;’s do seem eerily
+like the attention weights from before. That said, we’re trying to free
+ourselves from the idea that memories must be indexed by time.&lt;/p&gt;
+
+&lt;p&gt;In this spirit of generalization, we can define soft-attention
+variant,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+r_t &amp;= \sum_{i} w_{ti} M\left[i, :\right].
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Something in this architecture which &lt;em&gt;is&lt;/em&gt; new, and not just a variant of what we
+saw before in translation, is a notion of writing to memory. We use weights,
+along with the add and erase vectors, to define a memory update,&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\begin{align}
+M\left[i: \right] \xleftarrow M\left[i, :\right] + w_{ti}\left(a_t - e_t \circ M\left[i, :\right]\right).
+\end{align}&lt;/script&gt;
+If the weight is small, we don’t change that location in memory at all. If it is
+large, we add in &lt;script type=&quot;math/tex&quot;&gt;a_t&lt;/script&gt; and erase everything that had been at that row, with an
+aggressiveness controlled by &lt;script type=&quot;math/tex&quot;&gt;e_t&lt;/script&gt; (coordinates where that vector is near
+&lt;script type=&quot;math/tex&quot;&gt;1&lt;/script&gt; are almost entirely reset).&lt;/p&gt;
+
+&lt;p&gt;The only remaining issue is how to figure out a good combination of parameters
+&lt;script type=&quot;math/tex&quot;&gt;w_t, a_t&lt;/script&gt;, and &lt;script type=&quot;math/tex&quot;&gt;e_t&lt;/script&gt;, upon seeing a new input &lt;script type=&quot;math/tex&quot;&gt;x_t&lt;/script&gt;.&lt;/p&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
