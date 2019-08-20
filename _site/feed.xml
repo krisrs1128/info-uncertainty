@@ -7,6 +7,219 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Teaching attention, part 4 / N: Soft Attention</title>
+        <description>&lt;p&gt;There is more to memory than compression. A reduction of information can have
+&lt;em&gt;structure&lt;/em&gt; – for example, in a gaussian mixture model, the sufficient
+statistics have are the means within each cluster. Depending on which cluster
+you might be visiting, you might focus on a different one of the means. A good
+compression should induce an effortless way of searching through different parts
+of a summary. In essence,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Good models let us navigate information.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In deep learning, this process of navigating information is called “attending
+to” different inputs. We’ll illustrate a canonical attention mechanism in the
+context of sentence translation, but it’s worth noting that the principle
+applies to many settings with structured outputs (like graphs), where the
+influences from input to output are somehow localized.&lt;/p&gt;
+
+&lt;p&gt;In the abstract, sentence translation is a prediction problem where the inputs
+are sequences and the outputs are also sequences. The input and output are the
+same sentence in a source and a target language, respectively. Each element of
+the sequence is a word in the sentence. Words can be represented either by
+one-hot encodings from some vocabulary (usually, the words in a corpus above
+some minimum frequency), or by embeddings derived from some previously trained
+model on another corpus. This is illustrated in the figure below.&lt;/p&gt;
+
+&lt;figure&gt;
+&lt;img src=&quot;http://localhost:4000/images/soft_attn_figs/sentence_example.svg&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Once you make the leap into representing words as numerical vectors, it’s
+natural to think of sentences as curves in some high-dimensional space. The two
+sentences are just two curves in two spaces, and you need to learn to predict
+the second from the first. The reason this problem is doable is because, after
+seeing enough training examples, you might associated certain subsequences (mini
+curve shapes) in the source space with subsequences in the target space.&lt;/p&gt;
+
+&lt;figure&gt;
+&lt;img src=&quot;http://localhost:4000/images/soft_attn_figs/sentence_curves.svg&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h3 id=&quot;sequence-to-sequence-architecture&quot;&gt;Sequence-to-Sequence Architecture&lt;/h3&gt;
+
+&lt;p&gt;I’m tempted to call the first approach to this problem the “naive approach,”
+except that it doesn’t feel right to call something naive that was
+state-of-the-art only a couple of years ago [1].&lt;/p&gt;
+
+&lt;p&gt;The idea is to build a link between the two sequence shapes, using an
+appropriate learned representation. You can think of it as a two step process,&lt;/p&gt;
+
+&lt;p&gt;(1) Build a memory of the first sequence, which you’ll be able to refer to later
+on.
+(2) Learn to associate the memory of the first sequence with a reasonable shape
+for the second.&lt;/p&gt;
+
+&lt;p&gt;Step (1) is done with an RNN encoder, just like what we’ve been exploring in the
+previous posts. The final state &lt;script type=&quot;math/tex&quot;&gt;h_{T}&lt;/script&gt; (the final green bar) gives a succint
+representation of the entire sequence (the red dots). More than being an
+unsupervised representation, it’s one that’s been tailored exactly for the
+problem of decoding into the target language.&lt;/p&gt;
+
+&lt;p&gt;The second step is also accomplished by an RNN, but with a a couple twists. As
+in usual RNNs, you build up a summary, let’s call it &lt;script type=&quot;math/tex&quot;&gt;\tilde{h}_t&lt;/script&gt;, based on the
+previous timepoints summary, and also a new input, the previous target word
+&lt;script type=&quot;math/tex&quot;&gt;y_t&lt;/script&gt;. The idea is that the summary is giving a sense of what the sequence means
+so far, which is useful for figuring out how it will evolve (certain shapes are
+much more common than others). The first twist is that you also are allowed to
+look at the summary the source sequence, the original &lt;script type=&quot;math/tex&quot;&gt;h_T&lt;/script&gt; (practically, this
+is just another linear input to the RNN unit).&lt;/p&gt;
+
+&lt;p&gt;The second twist is that the inputs are not properly specified, because they
+aren’t actually available at test time. If you knew &lt;script type=&quot;math/tex&quot;&gt;y_t&lt;/script&gt;, you wouldn’t need to
+bother with prediction in the first place! Instead, you should build a separate
+prediction model from &lt;script type=&quot;math/tex&quot;&gt;\tilde{h}_t&lt;/script&gt; to &lt;script type=&quot;math/tex&quot;&gt;\hat{y}&lt;/script&gt; and use the predictions for the
+actual inputs (an alternative, called “teacher-forcing,” uses the real &lt;script type=&quot;math/tex&quot;&gt;y_t&lt;/script&gt;
+during training time, can have advantages, but comes with it’s own issues). This
+process is illustrated below. The dashed line are the predictions that you have
+access to, and the length of the yellow curves gives a sense of the loss.&lt;/p&gt;
+
+&lt;figure&gt;
+&lt;img src=&quot;http://localhost:4000/images/soft_attn_figs/decoding_approx.svg&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h3 id=&quot;attention&quot;&gt;Attention&lt;/h3&gt;
+
+&lt;p&gt;The decoding process above puts a lot of burden on the final encoded &lt;script type=&quot;math/tex&quot;&gt;h_T&lt;/script&gt; from
+the first sequence. This seems easily avoidable – it’s not like we need to
+throw away all the previous summaries because of computational constraints.
+Moreover, you would expect that the summaries &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;\tilde{h}_t&lt;/script&gt; might be
+closely related in timepoints that are close together. The beginning of the
+source and target sentences should mean essentially the same thing, even though
+they are in different languages.&lt;/p&gt;
+
+&lt;p&gt;Soft attention is the name of a type of learning module designed directly around
+this observation [2]. The idea is to use a different summary at each step of
+decoding. Instead of only ever using &lt;script type=&quot;math/tex&quot;&gt;h_T&lt;/script&gt;, we’re allowed to use some
+combination &lt;script type=&quot;math/tex&quot;&gt;\sum_{i} \alpha_i h_i&lt;/script&gt; of the encoder summaries, where the weights
+&lt;script type=&quot;math/tex&quot;&gt;\alpha_i&lt;/script&gt; depend on the timepoint of the decoder. These weights are illustrated
+by the pink distributions in the figure below.&lt;/p&gt;
+
+&lt;figure&gt;
+&lt;img src=&quot;http://localhost:4000/images/soft_attn_figs/attn_distn_1.svg&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;At the next timepoint, the attetion distribution is free to change, according to
+the new position of the decoder. This extra degree of flexibility – the fact
+that the RNN decoder has access to different encoder summaries at different
+timepoints, not just the unchanging &lt;script type=&quot;math/tex&quot;&gt;h_T&lt;/script&gt; – is the property that distinguishes
+a decoder with an attetion mechanism from a ordinary decoder. A updated attetion
+distribution, associated with the next decoder timepoint, is show in the figure
+below.&lt;/p&gt;
+
+&lt;figure&gt;
+&lt;img src=&quot;http://localhost:4000/images/soft_attn_figs/attn_distn_2.svg&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Exercise: Write out pseudocode for the forwards pass of a sequece-to-sequece
+model with an attetion mechanism in the decoder.&lt;/p&gt;
+
+&lt;p&gt;How does the model know what &lt;script type=&quot;math/tex&quot;&gt;\alpha_i&lt;/script&gt; distributions are most appropriate for
+the different sentences? After all, it must be learned from the data, somehow.
+There is no single consensus on how to define these weights, and many papers
+have been written specifically around novel proposals for guiding attention
+effectively. That said, two approaches are representative of a wide class of
+mechanisms [3],&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Local attention: At step &lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt; in decoding, define &lt;script type=&quot;math/tex&quot;&gt;\alpha_i \propto
+\exp\left(w_1^{T} \tilde{h}_t, \dots, w_T^{T}\tilde{h}_t\right)&lt;/script&gt;. Or, in pseudocode,
+the &lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt; vector can be computed as &lt;code class=&quot;highlighter-rouge&quot;&gt;a = softmax(l(h_t))&lt;/code&gt; where &lt;code class=&quot;highlighter-rouge&quot;&gt;l =
+nn.linear(dim(h_t), T)&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Content-based attention: At step &lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt; in decoding, define &lt;script type=&quot;math/tex&quot;&gt;\alpha_i \propto
+\exp\left(h_1^{T}\tilde{h}_t, \dots, h_T^{T}\tilde{h}_t\right)&lt;/script&gt;. In
+pseudocode, this is &lt;code class=&quot;highlighter-rouge&quot;&gt;a = softmax(H_enc @ h)&lt;/code&gt; where &lt;code class=&quot;highlighter-rouge&quot;&gt;H_enc&lt;/code&gt; is formed by
+stacking the summaries &lt;script type=&quot;math/tex&quot;&gt;h_1, \dots, h_T&lt;/script&gt; as rows.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The main difference is that local attention does not refer to the encoder
+summaries &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt;. It puts high mass on some parts of the source sentence
+depending solely on the state of the decoder &lt;script type=&quot;math/tex&quot;&gt;\tilde{h}_t&lt;/script&gt;. The decoder
+summaries tend to reflect, in some of their coordinates, how far along into the
+target sentence they are. So, these attention distributions tend to just place
+high mass on timepoints in the encoder close to the current timepoint in the
+decoder.&lt;/p&gt;
+
+&lt;p&gt;The content-based attention mechanism, on the other hand, allots weight
+&lt;script type=&quot;math/tex&quot;&gt;\alpha_i&lt;/script&gt; according to how similar the source and target encodings are (a large
+inner product corresponds to a small angle). This means that if there is are words
+in the source sentence that have similar meaning &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; to the current decoder
+summary, &lt;script type=&quot;math/tex&quot;&gt;\tilde{h}_t&lt;/script&gt;, then those words will be upweighted, no matter their
+position in the sentence. This is qualitatively illustrated in the figure below.
+The content-based approach places high mass near the end of the encoder
+sentence, because it is close (in the embedding space), to the meaning at the
+decoder timepoint. This is in spite of the fact that those words occur at a
+timepoint very different than the current decoder timepoint.&lt;/p&gt;
+
+&lt;h3 id=&quot;discussion&quot;&gt;Discussion&lt;/h3&gt;
+
+&lt;p&gt;No matter how we define the &lt;script type=&quot;math/tex&quot;&gt;\alpha_i&lt;/script&gt;’s, the fact that we learn them has a nice
+consequence: for free, we’ve learned a soft-alignment between the source and
+target sentence. At any timepoint in decoding, the encodings with high
+&lt;script type=&quot;math/tex&quot;&gt;\alpha_i&lt;/script&gt; are said to “softly-align” to that timepoint. In this way, you might
+notice “inversions,” where the decoder doesn’t just proceed linearly down the
+encoder, placing all mass on &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt; when decoding &lt;script type=&quot;math/tex&quot;&gt;\tilde{h}_t&lt;/script&gt;. This is common
+in translation between languages that put adjectives before / after nouns, for
+example.&lt;/p&gt;
+
+&lt;p&gt;A final observation – including this mechanism is especially beneficial when
+working with long sentences. This is phenomenon documented in the literature
+[2], and it makes sense in retrospect: long sentences are more suceptible to the
+vanishing gradient problem, and even with gating, the final &lt;script type=&quot;math/tex&quot;&gt;h_T&lt;/script&gt; tends to
+mostly reflect cotributions from the end of the source sentence. A approach with
+an attetion mechaism, in contrast, can always draw on summaries taken near the
+start of the sentence, by putting most of the mass of the &lt;script type=&quot;math/tex&quot;&gt;\alpha_i&lt;/script&gt; there.&lt;/p&gt;
+
+&lt;p&gt;Finally, while we’ve focused on attention in a sequence to sequence context,
+it’s worth noting that these principles extend much more generally. Whenever you
+have a structured output or collection of tasks, it’s possible to refer to
+summaries selectively, attending to only those that are most relevant for the
+current element in the more complex structure / collection. For example, in a
+graph problem, only the nearby nodes might be worth attending to. The general
+takeaway is that, whenever you might be able to exploit specific structure in
+the relationship between summaries $h_t$, you can design an attention mechanism
+that makes learning from them simpler.&lt;/p&gt;
+
+&lt;p&gt;Exercise Solution:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// Encode
+all_h = []
+for t in range(T):
+  h = rnn_encoder(x[t], h[t - 1])
+  all_h.append(h)
+
+// Decode with attention
+h_tilde, y_hat = all_h[-1], []
+for t in range(T_prime):
+  y_hat.append(pred(h_tilde))
+  alpha = attn_weights(y_hat[-1], h_tilde, all_h)
+  h_tilde = rnn_decoder(y_hat[-1], h_tilde, alpha * all_h)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;[1] Sutskever, I., Vinyals, O., &amp;amp; Le, Q. V. (2014). Sequence to sequence learning with neural networks. In Advances in neural information processing systems (pp. 3104-3112).&lt;/p&gt;
+
+&lt;p&gt;[2] Bahdanau, D., Cho, K., &amp;amp; Bengio, Y. (2014). Neural machine translation by jointly learning to align and translate. arXiv preprint arXiv:1409.0473.&lt;/p&gt;
+
+&lt;p&gt;[3] Luong, M. T., Pham, H., &amp;amp; Manning, C. D. (2015). Effective approaches to attention-based neural machine translation. arXiv preprint arXiv:1508.04025.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 20 Aug 2019 09:04:00 -0400</pubDate>
+        <link>http://localhost:4000/posts/attention-4</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/attention-4</guid>
+      </item>
+    
+      <item>
         <title>Teaching attention, part 3 / N: Thinking more creatively</title>
         <description>&lt;p&gt;To this point, our memory mechanisms all have had the same flavor. We had a
 running summary &lt;script type=&quot;math/tex&quot;&gt;h_t&lt;/script&gt;, which we update with every new input, though gating
@@ -12461,17 +12674,6 @@ k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}}
         <pubDate>Thu, 27 Jun 2013 00:00:00 -0400</pubDate>
         <link>http://localhost:4000/posts/problem-from-random-iterated-functions</link>
         <guid isPermaLink="true">http://localhost:4000/posts/problem-from-random-iterated-functions</guid>
-      </item>
-    
-      <item>
-        <title>First Post</title>
-        <description>&lt;p&gt;Just a test. I’m thinking about switching from my
- &lt;a href=&quot;https://notesofastatisticswatcher.wordpress.com/&quot;&gt;Old blog&lt;/a&gt;
-to this site.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 26 Jun 2013 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/posts/first-post</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/first-post</guid>
       </item>
     
   </channel>
