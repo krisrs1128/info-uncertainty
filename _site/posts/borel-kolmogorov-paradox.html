@@ -6,14 +6,14 @@
     <meta content='Borel-Kolmogorov Paradox - Info, Uncertainty' name='title' />
     <meta content='Borel-Kolmogorov Paradox - Info, Uncertainty' name='og:title' />
     <title>Borel-Kolmogorov Paradox - Info, Uncertainty</title>
-    <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
-<link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
-<link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+    <link href='/info-uncertainty//images/fav.png' rel='shortcut icon'>
+<link href='/info-uncertainty//stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/info-uncertainty//stylesheets/syntax.css' rel='stylesheet' type='text/css' />
 
 <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
-  <meta content='http://localhost:4000/posts/borel-kolmogorov-paradox' property='og:url' />
+  <meta content='/info-uncertainty//posts/borel-kolmogorov-paradox' property='og:url' />
   <meta content="Let points be uniformly distributed on the surface of a sphere in$\mathbb{R}^{3}$. Two natural questions of condition..." property='og:description' />
   <meta content="article" property="og:type" />
 
@@ -26,8 +26,8 @@
   </head>
   <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
     <header class="tc mt4">
-      <a href="http://localhost:4000">
-        <img src="http://localhost:4000/images/distn.png" alt="Home" width="53" height="59">
+      <a href="/info-uncertainty/">
+        <img src="/info-uncertainty//images/distn.png" alt="Home" width="53" height="59">
       </a>
       <p>Info, Uncertainty</p>
     </header>
@@ -35,12 +35,12 @@
       <nav class="bb b--light-gray pv4 tc" aria-label="Main">
         
           <a class="link blue hover-mid-gray mh2 pv1"
-             href="http://localhost:4000/">
+             href="/info-uncertainty//">
              Posts
            </a>
         
           <a class="link blue hover-mid-gray mh2 pv1"
-             href="http://localhost:4000/about">
+             href="/info-uncertainty//about">
              About
            </a>
         
@@ -87,7 +87,7 @@ r(\varphi, \theta) &= \begin{pmatrix} cos\varphi cos\theta \\\  cos\varphi sin\t
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.</p>
 
 <figure align="center">
-        <img src="http://localhost:4000/images/spherical_coord.svg" />
+        <img src="/info-uncertainty//images/spherical_coord.svg" />
         <figcaption>Figure 1. Representation via spherical coordinates.</figcaption>
 </figure>
 
@@ -171,10 +171,10 @@ on the sphere surface. We can view the joint distribution of points in figure 3 
 </span><span class="n">library</span><span class="p">(</span><span class="n">rgl</span><span class="p">)</span><span class="w">
 </span><span class="n">plot3d</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></code></pre></figure>
 
-<script src="http://localhost:4000/images/CanvasMatrix.js" type="text/javascript"></script>
+<script src="/info-uncertainty//images/CanvasMatrix.js" type="text/javascript"></script>
 
 <canvas id="rspheretextureCanvas" style="display: none;" width="256" height="256">
-&lt;img src="http://localhost:4000/images/rspheresnapshot.png" alt="rspheresnapshot" width=505/&gt;<br />
+&lt;img src="/info-uncertainty//images/rspheresnapshot.png" alt="rspheresnapshot" width=505/&gt;<br />
 	Your browser does not support the HTML5 canvas element.</canvas>
 <!-- ****** points object 6 ****** -->
 <script id="rspherevshader6" type="x-shader/x-vertex">
@@ -11447,7 +11447,7 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 </span><span class="n">ggplot</span><span class="p">(</span><span class="n">X.tilde</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">phi</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">theta</span><span class="p">))</span></code></pre></figure>
 
 <figure>
-        <img src="http://localhost:4000/images/joint_dist_borel_kolmogorov.png" />
+        <img src="/info-uncertainty//images/joint_dist_borel_kolmogorov.png" />
         <figcaption>Figure 3. Joint distribution of $\theta$ and $\varphi$.</figcaption>
 </figure>
 
@@ -11455,7 +11455,7 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 </span><span class="n">ggplot</span><span class="p">(</span><span class="n">mX</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">facet_grid</span><span class="p">(</span><span class="o">~</span><span class="n">Coordinate</span><span class="p">)</span></code></pre></figure>
 
 <figure>
-        <img src="http://localhost:4000/images/marginal_dist_borel_kolmogorov.png" />
+        <img src="/info-uncertainty//images/marginal_dist_borel_kolmogorov.png" />
         <figcaption>Figure 4. Marginal distributions of $\theta$ and $\varphi$ </figcaption>
 </figure>
 
@@ -11469,16 +11469,16 @@ v	    -0.05516531, 0.7804782, -0.6227443,
       </main>
       <section class="fixed-l mw7 center w-100 top-50 tc pb4 nt4">
   
-    <a href="http://localhost:4000/posts/problem-from-random-iterated-functions" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
+    <a href="/info-uncertainty//posts/problem-from-random-iterated-functions" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
   
   
-    <a href="http://localhost:4000/posts/an-electornic-post-it" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
+    <a href="/info-uncertainty//posts/an-electornic-post-it" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
   
 </section>
     </div>
     <footer class="mw7 center tc pt3 pb4 silver">
       Built with Jekyll using <a href="http://github.com/muan/scribble" class="link silver hover-blue pv1">Scribble</a>.
-      <img src="http://localhost:4000/images/scribble2.png" alt="scribble" class="mt4 db center" />
+      <img src="/info-uncertainty//images/scribble2.png" alt="scribble" class="mt4 db center" />
     </footer>
   </body>
 </html>

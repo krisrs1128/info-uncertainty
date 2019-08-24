@@ -3,8 +3,8 @@
   <channel>
     <title>Info, Uncertainty</title>
     <description></description>
-    <link>http://localhost:4000</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <link>/info-uncertainty/</link>
+    <atom:link href="/info-uncertainty//feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
         <title>Teaching attention, part 4 / N: Soft Attention</title>
@@ -34,7 +34,7 @@ some minimum frequency), or by embeddings derived from some previously trained
 model on another corpus. This is illustrated in the figure below.&lt;/p&gt;
 
 &lt;figure&gt;
-&lt;img src=&quot;http://localhost:4000/images/soft_attn_figs/sentence_example.svg&quot; /&gt;
+&lt;img src=&quot;/info-uncertainty//images/soft_attn_figs/sentence_example.svg&quot; /&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;Once you make the leap into representing words as numerical vectors, it’s
@@ -45,7 +45,7 @@ seeing enough training examples, you might associated certain subsequences (mini
 curve shapes) in the source space with subsequences in the target space.&lt;/p&gt;
 
 &lt;figure&gt;
-&lt;img src=&quot;http://localhost:4000/images/soft_attn_figs/sentence_curves.svg&quot; /&gt;
+&lt;img src=&quot;/info-uncertainty//images/soft_attn_figs/sentence_curves.svg&quot; /&gt;
 &lt;/figure&gt;
 
 &lt;h3 id=&quot;sequence-to-sequence-architecture&quot;&gt;Sequence-to-Sequence Architecture&lt;/h3&gt;
@@ -87,7 +87,7 @@ process is illustrated below. The dashed line are the predictions that you have
 access to, and the length of the yellow curves gives a sense of the loss.&lt;/p&gt;
 
 &lt;figure&gt;
-&lt;img src=&quot;http://localhost:4000/images/soft_attn_figs/decoding_approx.svg&quot; /&gt;
+&lt;img src=&quot;/info-uncertainty//images/soft_attn_figs/decoding_approx.svg&quot; /&gt;
 &lt;/figure&gt;
 
 &lt;h3 id=&quot;attention&quot;&gt;Attention&lt;/h3&gt;
@@ -108,7 +108,7 @@ combination &lt;script type=&quot;math/tex&quot;&gt;\sum_{i} \alpha_i h_i&lt;/sc
 by the pink distributions in the figure below.&lt;/p&gt;
 
 &lt;figure&gt;
-&lt;img src=&quot;http://localhost:4000/images/soft_attn_figs/attn_distn_1.svg&quot; /&gt;
+&lt;img src=&quot;/info-uncertainty//images/soft_attn_figs/attn_distn_1.svg&quot; /&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;At the next timepoint, the attetion distribution is free to change, according to
@@ -120,7 +120,7 @@ distribution, associated with the next decoder timepoint, is show in the figure
 below.&lt;/p&gt;
 
 &lt;figure&gt;
-&lt;img src=&quot;http://localhost:4000/images/soft_attn_figs/attn_distn_2.svg&quot; /&gt;
+&lt;img src=&quot;/info-uncertainty//images/soft_attn_figs/attn_distn_2.svg&quot; /&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;Exercise: Write out pseudocode for the forwards pass of a sequece-to-sequece
@@ -140,7 +140,7 @@ the &lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt; vector can be 
 nn.linear(dim(h_t), T)&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;Content-based attention: At step &lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt; in decoding, define &lt;script type=&quot;math/tex&quot;&gt;\alpha_i \propto
 \exp\left(h_1^{T}\tilde{h}_t, \dots, h_T^{T}\tilde{h}_t\right)&lt;/script&gt;. In
-pseudocode, this is &lt;code class=&quot;highlighter-rouge&quot;&gt;a = softmax(H_enc @ h)&lt;/code&gt; where &lt;code class=&quot;highlighter-rouge&quot;&gt;H_enc&lt;/code&gt; is formed by
+pseudocode, this is &lt;code class=&quot;highlighter-rouge&quot;&gt;a = softmax(H_enc @ h_t)&lt;/code&gt; where &lt;code class=&quot;highlighter-rouge&quot;&gt;H_enc&lt;/code&gt; is formed by
 stacking the summaries &lt;script type=&quot;math/tex&quot;&gt;h_1, \dots, h_T&lt;/script&gt; as rows.&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -215,8 +215,8 @@ for t in range(T_prime):
 &lt;p&gt;[3] Luong, M. T., Pham, H., &amp;amp; Manning, C. D. (2015). Effective approaches to attention-based neural machine translation. arXiv preprint arXiv:1508.04025.&lt;/p&gt;
 </description>
         <pubDate>Tue, 20 Aug 2019 09:04:00 -0400</pubDate>
-        <link>http://localhost:4000/posts/attention-4</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/attention-4</guid>
+        <link>/info-uncertainty//posts/attention-4</link>
+        <guid isPermaLink="true">/info-uncertainty//posts/attention-4</guid>
       </item>
     
       <item>
@@ -393,8 +393,8 @@ aggressiveness controlled by &lt;script type=&quot;math/tex&quot;&gt;e_t&lt;/scr
 &lt;/div&gt;
 </description>
         <pubDate>Fri, 19 Jul 2019 09:12:00 -0400</pubDate>
-        <link>http://localhost:4000/posts/attention-3</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/attention-3</guid>
+        <link>/info-uncertainty//posts/attention-3</link>
+        <guid isPermaLink="true">/info-uncertainty//posts/attention-3</guid>
       </item>
     
       <item>
@@ -452,7 +452,7 @@ should look like this:&lt;/p&gt;
 
 &lt;figure&gt;
 &lt;a href=&quot;https://observablehq.com/@krisrs1128/untitled/3&quot;&gt;
-  &lt;img src=&quot;http://localhost:4000/images/attn-2-rnn-series.png&quot; /&gt;
+  &lt;img src=&quot;/info-uncertainty//images/attn-2-rnn-series.png&quot; /&gt;
 &lt;/a&gt;
   &lt;figcaption&gt;
   Click on the figure to go to an interactive version. The original input data
@@ -479,7 +479,7 @@ its value, because an entrance has just occurred.&lt;/p&gt;
 
 &lt;figure&gt;
 &lt;a href=&quot;https://observablehq.com/@krisrs1128/rnn-entrance-counting&quot;&gt;
-  &lt;img src=&quot;http://localhost:4000/images/attn-2-rnn-states.png&quot; /&gt;
+  &lt;img src=&quot;/info-uncertainty//images/attn-2-rnn-states.png&quot; /&gt;
 &lt;/a&gt;
   &lt;figcaption&gt;
   Again, you can click on the figure to go to an interactive version. The two
@@ -572,7 +572,7 @@ h_{t}^{2} &amp;= \tanh(1^{T} h_{t}^{1}).
 
 &lt;figure&gt;
 &lt;a href=&quot;https://observablehq.com/@krisrs1128/composition-and-counting&quot;&gt;
-  &lt;img src=&quot;http://localhost:4000/images/counter_layers.png&quot; /&gt;
+  &lt;img src=&quot;/info-uncertainty//images/counter_layers.png&quot; /&gt;
 &lt;/a&gt;
   &lt;figcaption&gt;
   When composed, simple, smooth monotone functions can start approximating
@@ -606,7 +606,7 @@ is a risk that the counter “forgets” what it’s earlier value was.&lt;/p&gt
 elegantly illustrated by Figure 4.1&lt;sup id=&quot;fnref:6&quot;&gt;&lt;a href=&quot;#fn:6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt; from Graves’ Sequence Labeling book,&lt;/p&gt;
 
 &lt;figure&gt;
-  &lt;img src=&quot;http://localhost:4000/images/graves_vg_411.png&quot; /&gt;
+  &lt;img src=&quot;/info-uncertainty//images/graves_vg_411.png&quot; /&gt;
   &lt;figcaption&gt;
   By nature of the RNN update mechanism, new inputs gradually overwrite new
   ones, and it becomes hard for the network to remember anything from long ago.
@@ -732,8 +732,8 @@ action.&lt;/p&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Mon, 15 Jul 2019 13:43:00 -0400</pubDate>
-        <link>http://localhost:4000/posts/attention-2</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/attention-2</guid>
+        <link>/info-uncertainty//posts/attention-2</link>
+        <guid isPermaLink="true">/info-uncertainty//posts/attention-2</guid>
       </item>
     
       <item>
@@ -861,8 +861,8 @@ you thought you had mastered long ago.&lt;/p&gt;
 even one example of attention? But this is just part one of N…&lt;/p&gt;
 </description>
         <pubDate>Sat, 13 Jul 2019 18:40:00 -0400</pubDate>
-        <link>http://localhost:4000/posts/attention-1</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/attention-1</guid>
+        <link>/info-uncertainty//posts/attention-1</link>
+        <guid isPermaLink="true">/info-uncertainty//posts/attention-1</guid>
       </item>
     
       <item>
@@ -898,8 +898,8 @@ encoder (first page bottom left) and latent-space axis-aligned gaussians (second
 page top right)&lt;/p&gt;
 </description>
         <pubDate>Mon, 07 Jan 2019 00:00:00 -0500</pubDate>
-        <link>http://localhost:4000/posts/nepal-school-notes</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/nepal-school-notes</guid>
+        <link>/info-uncertainty//posts/nepal-school-notes</link>
+        <guid isPermaLink="true">/info-uncertainty//posts/nepal-school-notes</guid>
       </item>
     
       <item>
@@ -916,29 +916,29 @@ Try fiddling with parameters in the code blocks – you can see the
 visualizations update in real time.&lt;/p&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;http://localhost:4000/images/erosion.png&quot; /&gt;
+        &lt;img src=&quot;/info-uncertainty//images/erosion.png&quot; /&gt;
 &lt;/figure&gt;
 </description>
         <pubDate>Sun, 01 Jul 2018 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/posts/erosion-process</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/erosion-process</guid>
+        <link>/info-uncertainty//posts/erosion-process</link>
+        <guid isPermaLink="true">/info-uncertainty//posts/erosion-process</guid>
       </item>
     
       <item>
         <title>Notes on VAEs</title>
-        <description>&lt;p&gt;I prepared these &lt;a href=&quot;http://localhost:4000/images/vae_notes.pdf&quot;&gt;slides&lt;/a&gt; for
+        <description>&lt;p&gt;I prepared these &lt;a href=&quot;/info-uncertainty//images/vae_notes.pdf&quot;&gt;slides&lt;/a&gt; for
 a reading group lecture on variational autoencoders and sequence-to-sequence
 modeling. My aim was to provide some visual intuition without sacrificing
 mathematical precision. I hope you enjoy the notes, feel free to use the images
 in any of your work.&lt;/p&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;http://localhost:4000/images/vae_screenshot.png&quot; /&gt;
+        &lt;img src=&quot;/info-uncertainty//images/vae_screenshot.png&quot; /&gt;
 &lt;/figure&gt;
 </description>
         <pubDate>Sun, 01 Jul 2018 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/posts/autoencoder-notes</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/autoencoder-notes</guid>
+        <link>/info-uncertainty//posts/autoencoder-notes</link>
+        <guid isPermaLink="true">/info-uncertainty//posts/autoencoder-notes</guid>
       </item>
     
       <item>
@@ -1178,8 +1178,8 @@ applies to QGIS.&lt;/li&gt;
 &lt;p&gt;Sigh, my writing has become insufferable, but that’s OK, see paragraph 1.&lt;/p&gt;
 </description>
         <pubDate>Sat, 24 Sep 2016 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/posts/an-electornic-post-it</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/an-electornic-post-it</guid>
+        <link>/info-uncertainty//posts/an-electornic-post-it</link>
+        <guid isPermaLink="true">/info-uncertainty//posts/an-electornic-post-it</guid>
       </item>
     
       <item>
@@ -1213,7 +1213,7 @@ r(\varphi, \theta) &amp;= \begin{pmatrix} cos\varphi cos\theta \\\  cos\varphi s
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.&lt;/p&gt;
 
 &lt;figure align=&quot;center&quot;&gt;
-        &lt;img src=&quot;http://localhost:4000/images/spherical_coord.svg&quot; /&gt;
+        &lt;img src=&quot;/info-uncertainty//images/spherical_coord.svg&quot; /&gt;
         &lt;figcaption&gt;Figure 1. Representation via spherical coordinates.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -1297,10 +1297,10 @@ on the sphere surface. We can view the joint distribution of points in figure 3 
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rgl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot3d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;script src=&quot;http://localhost:4000/images/CanvasMatrix.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/info-uncertainty//images/CanvasMatrix.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 
 &lt;canvas id=&quot;rspheretextureCanvas&quot; style=&quot;display: none;&quot; width=&quot;256&quot; height=&quot;256&quot;&gt;
-&amp;lt;img src=&quot;http://localhost:4000/images/rspheresnapshot.png&quot; alt=&quot;rspheresnapshot&quot; width=505/&amp;gt;&lt;br /&gt;
+&amp;lt;img src=&quot;/info-uncertainty//images/rspheresnapshot.png&quot; alt=&quot;rspheresnapshot&quot; width=505/&amp;gt;&lt;br /&gt;
 	Your browser does not support the HTML5 canvas element.&lt;/canvas&gt;
 &lt;!-- ****** points object 6 ****** --&gt;
 &lt;script id=&quot;rspherevshader6&quot; type=&quot;x-shader/x-vertex&quot;&gt;
@@ -12573,7 +12573,7 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggplot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X.tilde&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom_point&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;theta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;http://localhost:4000/images/joint_dist_borel_kolmogorov.png&quot; /&gt;
+        &lt;img src=&quot;/info-uncertainty//images/joint_dist_borel_kolmogorov.png&quot; /&gt;
         &lt;figcaption&gt;Figure 3. Joint distribution of $\theta$ and $\varphi$.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -12581,14 +12581,14 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ggplot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geom_histogram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;facet_grid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Coordinate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;http://localhost:4000/images/marginal_dist_borel_kolmogorov.png&quot; /&gt;
+        &lt;img src=&quot;/info-uncertainty//images/marginal_dist_borel_kolmogorov.png&quot; /&gt;
         &lt;figcaption&gt;Figure 4. Marginal distributions of $\theta$ and $\varphi$ &lt;/figcaption&gt;
 &lt;/figure&gt;
 
 </description>
         <pubDate>Thu, 25 Jul 2013 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/posts/borel-kolmogorov-paradox</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/borel-kolmogorov-paradox</guid>
+        <link>/info-uncertainty//posts/borel-kolmogorov-paradox</link>
+        <guid isPermaLink="true">/info-uncertainty//posts/borel-kolmogorov-paradox</guid>
       </item>
     
       <item>
@@ -12636,7 +12636,7 @@ k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}}
 &lt;p&gt;Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.&lt;/p&gt;
 
 &lt;figure&gt;
-        &lt;img src=&quot;http://localhost:4000/images/RIF_convergence.gif&quot; /&gt;
+        &lt;img src=&quot;/info-uncertainty//images/RIF_convergence.gif&quot; /&gt;
         &lt;figcaption&gt;An instance of samples converging to the arcsine distribution.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -12672,8 +12672,8 @@ k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}}
 
 </description>
         <pubDate>Thu, 27 Jun 2013 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/posts/problem-from-random-iterated-functions</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/problem-from-random-iterated-functions</guid>
+        <link>/info-uncertainty//posts/problem-from-random-iterated-functions</link>
+        <guid isPermaLink="true">/info-uncertainty//posts/problem-from-random-iterated-functions</guid>
       </item>
     
   </channel>
