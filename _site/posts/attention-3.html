@@ -106,7 +106,7 @@ on how translation works with neural networks.</p>
 language to the corresponding sequence in another. For example,</p>
 
 <blockquote>
-  <p>I don’t speak French –&gt; Je ne parle pas Francais.</p>
+  <p>I don’t speak French –&gt; Je ne parle pas le Francais.</p>
 </blockquote>
 
 <p>We make this an ML problem by treating each word as a datapoint in a sequence,
@@ -160,7 +160,7 @@ account, so that the decoding at time <script type="math/tex">t^{\prime}</script
 encodings at around that time in the original sequence<sup id="fnref:2:1"><a href="#fn:2" class="footnote">2</a></sup>.</p>
 
 <p>There are a lot of moving parts here – an encoder, a decoder, and an attention
-module to link them together. But everythign is end-to-end differentiable, and
+module to link them together. But everything is end-to-end differentiable, and
 you can take the gradients of mistranslations with respect to all parameters.</p>
 
 <p>Stepping back, this is a way of reweighting – or attending to – specific
@@ -176,6 +176,47 @@ mechanisms. More specifically, this pattern of breaking a task into pieces
 <script type="math/tex">t^{\prime}</script> and finding a way to learn different distributions <script type="math/tex">w_{\cdot
 t^{\prime}}</script> over relevant summaries is one that appears througout the
 literature on soft-attention mechanisms.</p>
+
+<h2 id="neural-turing-machines">Neural Turing Machines</h2>
+
+<p>This discussion suggests that more carefully structured (if potentially
+intricate) mechanisms for looking thigns up can alleviate problems of
+remembering information that was introduced long ago. This is actually a general
+principle, not just some quirk about encoder-decoder architectures. To
+illustrate this, we consider the Neural Turing Machine.</p>
+
+<p>Again, there is a bit going on. The diagram below introduces the cast of
+characters.</p>
+
+<p>Given new input, we produce a weight distribution for what seem like the most
+relevant memory locations. Notice that if the rows correspond to times <script type="math/tex">1,
+\dots, T</script>, then the matrix <script type="math/tex">M</script> is a lot like a stacked version of the <script type="math/tex">h_1,
+\dots, h_T</script> from the RNN models before. And, the <script type="math/tex">w_{t}</script>’s do seem eerily
+like the attention weights from before. That said, we’re trying to free
+ourselves from the idea that memories must be indexed by time.</p>
+
+<p>In this spirit of generalization, we can define soft-attention
+variant,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+r_t &= \sum_{i} w_{ti} M\left[i, :\right].
+\end{align} %]]></script>
+
+<p>Something in this architecture which <em>is</em> new, and not just a variant of what we
+saw before in translation, is a notion of writing to memory. We use weights,
+along with the add and erase vectors, to define a memory update,</p>
+
+<p><script type="math/tex">\begin{align}
+M\left[i: \right] \xleftarrow M\left[i, :\right] + w_{ti}\left(a_t - e_t \circ M\left[i, :\right]\right).
+\end{align}</script>
+If the weight is small, we don’t change that location in memory at all. If it is
+large, we add in <script type="math/tex">a_t</script> and erase everything that had been at that row, with an
+aggressiveness controlled by <script type="math/tex">e_t</script> (coordinates where that vector is near
+<script type="math/tex">1</script> are almost entirely reset).</p>
+
+<p>The only remaining issue is how to figure out a good combination of parameters
+<script type="math/tex">w_t, a_t</script>, and <script type="math/tex">e_t</script>, upon seeing a new input <script type="math/tex">x_t</script>.</p>
 
 <div class="footnotes">
   <ol>
@@ -199,6 +240,8 @@ literature on soft-attention mechanisms.</p>
   
     <a href="http://localhost:4000/posts/attention-2" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
   
+  
+    <a href="http://localhost:4000/posts/attention-4" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
   
 </section>
     </div>
