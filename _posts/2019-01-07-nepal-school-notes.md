@@ -15,8 +15,8 @@ The main talks were,
 * [Metalearning](https://drive.google.com/open?id=1b9jVlG2vS2-WU9p6R7-QuRv5uEqHy3Yn)
 * [Interpretability](https://drive.google.com/open?id=12aDxwkUYSU5vt3dcg7N3j3NsTahLe6hC)
 
-The lecture videos will be put online soon -- I'll update this post with links
-when I have them.
+The lecture videos are online <a
+href="https://www.naamii.com.np/first-nepal-winter-school-in-ai-lecture-videos-and-slides/">here</a>.
 
 I also prepared a short [exercise
 sheet](https://drive.google.com/open?id=16iQEE_5gD0HYG3CRJWpK-BzxdmSrouUr)
