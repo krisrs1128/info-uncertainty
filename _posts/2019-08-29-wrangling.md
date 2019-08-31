@@ -178,12 +178,11 @@ While I've listed some of my best practices, all sorts of unexpected things can
 happen. I've seen excel footnotes mess up numerical columns, tables which
 almost, *but not quite* joined, and survey results from 2099.
 
-So, while "Let $$X \in \mathbb{R}^{p}$$" might be the first line in your
-statistics or ML textbook, just getting to this point can involve quite a bit of
-work in any real-world data science problem. Don't be deterred though -- the
-problems you can solve if you have the ability to sift through real-world data
-are ultimately the most interesting and impactful ones.
-
+So, while "Let $$X \in \mathbb{R}^{n \times p}$$" might be the first line in
+your statistics or ML textbook, just getting to this point can involve quite a
+bit of work in any real-world data science problem. Don't be deterred though --
+the problems you can solve if you have the ability to sift through real-world
+data are ultimately the most interesting and impactful ones.
 
 [^1]: They might even guide whether to collect different types of data.
 [^2]: See the section on "Images."
