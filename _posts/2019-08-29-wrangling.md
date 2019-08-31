@@ -55,8 +55,9 @@ might be able to do about it.
 
 This isn't strictly a barrier to putting everything into a single $$X$$, but if
 you are confused by this, you should stop coding and write to the people who
-shared the data with you. You don't want to try doing anything to the data if
-you're not even sure what they are.
+shared the data with you. They should be able to give you a data dictionary. You
+don't want to try doing anything to the data if you're not even sure what they
+are.
 
 ## Managing column types
 
