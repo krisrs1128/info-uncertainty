@@ -7,7 +7,10 @@ description: The relationship between software and methods and a microbiome medi
 
 Lately, I've been reflecting on how software design could inform statistical methods development. There has always been a two-way flow between methods and applications, and software lies right at the junction. My main thought is that an abstraction originally designed to simplify a computational interface can also guide creative statistical investigation.
 
-I think this is well-illustrated by analyzing the design [mediation package](https://imai.fas.harvard.edu/research/files/mediationR2.pdf), so that will be the focus of this post. In the process, we'll review the basics of mediation analysis and see an illustration using a microbiome-metabolomics dataset.
+I think this is well-illustrated by analyzing the design of the [mediation package](https://imai.fas.harvard.edu/research/files/mediationR2.pdf), so that
+will be the focus of this post. In the process, we'll review the basics of
+mediation analysis and see an illustration using a microbiome-metabolomics
+dataset.
 
 ## Mediation Analysis
 

@@ -10,7 +10,10 @@
         <title>Meditations on Mediation</title>
         <description>&lt;p&gt;Lately, I’ve been reflecting on how software design could inform statistical methods development. There has always been a two-way flow between methods and applications, and software lies right at the junction. My main thought is that an abstraction originally designed to simplify a computational interface can also guide creative statistical investigation.&lt;/p&gt;
 
-&lt;p&gt;I think this is well-illustrated by analyzing the design &lt;a href=&quot;https://imai.fas.harvard.edu/research/files/mediationR2.pdf&quot;&gt;mediation package&lt;/a&gt;, so that will be the focus of this post. In the process, we’ll review the basics of mediation analysis and see an illustration using a microbiome-metabolomics dataset.&lt;/p&gt;
+&lt;p&gt;I think this is well-illustrated by analyzing the design of the &lt;a href=&quot;https://imai.fas.harvard.edu/research/files/mediationR2.pdf&quot;&gt;mediation package&lt;/a&gt;, so that
+will be the focus of this post. In the process, we’ll review the basics of
+mediation analysis and see an illustration using a microbiome-metabolomics
+dataset.&lt;/p&gt;
 
 &lt;h2 id=&quot;mediation-analysis&quot;&gt;Mediation Analysis&lt;/h2&gt;
 
