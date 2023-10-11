@@ -107,7 +107,7 @@ combined <- metabolites |>
   bind_cols(metadata) |>
   mutate(treatment = ifelse(Study.Group == "Control", "control", "treatment"))
 {% endhighlight %}
-The definition of the helper functions can be found at [this link](https://drive.google.com/file/d/1KLFLgWF8emx927IjqgLS0wpv2USIffnK/view?usp=sharing). So that this
+The full source code can be found [here](https://drive.google.com/file/d/1KLFLgWF8emx927IjqgLS0wpv2USIffnK/view?usp=sharing). So that this
 process doesn't take too long, I'll consider only the twenty most prevalent
 metabolites and species.
 {% highlight R %}

@@ -11,12 +11,11 @@ links:
   - name:         Posts
     url:          /
     external:     false
-  - name:         About
-    url:          /about
-    external:     false
 # ------------ CONFIGURABLE END ------------
 
 permalink:        /posts/:title
 defaults:
   - values:
       layout: "default"
+plugins:
+  - jekyll-feed
