@@ -1,7 +1,8 @@
 ---
 title:  "CHTC for Statistics Crash Course"
 date:   2021-10-07 15:56:24 -0500
-categories: jekyll CHTC computing
+description: "Using high throughput computing resources at UW Madison"
+tags: [computing, cluster, UW Madison]
 ---
 
 These notes collect some tips for using the [Center for High Throughput

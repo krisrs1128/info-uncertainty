@@ -1,6 +1,7 @@
 ---
 title: "'What is a sample, even?' and the Existential Questions of Data Wrangling"
 date: 2019-08-29 15:35 -4
+tags: [rambling, preprocessing]
 ---
 
 In your life as a data scientist, you will spend a lot of time trying to
