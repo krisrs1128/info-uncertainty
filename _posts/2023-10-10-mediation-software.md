@@ -197,8 +197,9 @@ convincing:
 ## Discussion
 
 An alternative view of this discussion is that software principles can inspire
-meta-algorithms.  Really, creating meta-algorithms is analogous to functional
-programming -- when we use
+meta-algorithms -- there is a direct analogy between functional programming and
+higher-level statistical algorithms. This is far from a new idea in statistics.
+For example, when we use  
 [boosting](https://projecteuclid.org/journals/annals-of-statistics/volume-29/issue-5/Greedy-function-approximation-A-gradient-boosting-machine/10.1214/aos/1013203451.full)
 or [conformal inference](https://people.eecs.berkeley.edu/~angelopoulos/publications/downloads/gentle_intro_conformal_dfuq.pdf),
 we have to first provide a base learning algorithm as input. Similarly, if we
@@ -208,11 +209,10 @@ users freely define a base estimation approach (e.g., the `lm` calls above),
 meta-algorithms can have much wider problem-solving reach.
 
 A related point — when I'm creating projects these days, I try to be deliberate
-about what the interface will look like to the practicing data analyst. This is
-a departure from my past way of working, where I would have been happy just to
-propose a new model. This perspective is helpful because it makes me think more
-carefully about the resulting computational artifacts and how exactly they will
-look like to the user. The hope is that the result from `plot()` or `print()`
-should convey clear, qualitative value.
+about what the interface will look like to the practicing data analyst. This
+perspective is helpful because it makes me think more carefully about the
+resulting computational artifacts and how exactly they will look like to the
+user. For example, the result from `plot()` or `print()` should convey clear,
+qualitative value.
 
 [^1]: I am being a lazy Bayesian.
