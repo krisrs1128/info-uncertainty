@@ -28,7 +28,7 @@ No matter what your downstream artifact will be, you'll need to do a bit of work
 upstream, mainly around,
 
 1. Problem Formulation: What are you trying to do, and why does it matter?
-2. Data Wrangling: How does the data need to be stretched, squeezed, and srubbed
+2. Data Wrangling: How does the data need to be stretched, squeezed, and scrubbed
    to make it suitable for automatic, algorithmic processing.
    
 From the previous lecture / rant, we know that data are diverse, so it's no
