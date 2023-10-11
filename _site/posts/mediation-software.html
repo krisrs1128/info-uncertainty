@@ -153,9 +153,10 @@ Borenstein’s group at TAU):</p>
   </span><span class="n">bind_cols</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
   </span><span class="n">mutate</span><span class="p">(</span><span class="n">treatment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">Study.Group</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Control"</span><span class="p">,</span><span class="w"> </span><span class="s2">"control"</span><span class="p">,</span><span class="w"> </span><span class="s2">"treatment"</span><span class="p">))</span></code></pre></figure>
 
-<p>The full source code can be found <a href="https://drive.google.com/file/d/1KLFLgWF8emx927IjqgLS0wpv2USIffnK/view?usp=sharing">here</a>. So that this
-process doesn’t take too long, I’ll consider only the twenty most prevalent
-metabolites and species.</p>
+<p>The full source code can be found
+<a href="https://rpubs.com/krisrs1128/mediation_software">here</a>. So that this process
+doesn’t take too long, I’ll consider only the twenty most prevalent metabolites
+and species.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">taxa_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">taxa</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">]</span><span class="w">
 </span><span class="n">metabolite_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">metabolites</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">]</span><span class="w">

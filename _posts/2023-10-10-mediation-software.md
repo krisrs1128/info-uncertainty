@@ -107,9 +107,10 @@ combined <- metabolites |>
   bind_cols(metadata) |>
   mutate(treatment = ifelse(Study.Group == "Control", "control", "treatment"))
 {% endhighlight %}
-The full source code can be found [here](https://drive.google.com/file/d/1KLFLgWF8emx927IjqgLS0wpv2USIffnK/view?usp=sharing). So that this
-process doesn't take too long, I'll consider only the twenty most prevalent
-metabolites and species.
+The full source code can be found
+[here](https://rpubs.com/krisrs1128/mediation_software). So that this process
+doesn't take too long, I'll consider only the twenty most prevalent metabolites
+and species.
 {% highlight R %}
 taxa_names <- colnames(taxa)[1:20]
 metabolite_names <- colnames(metabolites)[1:20]
