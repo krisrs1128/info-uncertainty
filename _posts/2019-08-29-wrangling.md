@@ -3,8 +3,6 @@ title: "'What is a sample, even?' and the Existential Questions of Data Wranglin
 date: 2019-08-29 15:35 -4
 ---
 
-### TODO: Include code examples
-
 In your life as a data scientist, you will spend a lot of time trying to
 generate new artifacts from "raw" data. These artifacts are tangible things,
 living on a device, a website, and yes, maybe even on paper, including things

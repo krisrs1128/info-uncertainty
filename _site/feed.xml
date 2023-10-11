@@ -226,10 +226,314 @@ should convey clear, qualitative value.&lt;/p&gt;
       </item>
     
       <item>
-        <title>'What is a sample, even?' and the Existential Questions of Data Wrangling</title>
-        <description>&lt;h3 id=&quot;todo-include-code-examples&quot;&gt;TODO: Include code examples&lt;/h3&gt;
+        <title>CHTC for Statistics Crash Course</title>
+        <description>&lt;p&gt;These notes collect some tips for using the &lt;a href=&quot;https://chtc.cs.wisc.edu/&quot;&gt;Center for High Throughput
+Computing (CHTC) Cluster&lt;/a&gt; at UW Madison, especially
+those related to statistics research. For reference, the full documentation is
+available &lt;a href=&quot;https://htcondor.readthedocs.io/en/latest/&quot;&gt;here&lt;/a&gt;; there are many
+more possibilities than we discuss here. You can follow along with the code in
+&lt;a href=&quot;https://github.com/krisrs1128/chtc_crash_course&quot;&gt;this repository&lt;/a&gt; – let us
+know if you find any mistakes or would like to share any other tricks!&lt;/p&gt;
 
-&lt;p&gt;In your life as a data scientist, you will spend a lot of time trying to
+&lt;h3 id=&quot;why-use-a-computer-cluster&quot;&gt;Why use a computer cluster?&lt;/h3&gt;
+
+&lt;p&gt;There are three types of statistical computing problems where a cluster is
+helpful,&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Parallel Simulations: It is standard in statistics research to understand how an algorithm behaves across a range of data or hyperparameter regimes (e.g., noise levels, regularization parameters). While in principle these experiments can all be run sequentially on a laptop, whenever there are a large number of configurations to consider, it will save time to run them in parallel. In theory, processes can be parallelized on a single laptop. Practically, however, only a few processes can be run at a time without overloading a typical machine. On a computer cluster, we can run many simultaneous jobs without any issues.&lt;/li&gt;
+  &lt;li&gt;Long-Running Jobs: Sometimes we only need to run one script, but it takes a long time to complete. There have been times where I’ve kept a laptop running continuously for a few days, but this is always a little nerve-wracking and can distract from other tasks. If the long-running job is run on a CHTC machine instead, we can check on it whenever it’s complete without having it always visible in the background. Also, when more resources are available, the job will likely finish more quickly.&lt;/li&gt;
+  &lt;li&gt;GPU Jobs: Most of us don’t have GPU cards on our personal computers. CHTC has a great GPU Lab, where we can checkout a GPU whenever we need one.&lt;/li&gt;
+  &lt;li&gt;Large Datasets: There are some datasets that we can’t store on our laptops. A reasonable workflow is to first develop code on a subset of the data on a personal machine. Once we trust that our code works on the subset, we can attempt running on the full dataset using CHTC.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;logging-onto-the-cluster&quot;&gt;Logging onto the cluster&lt;/h3&gt;
+
+&lt;p&gt;After   &lt;a href=&quot;https://chtc.cs.wisc.edu/uw-research-computing/form&quot;&gt;requesting&lt;/a&gt; an
+account from CHTC, you can login to a remote node using&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ssh yournetid@submit2.wisc.edu&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Note that if you are off campus, you will first need to login to the
+&lt;a href=&quot;https://kb.wisc.edu/helpdesk/page.php?id=105619&quot;&gt;GlobalProtect VPN&lt;/a&gt;. Otherwise,
+the cluster machines will not be reachable.&lt;/p&gt;
+
+&lt;h4 id=&quot;tip-aliases&quot;&gt;Tip: Aliases&lt;/h4&gt;
+
+&lt;p&gt;You can create an alias to login to the cluster more quickly. On your personal
+machine, you should have a folder &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.ssh/&lt;/code&gt; containing a few public and private
+key files. If you &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scp&lt;/code&gt; the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa.pub&lt;/code&gt; public key into &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.ssh/&lt;/code&gt; folder on the
+remote machine, then you will be able to login using an alias after you,&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod 600&lt;/code&gt; the remote copy to ensure that it is not too visible.&lt;/li&gt;
+  &lt;li&gt;Add the following lines to your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.ssh/config&lt;/code&gt; on your local machine.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;host your_alias
+  HostName submit2.chtc.wisc.edu
+  User your_netid&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;For example, I set my alias to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chtc&lt;/code&gt;, which lets me login to the cluster using
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh chtc&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Once you log in, you can browse around and view a few files – you should have
+access to create files in a folder like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/home/your_net_id&lt;/code&gt; and
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/staging/your_net_id&lt;/code&gt;. The first folder is where routine code can be kept. The
+second is where data should be placed just before launching a job (and remove
+shortly afterwards).&lt;/p&gt;
+
+&lt;h3 id=&quot;setting-up-a-simple-job&quot;&gt;Setting up a simple job&lt;/h3&gt;
+
+&lt;p&gt;A CHTC job is specified by a submit file. It describes the compute resources,
+code, data, and logging instructions needed to complete the task. It is
+essentially a dictionary written as a text file, whose key-value pairs conform
+to conventions set by CHTC. Next, we’ll review some of the most commonly used
+keys. Examples using these keys in real compute jobs are available
+&lt;a href=&quot;https://github.com/krisrs1128/chtc_crash_course&quot;&gt;here&lt;/a&gt; and discussed further
+below.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Specifying resources&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Computer clusters allow us to checkout more resources than we would have on our
+own. To keep it from becoming a free-for-all, it’s necessary to estimate how
+much resources we need to complete a task (the more we ask for, the longer we
+have to wait before the job can start).&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;request_memory&lt;/code&gt;: How much memory does the job need? This is usually determined by the size of the largest matrix or data.frame that needs to be loaded into R or python. Example values are &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;16GB&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;500MB&lt;/code&gt;. You can request much more memory than we have on a laptop – asking for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;128GB&lt;/code&gt; of memory would be a lot but not totally out of the ordinary.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;request_disk&lt;/code&gt;: How much disk space do we need for storing data and saving outputs? This is usually determined by the size of the dataset that is being processed, though it can also depend on the size of the saved output / logs. Note that a job can require a lot of disk but only a little memory – it may work off of a large dataset, but only processes small batches at a time. Typical values are &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;64GB&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;12GB&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;request_cpus&lt;/code&gt;: If you have a process that can utilize several cores, then it can help to make use of several cpus. By default, though, I just set this to 1, since most of the parallelization can happen at the cluster job level.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;queue&lt;/code&gt;: How many parallel jobs should we run? More on parallelization below.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Specifying code&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Cluster code needs to be more or less automatically runnable; we can’t rely on
+interactively sending commands one after another like we might on our own
+laptops. We also need to ensure that the environment on the cluster compute node
+is close enough to our local environments; i.e., all packages and environmental
+variables that we require locally need to be accessible remotely.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;executable&lt;/code&gt;: This gives the name of a shell script containing all the commands to be run in the CHTC job. If we weren’t using a computer cluster, it would be the only script that needs to be run.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;environment&lt;/code&gt;: We may want to use environmental variables within the executable. This is especially useful when looping over parameter values in a parallel array of jobs.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker_image&lt;/code&gt;: If we need packages that are hard to directly install on CHTC, it can be convenient to build a docker image on your local machine and run the CHTC job on a public version of that image. Note that for this key to be read, we first need to specify &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;universe=docker&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Specifying data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Whatever data we work with locally needs to be accessible on the remote machine.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;transfer_input_files&lt;/code&gt;: The absolute or relative path to a file (or comma separated list of files) that should be transferred to the compute node when a job begins. Note that you can also transfer code repositories using this command. I typically zip everything I need into a single file (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tar -zcvf all_files.tar.gz all_files/&lt;/code&gt;) and then point the argument to this file. Note that all files in the same directory as the submit file will automatically be transferred to the working directory of the compute job.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;requirements = (Target.HasCHTCStaging == true)&lt;/code&gt;: Instead of directly transferring input files, we can keep our files unzipped in a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/staging&lt;/code&gt; directory and then copy them over within the executable script. For this approach to work, though, the compute node needs access to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/staging&lt;/code&gt; filesystem. This flag ensures this access is supported (not all compute nodes can access &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/staging&lt;/code&gt;). Note that several requirements can be changed together using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(requirement 1) &amp;amp;&amp;amp; (requirement 2)&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Specifying logs&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Logs are helpful for debugging. They also tell how much resources a job computed after-the-fact, which can be helpful for updating resource requests in future jobs. Note the use of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$(Process)&lt;/code&gt; in the filenames below – this makes sure that log files are not overwritten in parallel runs.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;error&lt;/code&gt;: The name of the error file.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;output&lt;/code&gt;: The name of a file that will include any messages printed out by the executable script.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;log&lt;/code&gt;: This name of a file describing how many resources are used by the job.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Putting this all together, here is an example submit file,&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;universe&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;docker
+&lt;span class=&quot;nv&quot;&gt;docker_image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ubuntu/focal
+
+&lt;span class=&quot;nv&quot;&gt;executable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;basic.sh
+&lt;span class=&quot;nv&quot;&gt;transfer_input_files&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;file1.csv,file2.csv
+
+&lt;span class=&quot;c&quot;&gt;# requesting resources&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;request_memory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10MB
+&lt;span class=&quot;nv&quot;&gt;request_cpus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
+&lt;span class=&quot;nv&quot;&gt;request_disk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1MB
+
+&lt;span class=&quot;c&quot;&gt;# log files&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;basic-&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;Process&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;.err
+&lt;span class=&quot;nv&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;basic-&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;Process&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;.out
+&lt;span class=&quot;nv&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;basic-&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;Process&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;.log
+queue&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;and this is the accompanying executable.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-lsh&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;wc &lt;/span&gt;file&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sleep &lt;/span&gt;30s&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;These files are downloadable
+&lt;a href=&quot;https://github.com/krisrs1128/chtc_crash_course/tree/main/basic_job&quot;&gt;here&lt;/a&gt;. The
+job can be submitted to the cluster using the command,&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;condor_submit basic.submit&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;What do you think is output by the job?&lt;/p&gt;
+
+&lt;p&gt;Finally, we note that any of the parameters specified in the submit file can be
+overwritten at submit time as an argument to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;condor_submit&lt;/code&gt;. This is useful
+whenever several similar executables can be run using the same background
+resources and input. For example, we can use&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;condor_submit train.submit &lt;span class=&quot;nv&quot;&gt;executable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;model1.sh
+condor_submit train.submit &lt;span class=&quot;nv&quot;&gt;executable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;model2.sh&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;to run two separate models,&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;model1&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;model2&lt;/code&gt;, using the same resources,
+specified by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;train.submit&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;debugging-a-compute-job&quot;&gt;Debugging a Compute Job&lt;/h3&gt;
+
+&lt;p&gt;It would be a miracle if a compute job worked on its first submission. More
+commonly, we submit small preliminary versions of a job (requesting fewer
+resources) until we are confident that the script works. The faster we can debug
+errors, the sooner we can get results.&lt;/p&gt;
+
+&lt;p&gt;The first thing to do when debugging a failed cluster job is to view the log
+files. Errors that stopped the compute process will be saved in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;error&lt;/code&gt; log
+specified in the submit script, but useful hints are often available in the
+messages saved in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;output&lt;/code&gt; file. If you are running a parallel job, it might
+be useful to read the last few lines of many error logs. For example, the command&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;tail&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; 20 &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.err&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;will print the last twenty lines of every error log in a directory.&lt;/p&gt;
+
+&lt;p&gt;Besides analyzing the logs and resubmitting a cluster job, here are some
+utilities that streamline the process,&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;condor_q&lt;/code&gt;: This shows all the current jobs, their IDs, and whether or not they are running.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;condor_submit -i&lt;/code&gt;: This runs an interactive version of a submit file. Once resources are checked out, you will have interactive access to an environment that looks exactly like what the original job’s environment would look like. If every line of the executable works in an interactive job, then it will also work in a non-interactive submission.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;condor_ssh_to_job&lt;/code&gt;: This will let you log into a currently running compute node and watch the directory as the process is running. This is especially useful if a job doesn’t fail right away but you know there are certain outputs that indicate the job will eventually fail. This way, you can check the output and kill a doomed job without waiting for the process to officially fail.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;condor_rm&lt;/code&gt;: If we realize a bug and want to remove a job, we can call &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;condor_rm job_id&lt;/code&gt;, using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;job_id&lt;/code&gt; printed by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;condor_q&lt;/code&gt;. If we want to remove all the jobs, we can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;condor_rm --all&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;condor_q -hold -af HoldReason&lt;/code&gt;: If our job is being held for some reason (e.g., we have a typo in the input files or ran out of memory), we can inquire into the reason using this command, which takes the job’s ID as its argument.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Finally, if we had asked CHTC to run using a docker environment, we can simulate
+the CHTC environment using on our local machine. This works because the Docker
+VM is  identical in both computers. However, CHTC doesn’t use the ordinary
+Docker run command, so the filesystem and permissions will be slightly
+different. To account for the discrepancy, we can use&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker run &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;:&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-g&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--rm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt;   &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;:/scratch &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; /scratch   YOUR_DOCKER_IMAGE_ID /bin/bash&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;locally to exactly mimic the CHTC environment.&lt;/p&gt;
+
+&lt;h3 id=&quot;pattern-1-parallel-runs&quot;&gt;Pattern 1: Parallel Runs&lt;/h3&gt;
+
+&lt;p&gt;One of the most common patterns in statistics research is to launch a large
+number of relatively small jobs (15 - 120 minutes) to see how an algorithm
+varies over different dataset or hyperparameter configurations (e.g., matrix
+aspect ratios, latent dimensionalities, noise levels, or regularization
+parameters). This is easily supported by the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;queue&lt;/code&gt; parameter in CHTC jobs. The
+main idea is,&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Write code that takes data or algorithm parameters as arguments.&lt;/li&gt;
+  &lt;li&gt;Create a table with all the parameter configurations of interest.&lt;/li&gt;
+  &lt;li&gt;Request a number of jobs equal to the number of desired configurations.&lt;/li&gt;
+  &lt;li&gt;For the $i^{th}$ job, read in the $i^{th}$ row of the table and use it to provide arguments to the generic code above.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For example, suppose we have a table with 5 configurations,&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;A,B,C
+1,2,3
+2,3,4
+5,6,7
+8,9,10
+11,12,13
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;then we can queue 5 jobs and pass each job’s number in the queue as an
+environmental variable. Specifically, the submit file, we add&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;transfer_input_files&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;configurations.csv
+environment &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;id=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;Step&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+queue 5&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;and we refer to the ID environmental variable in the executable,&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;Rscript &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;rmarkdown::render(&apos;parallel.Rmd&apos;, params=list(id=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$id&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;))&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;which is designed to read the associated row from the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;configurations.csv&lt;/code&gt;. This
+command used an R process, but the same idea works in python or julia with the
+appropriate argument parsers.&lt;/p&gt;
+
+&lt;p&gt;A full example of this pattern can be found
+&lt;a href=&quot;https://github.com/krisrs1128/chtc_crash_course/tree/main/parallel_job&quot;&gt;here&lt;/a&gt;.
+Note that the submit script pulls from a &lt;a href=&quot;https://hub.docker.com/r/rocker/tidyverse&quot;&gt;rocker
+image&lt;/a&gt;, because the executable needed
+to run R with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rmarkdown&lt;/code&gt; package installed.&lt;/p&gt;
+
+&lt;h2 id=&quot;pattern-2-gpu-jobs&quot;&gt;Pattern 2: GPU Jobs&lt;/h2&gt;
+
+&lt;p&gt;GPU jobs are almost exactly like ordinary jobs, except that they need to
+explicitly request nodes with GPUs. This is done using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;request_gpu&lt;/code&gt; flag.
+We usually set &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;request_gpu=1&lt;/code&gt;, though it’s also possible to run a job with
+multiple GPUs (only do this if your code actually knows how to load data into
+several GPUs, though). Some other useful commands are,&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;+GPUJobLength&lt;/code&gt;: Will the job be done in a couple of hours? Will it need more than 24? This can be set to either &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;short&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;medium&lt;/code&gt;, or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;long&lt;/code&gt; to ensure that the job won’t be kicked out too early.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;+WantGPULab&lt;/code&gt;: This is a shared GPU resource that isn’t included by default in CHTC jobs. This is almost always set to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt;, since it helps jobs launch more quickly.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;+wantFlocking&lt;/code&gt;: This is another shared GPU resources, like the GPU Lab. This is also usually set to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Some code will work on some GPUs and not others (e.g., a run with large batch
+size might need extra GPU memory). We can restrict the GPUs that are considered
+for a job by using the same &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;requirements&lt;/code&gt; argument described above. For
+example,&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;requirements &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;CUDAGlobalMemoryMb &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 4000&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;will only run jobs on compute nodes with at least 4GB GPU memory. To see whether
+a request has a chance of being fulfilled in the near future (or ever…if you
+are like me and request resources that do not exist), we can review the
+cluster’s GPU resources,&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;condor_status &lt;span class=&quot;nt&quot;&gt;-compact&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-constraint&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;TotalGpus &amp;gt; 0&apos;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Additional constraints can be used to filter this list. For example, to see
+nodes with at least CUDA 6.0  installed and 12GB of memory, we could use&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;condor_status &lt;span class=&quot;nt&quot;&gt;-compact&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-constraint&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;TotalGpus &amp;gt; 0&apos;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-constraint&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;CUDACapability &amp;gt; 6&apos;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-constraint&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;CUDAGlobalMemoryMb &amp;gt; 12000&apos;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;A full example of this pattern can be found
+&lt;a href=&quot;https://github.com/krisrs1128/chtc_crash_course/tree/main/gpu_job&quot;&gt;here&lt;/a&gt;. The
+script runs a file called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gpu.py&lt;/code&gt;, which is only a few lines,&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;device&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cuda&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zeros&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;device&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;but this is enough to see that we can put the tensor &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;x&lt;/code&gt; onto a GPU. Indeed, the
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;output&lt;/code&gt; file confirms that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;x&lt;/code&gt; had been on the GPU,&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;tensor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;device&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;cuda:0&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+        <pubDate>Thu, 07 Oct 2021 15:56:24 -0500</pubDate>
+        <link>http://localhost:4000/posts/chtc-crash-course</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/chtc-crash-course</guid>
+      </item>
+    
+      <item>
+        <title>'What is a sample, even?' and the Existential Questions of Data Wrangling</title>
+        <description>&lt;p&gt;In your life as a data scientist, you will spend a lot of time trying to
 generate new artifacts from “raw” data. These artifacts are tangible things,
 living on a device, a website, and yes, maybe even on paper, including things
 like,&lt;/p&gt;
@@ -1752,28 +2056,6 @@ page top right)&lt;/p&gt;
         <pubDate>Mon, 07 Jan 2019 00:00:00 -0600</pubDate>
         <link>http://localhost:4000/posts/nepal-school-notes</link>
         <guid isPermaLink="true">http://localhost:4000/posts/nepal-school-notes</guid>
-      </item>
-    
-      <item>
-        <title>Erosion Process Visualization</title>
-        <description>&lt;p&gt;Once upon a time, I made a &lt;a href=&quot;https://www.openprocessing.org/sketch/48684&quot;&gt;processing
-sketch&lt;/a&gt; of an erosion process,
-inspired by lectures in a probability course I was taking.&lt;/p&gt;
-
-&lt;p&gt;This example is still one I revisit whenever I’m trying to learn new
-visualization tools. I recently made another version using
-&lt;a href=&quot;https://beta.observablehq.com&quot;&gt;Observables&lt;/a&gt;, you can find it
-&lt;a href=&quot;https://beta.observablehq.com/@krisrs1128/untitled&quot;&gt;here&lt;/a&gt;.
-Try fiddling with parameters in the code blocks – you can see the
-visualizations update in real time.&lt;/p&gt;
-
-&lt;figure&gt;
-        &lt;img src=&quot;http://localhost:4000/images/erosion.png&quot; /&gt;
-&lt;/figure&gt;
-</description>
-        <pubDate>Sun, 01 Jul 2018 00:00:00 -0500</pubDate>
-        <link>http://localhost:4000/posts/erosion-process</link>
-        <guid isPermaLink="true">http://localhost:4000/posts/erosion-process</guid>
       </item>
     
   </channel>
