@@ -1,0 +1,276 @@
+
+<!doctype>
+<html lang="en">
+  <head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <meta content=''What is a sample, even?' and the Existential Questions of Data Wrangling - Info, Uncertainty' name='title' />
+    <meta content=''What is a sample, even?' and the Existential Questions of Data Wrangling - Info, Uncertainty' name='og:title' />
+    <title>'What is a sample, even?' and the Existential Questions of Data Wrangling - Info, Uncertainty</title>
+    <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
+<link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000/posts/wrangling' property='og:url' />
+  <meta content="TODO: Include code examplesIn your life as a data scientist, you will spend a lot of time trying togenerate new artif..." property='og:description' />
+  <meta content="article" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+  </head>
+  <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
+    <header class="tc mt4">
+      <a href="http://localhost:4000">
+        <img src="http://localhost:4000/images/distn.png" alt="Home" width="53" height="59">
+      </a>
+      <p>Info, Uncertainty</p>
+    </header>
+    <div class="mw7 bg-white mt4 mb3 center br2-ns bt bb ba-ns b--light-gray">
+      <nav class="bb b--light-gray pv4 tc" aria-label="Main">
+        
+          <a class="link blue hover-mid-gray mh2 pv1"
+             href="http://localhost:4000/">
+             Posts
+           </a>
+        
+      </nav>
+
+      <main class="tl f6 relative pa4 pa5-ns overflow-hidden">
+        
+          <div class="mb4">
+            <div class="fw600 light-silver mt1">29 Aug 2019</div>
+            <h1 class="ttu f3 mt0 lh-title cb mb2">
+              
+              'What is a sample, even?' and the Existential Questions of Data Wrangling
+            </h1>
+            
+          </div>
+        
+        <div class="markdown-body">
+          <h3 id="todo-include-code-examples">TODO: Include code examples</h3>
+
+<p>In your life as a data scientist, you will spend a lot of time trying to
+generate new artifacts from “raw” data. These artifacts are tangible things,
+living on a device, a website, and yes, maybe even on paper, including things
+like,</p>
+
+<ul>
+  <li><em>Model predictions</em>, which are usually a component of some (potentially
+ automated) decision making process. Some examples are predictions about which
+ song to recommend someone (automated) or which educational interventions to
+ give to struggling students (not automated).</li>
+  <li><em>Model summaries</em>, which inform our understanding of the data generating’s
+ systems underlying mechanics. Some examples might be quantitative measures
+ about whether living in Montreal influences your inherent interest in heavy
+ coats or whether smoking causes lung cancer.</li>
+  <li><em>Figures</em>, which communicate salient patterns in a dataset, to inform
+ understanding or decision-making<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. For example, should you <a href="https://en.wikipedia.org/wiki/File:Minard.png">invade
+ Russia</a>?</li>
+  <li><em>Reports</em>, which synthesize of a few parts of a data analysis to provide
+ evidence for some higher-level theory.</li>
+</ul>
+
+<p>No matter what your downstream artifact will be, you’ll need to do a bit of work
+upstream, mainly around,</p>
+
+<ol>
+  <li>Problem Formulation: What are you trying to do, and why does it matter?</li>
+  <li>Data Wrangling: How does the data need to be stretched, squeezed, and scrubbed
+to make it suitable for automatic, algorithmic processing.</li>
+</ol>
+
+<p>From the previous lecture / rant, we know that data are diverse, so it’s no
+surprise that the answers to these questions will be very context dependent.
+That said, I find a few general principles relevant in almost any application.
+The principles for (1) are profound, we’ll hopefully revisit them later. But (2)
+is within reach even at this point, so let’s focus on that.</p>
+
+<p>In the abstract, we’d love to think of our data as a big matrix \(X\) with \(n\)
+rows and \(p\) columns. The rows correspond to samples and the columns
+correspond to attributes. The \(ij^{th}\) element of this matrix will be
+\(x_{ij}\), we’ll often write the \(i^{th}\) row as just \(x_i\).</p>
+
+<p>For example, each row might be a person in this class. The first column might be
+name, the second might be major, and the third might be favorite pokemon. Or,
+the samples might be photos of handwritten digits, and the columns might measure
+intensity at different <a href="https://observablehq.com/@mbostock/lets-try-t-sne">pixels</a><sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<p>Unfortunately, there are all sorts of obstacles that keep us from building this
+beautifully mathematical \(X\). Let’s consider them one at a time, and what you
+might be able to do about it.</p>
+
+<h2 id="i-have-no-idea-what-these-columns-are">I have no idea what these columns are</h2>
+
+<p>This isn’t strictly a barrier to putting everything into a single \(X\), but if
+you are confused by this, you should stop coding and write to the people who
+shared the data with you. They should be able to give you a data dictionary. You
+don’t want to try doing anything to the data if you’re not even sure what they
+are.</p>
+
+<h2 id="managing-column-types">Managing column types</h2>
+
+<p>Different columns will have different types, for example,</p>
+
+<ul>
+  <li>Numeric</li>
+  <li>(Ordered) categorical</li>
+  <li>Dates</li>
+  <li>(Positive) Integer</li>
+  <li>Text</li>
+</ul>
+
+<p>and you want to make sure that the types stored in the computer reflect your
+conceptual understanding of what that column should contain. For an example of
+the type of conceptual mismatch that could cause trouble later on, the computer
+might accidentally read in a numeric column as a string, because some entries
+were sloppily recorded as strings – looking at the raw input file might reveal 
+that the “height” variable has entries like <code class="language-plaintext highlighter-rouge">(..., 10.1, 9.2, forgot measuring
+stick, 10.9, ...)</code>. In this case, you’ll want to convert the string to a missing
+value and coerce the column to a numeric.</p>
+
+<p>Dates can be annoying, but a bit of fiddling with
+<a href="http://strftime.net/">strftime</a> will usually get you what you need. Depending
+on the task, it can be helpful to isolate some features from the dates – was
+the date on a weekend, a holiday, or during rush hour?</p>
+
+<p>Categorical variables deserve some additional commentary, since they can be
+especially tricky. First off all, you might notice that different categories are
+actually referring to the same thing. One of the categories might be <code class="language-plaintext highlighter-rouge">POTATO</code>,
+while another reads <code class="language-plaintext highlighter-rouge">potato</code>. Unless you go in and consolidate these, they will
+be treated as different categories in downstream analysis.</p>
+
+<p>Second, there are often many very rarely seen categories. It often makes sense
+to lump these all into an “other” category.</p>
+
+<p>It may also be useful to split a categorical variable that encodes several pieces
+of information into different columns.</p>
+
+<p>You might want to rename the categories (and sometimes column names) for the
+sake of readability – really long column names can be a pain. That said, if
+it’s going to take forever to do more than a few automatic conversions (e.g.,
+replacing spaces, converting to lower case), it may not be worth the time.</p>
+
+<p>Finally, you may want to k-hot encode your factors. This is usually not needed
+for visualization, but ML algorithms often need \(X\) to be a completely numeric
+matrix.</p>
+
+<h2 id="missing-values">Missing values</h2>
+
+<p>You want to make sure that missing values are properly documented. This means
+replacing things like “” and -999999 with the appropriate NA.</p>
+
+<p>It is sometimes also a good idea to distinguish between structurally and
+randomly missing values. Structurally missing values are entries that are not
+recorded for some reason that applies equally to many entries, e.g., a question
+might not have been asked on a survey in one of the years. Randomly missing
+values are isolated missing values, whose reasons for being missing are not
+clearly characterized.</p>
+
+<h2 id="joining-and-reorganizing">Joining and Reorganizing</h2>
+
+<p>Often, the thing you want to think about as a unified \(X\) lives in a tangled
+web of inconsistent files, in subdirectories that seem to have been nested for
+no particular reason other than to torment the data scientist who was foolhardy
+enough to think that the data could be properly analyzed. Actually, there are
+often good reasons for this incoherence, including</p>
+
+<ul>
+  <li>Databases: The data may have lived in a relational database, where rows in
+different tables corresponded to different conceptual units. Hence, you are
+given one table where each row describes a school, and another where each row
+is a student. If you want to see characteristics of a student’s school when
+analyzing their test results, you’re going to have to join these tables
+together somehow.</li>
+  <li>Streaming-ness: The data may have been automatically generated by some
+platform. It might spit out a different record every minute, say. You’ll want
+to combine these as rows \(x_i\) of a newly formed matrix \(X\).</li>
+</ul>
+
+<p>A few caveats are in order. There first is that the data may be of different
+types, and it might not make sense to join them. For example, you may have a
+collection of satellite images, along with metadata associated with them (date
+taken, geographic coordinates, sensor used). In this case, I recommend putting
+the “nontabular” signals (images, audio recordings, …) into a directory and
+including that path in a processed, metadata file.</p>
+
+<p>A related caveat is that the data might be too big to merge into one file –
+this is especially the case with streaming data or data that you only ever
+intend to handle in small batches at a time. Nonetheless, you still need to do
+this wrangling, if only to (a) ensure consistency across the pieces and (b)
+build a metadata file linking the pieces.</p>
+
+<p>The most profound exception to the recommendations above is that what we think
+of as a single sample might vary from one analysis goal to another. Indeed, the
+whole idea of a “sample size” is fraught, we’ve been lying to you all along so
+that you don’t have an existential crisis too early.</p>
+
+<p>The issue often arises when data are not i.i.d. or have some sort of multiscale
+structure. For example, in a longitudinal study, you might have tracked the same
+few people for many years, recording information about them at particular
+intervals. You have a choice here: each row \(x_i\) might include all the data
+you ever captured about person \(i\). Alternatively, it might be reasonable to
+split each person’s data across several rows, each corresponding to a timepoint.</p>
+
+<p>Another example is this bikesharing data. Maybe you should group the 24h periods
+into rows, or maybe you should consider each timepoint separately.</p>
+
+<p>There’s no universal rule, what you do should depend on your analysis goal (and
+potentially on the constraints imposed by your computing environment).</p>
+
+<h2 id="final-points">Final Points</h2>
+
+<p>When you go through these wrangling steps, you’ll be changing your original
+data. For this reason, I urge you to always keep the raw data untouched, and
+write the results of this wrangling to new processed files. These processed
+files are what your algorithmic and inferential code will be touching
+downstream.</p>
+
+<p>While I’ve listed some of my best practices, all sorts of unexpected things can
+happen. I’ve seen excel footnotes mess up numerical columns, tables which
+almost, <em>but not quite</em> joined, and survey results from 2099.</p>
+
+<p>So, while “Let \(X \in \mathbb{R}^{n \times p}\)” might be the first line in
+your statistics or ML textbook, just getting to this point can involve quite a
+bit of work in any real-world data science problem. Don’t be deterred though –
+the problems you can solve if you have the ability to sift through real-world
+data are ultimately the most interesting and impactful ones.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>They might even guide whether to collect different types of data. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>See the section on “Images.” <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </div>
+        <p class="mt4">
+  Kris
+  <span class="silver">at 15:35</span>
+</p>
+
+      </main>
+      <section class="fixed-l mw7 center w-100 top-50 tc pb4 nt4">
+  
+    <a href="http://localhost:4000/posts/cupcakes" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
+  
+  
+    <a href="http://localhost:4000/posts/mediation-software" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
+  
+</section>
+    </div>
+    <footer class="mw7 center tc pt3 pb4 silver">
+      Built with Jekyll using <a href="http://github.com/muan/scribble" class="link silver hover-blue pv1">Scribble</a>.
+      <img src="http://localhost:4000/images/scribble2.png" alt="scribble" class="mt4 db center" />
+    </footer>
+  </body>
+</html>
