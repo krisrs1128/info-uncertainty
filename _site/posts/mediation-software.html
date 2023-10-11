@@ -1,0 +1,292 @@
+
+<!doctype>
+<html lang="en">
+  <head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <meta content='Meditations on Mediation - Info, Uncertainty' name='title' />
+    <meta content='Meditations on Mediation - Info, Uncertainty' name='og:title' />
+    <title>Meditations on Mediation - Info, Uncertainty</title>
+    <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
+<link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000/posts/mediation-software' property='og:url' />
+  <meta content="Lately, I’ve been reflecting on how software design could inform statistical methods development. There has always be..." property='og:description' />
+  <meta content="article" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+  </head>
+  <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
+    <header class="tc mt4">
+      <a href="http://localhost:4000">
+        <img src="http://localhost:4000/images/distn.png" alt="Home" width="53" height="59">
+      </a>
+      <p>Info, Uncertainty</p>
+    </header>
+    <div class="mw7 bg-white mt4 mb3 center br2-ns bt bb ba-ns b--light-gray">
+      <nav class="bb b--light-gray pv4 tc" aria-label="Main">
+        
+          <a class="link blue hover-mid-gray mh2 pv1"
+             href="http://localhost:4000/">
+             Posts
+           </a>
+        
+          <a class="link blue hover-mid-gray mh2 pv1"
+             href="http://localhost:4000/about">
+             About
+           </a>
+        
+      </nav>
+
+      <main class="tl f6 relative pa4 pa5-ns overflow-hidden">
+        
+          <div class="mb4">
+            <div class="fw600 light-silver mt1">10 Oct 2023</div>
+            <h1 class="ttu f3 mt0 lh-title cb mb2">
+              
+              Meditations on Mediation
+            </h1>
+            
+          </div>
+        
+        <div class="markdown-body">
+          <p>Lately, I’ve been reflecting on how software design could inform statistical methods development. There has always been a two-way flow between methods and applications, and software lies right at the junction. My main thought is that an abstraction originally designed to simplify a computational interface can also guide creative statistical investigation.</p>
+
+<p>I think this is well-illustrated by analyzing the design <a href="https://imai.fas.harvard.edu/research/files/mediationR2.pdf">mediation package</a>, so that will be the focus of this post. In the process, we’ll review the basics of mediation analysis and see an illustration using a microbiome-metabolomics dataset.</p>
+
+<h2 id="mediation-analysis">Mediation Analysis</h2>
+
+<p>Mediation analysis is a form of attribution analysis. When we see that a treatment \(T\) influences an outcome \(Y\), we may want to argue that \(T\) influences \(Y\) <em>through a mediator</em> \(M\), represented graphically by:</p>
+
+<figure>
+<center>
+    <img src="http://localhost:4000/images/mediation_software/mediation-dag.svg" width="200" />
+</center>
+</figure>
+
+<p>Here is an alternative visualization. The two colors represent the treatment and the control. \(Y\) depends on both the mediator and the treatment status, represented by the two curves.</p>
+
+<figure>
+<center>
+    <img src="http://localhost:4000/images/mediation_software/counterfactual-mediation4.svg" width="400" />
+</center>
+</figure>
+
+<p>If most of the treatment effect can be attributed to the mediator, then it’s a change in the location of the mediators under treatment vs. control that is responsible for change in \(Y\) (left figure).
+On the other hand, if, for a fixed value of the mediator, we recognize large changes in the response, then the effect of the treatment on the response cannot be attributed to the mediator alone (right figure).</p>
+
+<figure>
+<div class="row" style="display: flex">
+  <div class="column">
+    <img src="http://localhost:4000/images/mediation_software/counterfactual-mediation3.svg" width="300" />
+  </div>
+  <div class="column">
+    <img src="http://localhost:4000/images/mediation_software/counterfactual-mediation2.svg" width="300" />
+  </div>
+</div>
+</figure>
+
+<p>Let’s consider a microbiome example. Intestinal Bowel Disease (IBD) is a condition that can disrupt the lives of its sufferers, and researchers have looked to the microbiome for potential therapies. To better understand how exactly the gut microbial environment differs within IBD patients, the study [<a href="https://www.nature.com/articles/s41564-018-0306-4">Franzosa 2019</a>] gathered both metabolomic (chemical environment) and metagenomic (species abundance) profiles. One thought is that the presence or absence of particular species may mediate changes in the chemical environment for IBD patients. For example, if species \(m\) produces metabolite \(y\), then if we see a decrease in \(y\) among IBD patients, that might be the consequence of species \(m\) being absent. In the notation above, \(T\) is IBD status, the metabolite concentration \(Y\) is the outcome, and the species abundance \(M\) is the mediator.</p>
+
+<p>The most straightforward implementation of mediation analysis assumes the data were drawn from chained linear regressions:</p>
+
+\[\begin{align}
+m_{i} &amp;= \alpha t_{i} + \epsilon_{i}^{m} \\
+y_{i} &amp;= \beta_{t} t_{i} + \beta_{m} m_{i} + \epsilon_{i}^{y}
+\end{align}\]
+
+<p>In this notation, the indirect effect that flows through the mediator is computed as \(\alpha \beta_{m}\), while the direct effect which bypasses the mediator is given by \(\beta_{t}\). If we wanted to consider several metabolites and species simultaneously, then we could consider high-dimensional \(M\) and \(Y\) and vector-valued coefficients.</p>
+
+<h2 id="general-mediation-analysis">General Mediation Analysis</h2>
+
+<p>We could build an interface that encapsulates these chained linear regressions in this way:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">mediation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mediation_analysis</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w">
+</span><span class="n">effects</span><span class="p">(</span><span class="n">mediation</span><span class="p">)</span></code></pre></figure>
+
+<p>However, we could imagine a more abstract alternative:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">f1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w">
+</span><span class="n">f2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w">
+</span><span class="n">mediation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mediation_analysis</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="w"> </span><span class="n">f2</span><span class="p">)</span><span class="w">
+</span><span class="n">effects</span><span class="p">(</span><span class="n">mediation</span><span class="p">)</span></code></pre></figure>
+
+<p>The advantage of the second approach is that it could in principle support any mediation or outcome model that the user provides, without our having to implement it internally. For example, in our microbiome application, we could try fitting a logistic-normal mediation model <code class="language-plaintext highlighter-rouge">f1 ~ lnm(m ~ t)</code> to account for the ecosystem’s compositional structure.</p>
+
+<p>If we want to use such an interface, though, we will need a new way of computing direct and indirect effects, since we can’t simply read off \(\alpha, \beta_{m}\), and \(\beta_{t}\). Here is where the computational abstraction can inspire a statistical one: We can simulate forward through <code class="language-plaintext highlighter-rouge">f1</code> and <code class="language-plaintext highlighter-rouge">f2</code> to consider a variety of possible outcomes. Specifically, using <code class="language-plaintext highlighter-rouge">f1</code>, we can compute \(M\left(t\right)\), the value of the mediator under treatment \(t\). Similarly, using that output from <code class="language-plaintext highlighter-rouge">f1</code>, we can also simulate through <code class="language-plaintext highlighter-rouge">f2</code> to generate \(Y\left(M\left(t\right), t'\right)\). Note that we can input different treatment values to <code class="language-plaintext highlighter-rouge">f1</code> and <code class="language-plaintext highlighter-rouge">f2</code> — \(t\) and \(t’\) do not need to be the same.</p>
+
+<p>Given this notation, a new way to define direct and indirect effects is:</p>
+
+\[\begin{align*}
+Direct\left(t\right) &amp;= \mathbf{E}_{\epsilon^{y}}\left[Y\left(M\left(t\right), 1\right) - Y\left(M\left(t\right), 0\right)\right] \\
+Indirect\left(t\right) &amp;= \mathbf{E}_{\epsilon^y, \epsilon^m}\left[Y\left(M\left(1\right), t\right) - Y\left(M\left(0\right), t\right)\right].
+\end{align*}\]
+
+<p>Notice that these depend on \(t\), so if we want an overall direct or indirect effect, we could average over \(t = 0, 1\).</p>
+
+<h2 id="illustration">Illustration</h2>
+
+<p>Let’s work through the microbiome example using this general interface to
+mediation analysis. The block below reads in and preprocesses the data from the
+<a href="https://github.com/borenstein-lab/microbiome-metabolome-curated-data">microbiome-metabolome-curated-data</a>
+repository (a great resource for multi-omics data analysis generated by Elhanan
+Borenstein’s group at TAU):</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">Sys.setenv</span><span class="p">(</span><span class="s2">"VROOM_CONNECTION_SIZE"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5e6</span><span class="p">)</span><span class="w">
+</span><span class="n">taxa</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/borenstein-lab/microbiome-metabolome-curated-data/main/data/processed_data/FRANZOSA_IBD_2019/genera.tsv"</span><span class="p">)[,</span><span class="w"> </span><span class="m">-1</span><span class="p">]</span><span class="w">
+</span><span class="n">metabolites</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/borenstein-lab/microbiome-metabolome-curated-data/main/data/processed_data/FRANZOSA_IBD_2019/mtb.tsv"</span><span class="p">)[,</span><span class="w"> </span><span class="m">-1</span><span class="p">]</span><span class="w">
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"https://github.com/borenstein-lab/microbiome-metabolome-curated-data/raw/main/data/processed_data/FRANZOSA_IBD_2019/metadata.tsv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">taxa</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">clr</span><span class="p">(</span><span class="n">taxa</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">filter_mean</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">simplify_tax_names</span><span class="p">()</span><span class="w">
+
+</span><span class="n">metabolites</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">metabolites</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">filter_mean</span><span class="p">(</span><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">simplify_metab_names</span><span class="p">()</span><span class="w">
+  
+</span><span class="n">combined</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metabolites</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">bind_cols</span><span class="p">(</span><span class="n">taxa</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">bind_cols</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">treatment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">Study.Group</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Control"</span><span class="p">,</span><span class="w"> </span><span class="s2">"control"</span><span class="p">,</span><span class="w"> </span><span class="s2">"treatment"</span><span class="p">))</span></code></pre></figure>
+
+<p>The definition of the helper functions can be found at <a href="https://drive.google.com/file/d/1KLFLgWF8emx927IjqgLS0wpv2USIffnK/view?usp=sharing">this link</a>. So that this
+process doesn’t take too long, I’ll consider only the twenty most prevalent
+metabolites and species.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">taxa_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">taxa</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">]</span><span class="w">
+</span><span class="n">metabolite_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">metabolites</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">]</span><span class="w">
+</span><span class="n">mediations</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">()</span></code></pre></figure>
+
+<p>The <code class="language-plaintext highlighter-rouge">glue</code> calls in the block below allow us to define the mediation and outcome
+models for all pairs of metabolites and taxa under consideration.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">pb</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">progress_bar</span><span class="o">$</span><span class="n">new</span><span class="p">(</span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">400</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"[:bar] :percent eta: :eta"</span><span class="p">)</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nf">seq_along</span><span class="p">(</span><span class="n">metabolite_names</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_prime</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nf">seq_along</span><span class="p">(</span><span class="n">taxa_names</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">fit1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">formula</span><span class="p">(</span><span class="n">glue</span><span class="p">(</span><span class="s2">"{metabolite_names[i]} ~ treatment"</span><span class="p">)),</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">combined</span><span class="p">)</span><span class="w">
+    </span><span class="n">fit2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lm</span><span class="p">(</span><span class="n">formula</span><span class="p">(</span><span class="n">glue</span><span class="p">(</span><span class="s2">"{metabolite_names[i]} ~ treatment + {taxa_names[i_prime]}"</span><span class="p">)),</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">combined</span><span class="p">)</span><span class="w">
+    </span><span class="n">pair</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">glue</span><span class="p">(</span><span class="s2">"{metabolite_names[i]}_{taxa_names[i_prime]}"</span><span class="p">)</span><span class="w">
+    </span><span class="n">mediations</span><span class="p">[[</span><span class="n">pair</span><span class="p">]]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mediate</span><span class="p">(</span><span class="n">fit1</span><span class="p">,</span><span class="w"> </span><span class="n">fit2</span><span class="p">,</span><span class="w"> </span><span class="n">sims</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">treat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"treatment"</span><span class="p">,</span><span class="w"> </span><span class="n">mediator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">taxa_names</span><span class="p">[</span><span class="n">i_prime</span><span class="p">],</span><span class="w"> </span><span class="n">control.value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"control"</span><span class="p">,</span><span class="w"> </span><span class="n">treat.value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"treatment"</span><span class="p">)</span><span class="w">
+    </span><span class="n">pb</span><span class="o">$</span><span class="n">tick</span><span class="p">()</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>Here is a volcano plot. The package uses a permutation test and occasionally
+returns \(p\)-values of exactly zero. To ensure that we can still plot \(-log
+p\), I’ve changed all those exact zeros into<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> \(p = 0.005\). There are direct effects that are clearly both practically and
+statistically significant, and there even appear to be some promising indirect
+effects.</p>
+<figure>
+<center>
+    <img src="http://localhost:4000/images/mediation_software/volcano.png" width="500" />
+</center>
+</figure>
+<p>Let’s look at these indirect effects more carefully. Here are some of the strongest effects.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="o">&gt;</span><span class="w"> </span><span class="n">p_values</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+</span><span class="o">+</span><span class="w">     </span><span class="n">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Indirect(0)"</span><span class="p">,</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">estimate</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">.4</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="nf">log</span><span class="p">(</span><span class="n">p.value</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+</span><span class="o">+</span><span class="w">     </span><span class="n">arrange</span><span class="p">(</span><span class="o">-</span><span class="nf">abs</span><span class="p">(</span><span class="n">estimate</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+</span><span class="o">+</span><span class="w">     </span><span class="n">mutate</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="n">estimate</span><span class="o">:</span><span class="n">p.value</span><span class="p">,</span><span class="w"> </span><span class="n">round</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">))</span><span class="w">
+</span><span class="c1"># A tibble: 91 x 6</span><span class="w">
+   </span><span class="n">metabolite</span><span class="w">        </span><span class="n">taxon</span><span class="w">                 </span><span class="n">term</span><span class="w">        </span><span class="n">estimate</span><span class="w"> </span><span class="n">std.error</span><span class="w"> </span><span class="n">p.value</span><span class="w">
+   </span><span class="o">&lt;</span><span class="n">chr</span><span class="o">&gt;</span><span class="w">             </span><span class="o">&lt;</span><span class="n">chr</span><span class="o">&gt;</span><span class="w">                 </span><span class="o">&lt;</span><span class="n">chr</span><span class="o">&gt;</span><span class="w">          </span><span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span><span class="w">     </span><span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span><span class="w">   </span><span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span><span class="w">
+ </span><span class="m">1</span><span class="w"> </span><span class="n">C18_eg_Clser_0011</span><span class="w"> </span><span class="n">Copromorpha</span><span class="w">           </span><span class="n">Indirect</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w">    </span><span class="m">-2.69</span><span class="w">     </span><span class="m">0.398</span><span class="w">   </span><span class="m">0.005</span><span class="w">
+ </span><span class="m">2</span><span class="w"> </span><span class="n">C18_eg_Clser_0011</span><span class="w"> </span><span class="n">Faecousia</span><span class="w">             </span><span class="n">Indirect</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w">    </span><span class="m">-2.65</span><span class="w">     </span><span class="m">0.396</span><span class="w">   </span><span class="m">0.005</span><span class="w">
+ </span><span class="m">3</span><span class="w"> </span><span class="n">C18_eg_Clser_0018</span><span class="w"> </span><span class="n">Faecousia</span><span class="w">             </span><span class="n">Indirect</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w">     </span><span class="m">2.54</span><span class="w">     </span><span class="m">0.687</span><span class="w">   </span><span class="m">0.005</span><span class="w">
+ </span><span class="m">4</span><span class="w"> </span><span class="n">C18_eg_Clser_0011</span><span class="w"> </span><span class="n">Lachnoclostridium_B</span><span class="w">   </span><span class="n">Indirect</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w">    </span><span class="m">-2.35</span><span class="w">     </span><span class="m">0.426</span><span class="w">   </span><span class="m">0.005</span><span class="w">
+ </span><span class="m">5</span><span class="w"> </span><span class="n">C18_eg_Clser_0011</span><span class="w"> </span><span class="n">Marvinbryantia</span><span class="w">        </span><span class="n">Indirect</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w">    </span><span class="m">-2.18</span><span class="w">     </span><span class="m">0.442</span><span class="w">   </span><span class="m">0.005</span><span class="w">
+ </span><span class="m">6</span><span class="w"> </span><span class="n">C18_eg_Clser_0011</span><span class="w"> </span><span class="n">Anaeromassilibacillus</span><span class="w"> </span><span class="n">Indirect</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w">    </span><span class="m">-2.15</span><span class="w">     </span><span class="m">0.335</span><span class="w">   </span><span class="m">0.005</span><span class="w">
+ </span><span class="m">7</span><span class="w"> </span><span class="n">C18_eg_Clser_0018</span><span class="w"> </span><span class="n">Lachnoclostridium_B</span><span class="w">   </span><span class="n">Indirect</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w">     </span><span class="m">2.14</span><span class="w">     </span><span class="m">0.713</span><span class="w">   </span><span class="m">0.005</span></code></pre></figure>
+
+<p>The story for the first row gets a bit complicated, so let’s instead consider
+the second – how is the metabolite <code class="language-plaintext highlighter-rouge">C18_eg_Clser_0011</code> mediated by the
+abundance of <code class="language-plaintext highlighter-rouge">Faecousia</code>? Here is the difference in the metabolite’s abundance
+between treatment and control:</p>
+<figure>
+<center>
+    <img src="http://localhost:4000/images/mediation_software/metabolite.png" width="400" />
+</center>
+</figure>
+<p>And here is the relationship with <code class="language-plaintext highlighter-rouge">Faecousia</code>.</p>
+<figure>
+<center>
+    <img src="http://localhost:4000/images/mediation_software/mediation.png" width="600" />
+</center>
+</figure>
+<p>If we ignore the zeros, there does seem to be a clear linear relationship
+between the metabolite and the abundance of this taxon. Moreover, IBD patients
+seem to have noticeably fewer of these bacteria relative to the control
+population. This is nearly a textbook example of an indirect effect — we’re
+seeing how the change in the mediator result can explain a difference we
+originally only saw in the outcome.</p>
+
+<p>A few of us in the lab are considering how to make this analysis even more
+convincing:</p>
+<ol>
+  <li>Instead of filtering so aggressively, ideas from high-dimensional mediation
+  analysis can be used to screen for the most promising pairs of species and
+  metabolites. In this way, we can maintain power while maintaining
+  computational tractability.</li>
+  <li>In this example, a linear outcome model is less satisfying than one that
+  could account for zero inflation. More generally, both the linear and outcome
+  models could include distributions that are commonly used in bioinformatics.</li>
+</ol>
+
+<h2 id="discussion">Discussion</h2>
+
+<p>An alternative view of this discussion is that software principles can inspire
+meta-algorithms.  Really, creating meta-algorithms is analogous to functional
+programming – when we use
+<a href="https://projecteuclid.org/journals/annals-of-statistics/volume-29/issue-5/Greedy-function-approximation-A-gradient-boosting-machine/10.1214/aos/1013203451.full">boosting</a>
+or <a href="https://people.eecs.berkeley.edu/~angelopoulos/publications/downloads/gentle_intro_conformal_dfuq.pdf">conformal inference</a>,
+we have to first provide a base learning algorithm as input. Similarly, if we
+are designing code for use by statistical programmers, it can be valuable to use
+a functional style, since it makes the code naturally extensible. By letting
+users freely define a base estimation approach (e.g., the <code class="language-plaintext highlighter-rouge">lm</code> calls above),
+meta-algorithms can have much wider problem-solving reach.</p>
+
+<p>A related point — when I’m creating projects these days, I try to be deliberate
+about what the interface will look like to the practicing data analyst. This is
+a departure from my past way of working, where I would have been happy just to
+propose a new model. This perspective is helpful because it makes me think more
+carefully about the resulting computational artifacts and how exactly they will
+look like to the user. The hope is that the result from <code class="language-plaintext highlighter-rouge">plot()</code> or <code class="language-plaintext highlighter-rouge">print()</code>
+should convey clear, qualitative value.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>I am being a lazy Bayesian. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        </div>
+        <p class="mt4">
+  Kris
+  <span class="silver">at 19:27</span>
+</p>
+
+      </main>
+      <section class="fixed-l mw7 center w-100 top-50 tc pb4 nt4">
+  
+    <a href="http://localhost:4000/posts/wrangling" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
+  
+  
+</section>
+    </div>
+    <footer class="mw7 center tc pt3 pb4 silver">
+      Built with Jekyll using <a href="http://github.com/muan/scribble" class="link silver hover-blue pv1">Scribble</a>.
+      <img src="http://localhost:4000/images/scribble2.png" alt="scribble" class="mt4 db center" />
+    </footer>
+  </body>
+</html>
