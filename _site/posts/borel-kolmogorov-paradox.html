@@ -6,14 +6,14 @@
     <meta content='Borel-Kolmogorov Paradox - Info, Uncertainty' name='title' />
     <meta content='Borel-Kolmogorov Paradox - Info, Uncertainty' name='og:title' />
     <title>Borel-Kolmogorov Paradox - Info, Uncertainty</title>
-    <link href='/info-uncertainty//images/fav.png' rel='shortcut icon'>
-<link href='/info-uncertainty//stylesheets/style.css' rel='stylesheet' type='text/css' />
-<link href='/info-uncertainty//stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+    <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
+<link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
 
 <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
-  <meta content='/info-uncertainty//posts/borel-kolmogorov-paradox' property='og:url' />
+  <meta content='http://localhost:4000/posts/borel-kolmogorov-paradox' property='og:url' />
   <meta content="Let points be uniformly distributed on the surface of a sphere in$\mathbb{R}^{3}$. Two natural questions of condition..." property='og:description' />
   <meta content="article" property="og:type" />
 
@@ -26,8 +26,8 @@
   </head>
   <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
     <header class="tc mt4">
-      <a href="/info-uncertainty/">
-        <img src="/info-uncertainty//images/distn.png" alt="Home" width="53" height="59">
+      <a href="http://localhost:4000">
+        <img src="http://localhost:4000/images/distn.png" alt="Home" width="53" height="59">
       </a>
       <p>Info, Uncertainty</p>
     </header>
@@ -35,12 +35,12 @@
       <nav class="bb b--light-gray pv4 tc" aria-label="Main">
         
           <a class="link blue hover-mid-gray mh2 pv1"
-             href="/info-uncertainty//">
+             href="http://localhost:4000/">
              Posts
            </a>
         
           <a class="link blue hover-mid-gray mh2 pv1"
-             href="/info-uncertainty//about">
+             href="http://localhost:4000/about">
              About
            </a>
         
@@ -80,14 +80,13 @@ the $xy$-plane makes with the $x$-axis. Notice that $\varphi$ and $\theta$
 represent particular lattitudes and longitudes, respectively. From figure 1, we
 see that we can parameterize the surface of the unit sphere by</p>
 
-<p><script type="math/tex">% <![CDATA[
-\begin{align}
-r(\varphi, \theta) &= \begin{pmatrix} cos\varphi cos\theta \\\  cos\varphi sin\theta \\\  sin\varphi \end{pmatrix},
-\end{align} %]]></script>
+<p>\(\begin{align}
+r(\varphi, \theta) &amp;= \begin{pmatrix} cos\varphi cos\theta \\\  cos\varphi sin\theta \\\  sin\varphi \end{pmatrix},
+\end{align}\)
 where $\varphi \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right], \theta \in [0, 2\pi)$.</p>
 
 <figure align="center">
-        <img src="/info-uncertainty//images/spherical_coord.svg" />
+        <img src="http://localhost:4000/images/spherical_coord.svg" />
         <figcaption>Figure 1. Representation via spherical coordinates.</figcaption>
 </figure>
 
@@ -108,29 +107,27 @@ $\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\theta$
 that closely approximates the surface at that point. The area of this
 parallelogram can be found as by the square root determinant of the <a href="http://www.math.harvard.edu/archive/23a_fall_00/docs/gramian.pdf">Gramian</a> of its edges,</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{align}
-\sqrt{ \det G\left(\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\varphi, \frac{\partial r\left(\varphi, \theta\right)}{\partial \theta}d\theta\right)} &= \sqrt{\det \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}^{T} \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}} \\
-&= \sqrt{\cos^{2}\varphi} d\varphi d\theta.
-\end{align} %]]></script>
+\[\begin{align}
+\sqrt{ \det G\left(\frac{\partial r\left(\varphi, \theta\right)}{\partial \theta} d\varphi, \frac{\partial r\left(\varphi, \theta\right)}{\partial \theta}d\theta\right)} &amp;= \sqrt{\det \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}^{T} \begin{pmatrix} \frac{\partial r}{\partial \varphi} d\varphi \\ \frac{\partial r}{\partial \theta} d\theta \end{pmatrix}} \\
+&amp;= \sqrt{\cos^{2}\varphi} d\varphi d\theta.
+\end{align}\]
 
 <p>Integrating over all such infinitesimal parallelograms yields</p>
 
-<script type="math/tex; mode=display">4\pi = \int_{0}^{2\pi}\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} cos \varphi d\varphi d\theta,</script>
+\[4\pi = \int_{0}^{2\pi}\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} cos \varphi d\varphi d\theta,\]
 
 <p>so we can conclude that the joint density of $\varphi, \theta$ is</p>
 
-<script type="math/tex; mode=display">f_{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.</script>
+\[f_{\Phi, \Theta}\left(\varphi, \theta\right) = \frac{\cos\varphi}{4\pi}.\]
 
 <p>The marginal and conditional densities then follow easily by integration:</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{align}
-f_{\Phi}\left(\varphi\right) &= \frac{\cos\varphi}{2} \\
-f_{\Theta}\left(\theta\right) &=\frac{1}{2\pi} \\
-f_{\Phi \mid \Theta}\left(\varphi \mid \theta\right) &= \frac{\cos\varphi}{2} \\
-f_{\Theta \mid \Phi}\left(\theta \mid \varphi\right) &= \frac{1}{2\pi}.
-\end{align} %]]></script>
+\[\begin{align}
+f_{\Phi}\left(\varphi\right) &amp;= \frac{\cos\varphi}{2} \\
+f_{\Theta}\left(\theta\right) &amp;=\frac{1}{2\pi} \\
+f_{\Phi \mid \Theta}\left(\varphi \mid \theta\right) &amp;= \frac{\cos\varphi}{2} \\
+f_{\Theta \mid \Phi}\left(\theta \mid \varphi\right) &amp;= \frac{1}{2\pi}.
+\end{align}\]
 
 <p>Hence, fixing a lattitude, the points are distributed uniformly around the
 associated horizontal ring, while fixing a longitude, they are distributed
@@ -144,16 +141,15 @@ probability, see for example <a href="http://www-biba.inrialpes.fr/Jaynes/cc15b.
 
 <h2 id="illustration">Illustration</h2>
 <p>We generate $n$ points uniformly on the surface of the sphere using the function
-<code class="highlighter-rouge">rsphere</code> and convert to coordinates $\varphi$ and $\theta$ using
-<code class="highlighter-rouge">sphere.coord</code>. The function <code class="highlighter-rouge">rsphere</code> uses the fact that, since the standard
+<code class="language-plaintext highlighter-rouge">rsphere</code> and convert to coordinates $\varphi$ and $\theta$ using
+<code class="language-plaintext highlighter-rouge">sphere.coord</code>. The function <code class="language-plaintext highlighter-rouge">rsphere</code> uses the fact that, since the standard
 Gaussian density is spherically symmetric, taking the projection of Gaussian
 points onto the surface of the sphere yields points uniformly distributed on
-it. The function <code class="highlighter-rouge">sphere.coord</code> uses the transform
-<script type="math/tex">% <![CDATA[
-\begin{align}
-\varphi &= \arcsin\left(z\right) \\\
-\theta &= \arctan\left(\frac{y}{x}\right),
-\end{align} %]]></script>
+it. The function <code class="language-plaintext highlighter-rouge">sphere.coord</code> uses the transform
+\(\begin{align}
+\varphi &amp;= \arcsin\left(z\right) \\\
+\theta &amp;= \arctan\left(\frac{y}{x}\right),
+\end{align}\)
 which follows from the parametrization $r\left(\varphi, \theta\right)$.
 Figure 2 shows the points
 on the sphere surface. We can view the joint distribution of points in figure 3 and the associated marginal densities in figure 4. The results confirm the mathematical derivation above.</p>
@@ -171,10 +167,10 @@ on the sphere surface. We can view the joint distribution of points in figure 3 
 </span><span class="n">library</span><span class="p">(</span><span class="n">rgl</span><span class="p">)</span><span class="w">
 </span><span class="n">plot3d</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></code></pre></figure>
 
-<script src="/info-uncertainty//images/CanvasMatrix.js" type="text/javascript"></script>
+<script src="http://localhost:4000/images/CanvasMatrix.js" type="text/javascript"></script>
 
 <canvas id="rspheretextureCanvas" style="display: none;" width="256" height="256">
-&lt;img src="/info-uncertainty//images/rspheresnapshot.png" alt="rspheresnapshot" width=505/&gt;<br />
+<img src="http://localhost:4000/images/rspheresnapshot.png" alt="rspheresnapshot" width="505" /><br />
 	Your browser does not support the HTML5 canvas element.</canvas>
 <!-- ****** points object 6 ****** -->
 <script id="rspherevshader6" type="x-shader/x-vertex">
@@ -11424,7 +11420,7 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 
 <canvas id="rspherecanvas" width="1" height="1"></canvas>
 <p id="rspheredebug">
-&lt;img src="rspheresnapshot.png" alt="rspheresnapshot" width=505/&gt;<br />
+<img src="rspheresnapshot.png" alt="rspheresnapshot" width="505" /><br />
 	You must enable Javascript to view this page properly.</p>
 <script>rspherewebGLStart();</script>
 
@@ -11447,7 +11443,7 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 </span><span class="n">ggplot</span><span class="p">(</span><span class="n">X.tilde</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">phi</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">theta</span><span class="p">))</span></code></pre></figure>
 
 <figure>
-        <img src="/info-uncertainty//images/joint_dist_borel_kolmogorov.png" />
+        <img src="http://localhost:4000/images/joint_dist_borel_kolmogorov.png" />
         <figcaption>Figure 3. Joint distribution of $\theta$ and $\varphi$.</figcaption>
 </figure>
 
@@ -11455,7 +11451,7 @@ v	    -0.05516531, 0.7804782, -0.6227443,
 </span><span class="n">ggplot</span><span class="p">(</span><span class="n">mX</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">facet_grid</span><span class="p">(</span><span class="o">~</span><span class="n">Coordinate</span><span class="p">)</span></code></pre></figure>
 
 <figure>
-        <img src="/info-uncertainty//images/marginal_dist_borel_kolmogorov.png" />
+        <img src="http://localhost:4000/images/marginal_dist_borel_kolmogorov.png" />
         <figcaption>Figure 4. Marginal distributions of $\theta$ and $\varphi$ </figcaption>
 </figure>
 
@@ -11469,16 +11465,16 @@ v	    -0.05516531, 0.7804782, -0.6227443,
       </main>
       <section class="fixed-l mw7 center w-100 top-50 tc pb4 nt4">
   
-    <a href="/info-uncertainty//posts/problem-from-random-iterated-functions" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
+    <a href="http://localhost:4000/posts/problem-from-random-iterated-functions" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
   
   
-    <a href="/info-uncertainty//posts/an-electornic-post-it" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
+    <a href="http://localhost:4000/posts/an-electornic-post-it" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
   
 </section>
     </div>
     <footer class="mw7 center tc pt3 pb4 silver">
       Built with Jekyll using <a href="http://github.com/muan/scribble" class="link silver hover-blue pv1">Scribble</a>.
-      <img src="/info-uncertainty//images/scribble2.png" alt="scribble" class="mt4 db center" />
+      <img src="http://localhost:4000/images/scribble2.png" alt="scribble" class="mt4 db center" />
     </footer>
   </body>
 </html>

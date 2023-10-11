@@ -6,14 +6,14 @@
     <meta content='(an electronic post-it note) - Info, Uncertainty' name='title' />
     <meta content='(an electronic post-it note) - Info, Uncertainty' name='og:title' />
     <title>(an electronic post-it note) - Info, Uncertainty</title>
-    <link href='/info-uncertainty//images/fav.png' rel='shortcut icon'>
-<link href='/info-uncertainty//stylesheets/style.css' rel='stylesheet' type='text/css' />
-<link href='/info-uncertainty//stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+    <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
+<link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
 
 <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
-  <meta content='/info-uncertainty//posts/an-electornic-post-it' property='og:url' />
+  <meta content='http://localhost:4000/posts/an-electornic-post-it' property='og:url' />
   <meta content="Alas, the days of “sharing gems” are gone, replaced by the scribbles of a disheveled(but still statistics-obsessed) m..." property='og:description' />
   <meta content="article" property="og:type" />
 
@@ -26,8 +26,8 @@
   </head>
   <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
     <header class="tc mt4">
-      <a href="/info-uncertainty/">
-        <img src="/info-uncertainty//images/distn.png" alt="Home" width="53" height="59">
+      <a href="http://localhost:4000">
+        <img src="http://localhost:4000/images/distn.png" alt="Home" width="53" height="59">
       </a>
       <p>Info, Uncertainty</p>
     </header>
@@ -35,12 +35,12 @@
       <nav class="bb b--light-gray pv4 tc" aria-label="Main">
         
           <a class="link blue hover-mid-gray mh2 pv1"
-             href="/info-uncertainty//">
+             href="http://localhost:4000/">
              Posts
            </a>
         
           <a class="link blue hover-mid-gray mh2 pv1"
-             href="/info-uncertainty//about">
+             href="http://localhost:4000/about">
              About
            </a>
         
@@ -70,12 +70,12 @@ become a mathematician).</p>
 
 <h2 id="writing">Writing</h2>
 
-<p><code class="highlighter-rouge">bookdown</code> is a potential alternative to <code class="highlighter-rouge">knitr</code>-<code class="highlighter-rouge">sweave</code> for writing more involved
+<p><code class="language-plaintext highlighter-rouge">bookdown</code> is a potential alternative to <code class="language-plaintext highlighter-rouge">knitr</code>-<code class="language-plaintext highlighter-rouge">sweave</code> for writing more involved
 statistical reports. It seems to address the main limitations with plain rmarkdown that
-had me still writing in <code class="highlighter-rouge">.rnw</code> – easy compilation to pdf, cross-referencing,
-bibliographies, and actual latex preambles and math. To compile to pdf, use <code class="highlighter-rouge">pdf_book()</code>;
+had me still writing in <code class="language-plaintext highlighter-rouge">.rnw</code> – easy compilation to pdf, cross-referencing,
+bibliographies, and actual latex preambles and math. To compile to pdf, use <code class="language-plaintext highlighter-rouge">pdf_book()</code>;
 you can specify a preamble and a bibliography package by including a section like this
-in the <code class="highlighter-rouge">_output.yml</code> file,</p>
+in the <code class="language-plaintext highlighter-rouge">_output.yml</code> file,</p>
 
 <figure class="highlight"><pre><code class="language-markdown" data-lang="markdown">bookdown::pdf_book:
   includes:
@@ -88,10 +88,10 @@ a .png, you can write</p>
 
 <figure class="highlight"><pre><code class="language-markdown" data-lang="markdown">knitr::include_graphics("figures/image.png")</code></pre></figure>
 
-<p>This is different from sweave, where you’d write <code class="highlighter-rouge">\includegraphics{}</code>. A
-last tidbit is that a new alternative to <code class="highlighter-rouge">xtable</code> for including tables built from
-R <code class="highlighter-rouge">data.frames</code> is <code class="highlighter-rouge">kable</code>. It’s main advantage is that it works even if you choose
-to compile as an html document (instead of pdf) – <code class="highlighter-rouge">xtable</code> just generates the
+<p>This is different from sweave, where you’d write <code class="language-plaintext highlighter-rouge">\includegraphics{}</code>. A
+last tidbit is that a new alternative to <code class="language-plaintext highlighter-rouge">xtable</code> for including tables built from
+R <code class="language-plaintext highlighter-rouge">data.frames</code> is <code class="language-plaintext highlighter-rouge">kable</code>. It’s main advantage is that it works even if you choose
+to compile as an html document (instead of pdf) – <code class="language-plaintext highlighter-rouge">xtable</code> just generates the
 latex code for a table.</p>
 
 <h2 id="emacs">Emacs</h2>
@@ -103,32 +103,32 @@ In no particular order,</p>
 <ul>
   <li>You can use MAGIT for git tracking. The main commands I ended up using are
     <ul>
-      <li><code class="highlighter-rouge">C-x g</code> opens MAGIT</li>
-      <li>Pressing <code class="highlighter-rouge">s</code> on unstaged files stages them, <code class="highlighter-rouge">u</code> unstages staged files. You can
-also stage and unstage blocks with the usual <code class="highlighter-rouge">C-space C-n ...</code></li>
-      <li>Commit staged files by pressing <code class="highlighter-rouge">c c</code> within the MAGIT window.</li>
-      <li>Push your current branch to origin using <code class="highlighter-rouge">P p</code>.</li>
-      <li>Pull a branch from origin using  <code class="highlighter-rouge">F p</code>.</li>
-      <li>Create a new branch using <code class="highlighter-rouge">b n</code>. It will prompt where to branch from and what
+      <li><code class="language-plaintext highlighter-rouge">C-x g</code> opens MAGIT</li>
+      <li>Pressing <code class="language-plaintext highlighter-rouge">s</code> on unstaged files stages them, <code class="language-plaintext highlighter-rouge">u</code> unstages staged files. You can
+also stage and unstage blocks with the usual <code class="language-plaintext highlighter-rouge">C-space C-n ...</code></li>
+      <li>Commit staged files by pressing <code class="language-plaintext highlighter-rouge">c c</code> within the MAGIT window.</li>
+      <li>Push your current branch to origin using <code class="language-plaintext highlighter-rouge">P p</code>.</li>
+      <li>Pull a branch from origin using  <code class="language-plaintext highlighter-rouge">F p</code>.</li>
+      <li>Create a new branch using <code class="language-plaintext highlighter-rouge">b n</code>. It will prompt where to branch from and what
 to call it. Beware, this does not switch you to that branch.</li>
-      <li><code class="highlighter-rouge">b b</code> lets you switch branches.</li>
-      <li>Use <code class="highlighter-rouge">m</code> to merge a branch (and <code class="highlighter-rouge">m m</code> to merge with master).</li>
-      <li>Use <code class="highlighter-rouge">l l</code> to view the full branching history. From here you can reset to a
-previous commit by moving the cursor to that commit and typing <code class="highlighter-rouge">C-u x</code>.</li>
+      <li><code class="language-plaintext highlighter-rouge">b b</code> lets you switch branches.</li>
+      <li>Use <code class="language-plaintext highlighter-rouge">m</code> to merge a branch (and <code class="language-plaintext highlighter-rouge">m m</code> to merge with master).</li>
+      <li>Use <code class="language-plaintext highlighter-rouge">l l</code> to view the full branching history. From here you can reset to a
+previous commit by moving the cursor to that commit and typing <code class="language-plaintext highlighter-rouge">C-u x</code>.</li>
       <li>In the inevitable “I accidentally committed on master” situation, first
-checkout a new branch (<code class="highlighter-rouge">b n</code>, this saves the current work) then hard
-reset on master (<code class="highlighter-rouge">l l C-u x</code>) (see
+checkout a new branch (<code class="language-plaintext highlighter-rouge">b n</code>, this saves the current work) then hard
+reset on master (<code class="language-plaintext highlighter-rouge">l l C-u x</code>) (see
 <a href="http://stackoverflow.com/questions/1628563/move-the-most-recent-commits-to-a-new-branch-with-git">this</a>).</li>
     </ul>
   </li>
   <li><a href="https://github.com/emacs-helm/helm">helm</a> is nice for file system navigation (and
-can be installed with the usual <code class="highlighter-rouge">M-x package-list-packages</code>).</li>
+can be installed with the usual <code class="language-plaintext highlighter-rouge">M-x package-list-packages</code>).</li>
   <li>There’s a SQL mode which can evaluate code blocks in a SQL process in another
 window (kind of like ESS).
     <ul>
-      <li>Use <code class="highlighter-rouge">M-x sql-postgres</code> to start a postgres process in emacs. There are analogous
+      <li>Use <code class="language-plaintext highlighter-rouge">M-x sql-postgres</code> to start a postgres process in emacs. There are analogous
   commands for other databases.</li>
-      <li>To avoid typing in credentials each time you log in, you can put this in your <code class="highlighter-rouge">.emacs</code>
+      <li>To avoid typing in credentials each time you log in, you can put this in your <code class="language-plaintext highlighter-rouge">.emacs</code>
   (with defaults filled-in),</li>
     </ul>
   </li>
@@ -140,32 +140,32 @@ window (kind of like ESS).
      <span class="p">(</span><span class="nv">password</span> <span class="ss">:default</span> <span class="s">""</span><span class="p">)</span>
      <span class="p">(</span><span class="nv">server</span> <span class="ss">:default</span> <span class="s">""</span><span class="p">)</span>
      <span class="p">(</span><span class="nv">database</span> <span class="ss">:default</span> <span class="s">""</span><span class="p">)</span>
-     <span class="p">(</span><span class="nv">port</span> <span class="ss">:default</span> <span class="mi">1234</span><span class="p">)))))</span></code></pre></figure>
+     <span class="p">(</span><span class="nv">port</span> <span class="ss">:default</span> <span class="mi">1234</span><span class="p">))))</span><span class="err">)</span></code></pre></figure>
 
 <ul>
-  <li>You can use <code class="highlighter-rouge">M-x replace-regexp</code> to do find-replace with regexes. Two nice substitutions are are
-<code class="highlighter-rouge">$</code> and <code class="highlighter-rouge">^</code> – this will replace everything at the end and start of the highlighted block,
+  <li>You can use <code class="language-plaintext highlighter-rouge">M-x replace-regexp</code> to do find-replace with regexes. Two nice substitutions are are
+<code class="language-plaintext highlighter-rouge">$</code> and <code class="language-plaintext highlighter-rouge">^</code> – this will replace everything at the end and start of the highlighted block,
 respectively (e.g., you can add commas to the end of each line).</li>
-  <li><code class="highlighter-rouge">M-;</code> can comment / uncomment blocks.</li>
-  <li><code class="highlighter-rouge">C-x r t</code> can be used to insert the same string across a block.</li>
-  <li><code class="highlighter-rouge">C-_</code> undos, and <code class="highlighter-rouge">C-g C-_</code> redos.</li>
-  <li>When editing markdown files, you can insert links with <code class="highlighter-rouge">C-c C-a l</code>, cross-references
-with <code class="highlighter-rouge">C-c C-a L</code>, code blocks with <code class="highlighter-rouge">C-c C-s P</code>, and headers with <code class="highlighter-rouge">C-c C-t {number #'s}</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">M-;</code> can comment / uncomment blocks.</li>
+  <li><code class="language-plaintext highlighter-rouge">C-x r t</code> can be used to insert the same string across a block.</li>
+  <li><code class="language-plaintext highlighter-rouge">C-_</code> undos, and <code class="language-plaintext highlighter-rouge">C-g C-_</code> redos.</li>
+  <li>When editing markdown files, you can insert links with <code class="language-plaintext highlighter-rouge">C-c C-a l</code>, cross-references
+with <code class="language-plaintext highlighter-rouge">C-c C-a L</code>, code blocks with <code class="language-plaintext highlighter-rouge">C-c C-s P</code>, and headers with <code class="language-plaintext highlighter-rouge">C-c C-t {number #'s}</code>.</li>
 </ul>
 
 <h2 id="postgres">Postgres</h2>
 <p>I hadn’t written much SQL before, so this was all new. Hopefully you won’t have
-forgotten <code class="highlighter-rouge">SELECTS</code> and <code class="highlighter-rouge">WHERE</code>’s by the time you read this again, but there were
+forgotten <code class="language-plaintext highlighter-rouge">SELECTS</code> and <code class="language-plaintext highlighter-rouge">WHERE</code>’s by the time you read this again, but there were
 a bunch of smaller things that do seem worth writing somewhere.</p>
 
 <ul>
   <li>Creating indices will dramatically speed up joins. You create one on an existing
-column using <code class="highlighter-rouge">CREATE INDEX index_name ON schema_name.table_name(column_to_index)</code>.
-You can drop it using <code class="highlighter-rouge">DROP INDEX IF EXISTS schema_name.index_name</code>. Every once in a
-while, it’s good to <code class="highlighter-rouge">VACUUM</code> tables, to keep the database from bloating.</li>
+column using <code class="language-plaintext highlighter-rouge">CREATE INDEX index_name ON schema_name.table_name(column_to_index)</code>.
+You can drop it using <code class="language-plaintext highlighter-rouge">DROP INDEX IF EXISTS schema_name.index_name</code>. Every once in a
+while, it’s good to <code class="language-plaintext highlighter-rouge">VACUUM</code> tables, to keep the database from bloating.</li>
   <li>You can manipulate GIS data using POSTGIS.
     <ul>
-      <li>You can upload shapefiles to a postgres database using <code class="highlighter-rouge">shp2pgsql</code>.</li>
+      <li>You can upload shapefiles to a postgres database using <code class="language-plaintext highlighter-rouge">shp2pgsql</code>.</li>
     </ul>
   </li>
   <li>You can get the latitude / longitude of the center a polygon (in a column called geom)
@@ -178,39 +178,39 @@ using</li>
 
 <ul>
   <li>You can check whether one geometry is within a certain distance of another using
-<code class="highlighter-rouge">ST_DWithin</code>.</li>
-  <li>You can switch coordinate systems using <code class="highlighter-rouge">SELECT ST_Transform(ST_SetSRID(old_geom, old_coord), new_coord) AS new_geom</code>.</li>
+<code class="language-plaintext highlighter-rouge">ST_DWithin</code>.</li>
+  <li>You can switch coordinate systems using <code class="language-plaintext highlighter-rouge">SELECT ST_Transform(ST_SetSRID(old_geom, old_coord), new_coord) AS new_geom</code>.</li>
   <li>You probably want to use <a href="http://spatialreference.org/ref/epsg/wgs-84/">4326</a> for the new coordinate system.</li>
   <li><a href="http://www.qgis.org/en/site/">QGIS</a> makes it relatively straightforwards to visualize spatial
 data in a database. Just right-click the postgres elephant in the browser panel and type in
 the login credentials. Then, you can visualize layers from the layers panel.</li>
-  <li>You can use <code class="highlighter-rouge">to_sql</code> and <code class="highlighter-rouge">from_sql</code> in <code class="highlighter-rouge">pandas</code> to fetch and save database tables without
-leaving python. For larger transactions though, it’s much faster to use <code class="highlighter-rouge">\copy</code> or <code class="highlighter-rouge">psql</code>;
+  <li>You can use <code class="language-plaintext highlighter-rouge">to_sql</code> and <code class="language-plaintext highlighter-rouge">from_sql</code> in <code class="language-plaintext highlighter-rouge">pandas</code> to fetch and save database tables without
+leaving python. For larger transactions though, it’s much faster to use <code class="language-plaintext highlighter-rouge">\copy</code> or <code class="language-plaintext highlighter-rouge">psql</code>;
 <a href="http://odo.pydata.org/en/latest/perf.html">odo</a> also seems useful (though I never got around
-to using it). For more general operations, <code class="highlighter-rouge">psycopg2</code> and <code class="highlighter-rouge">sqlalchemy</code> are available. For example,
-for selecting rows that meet a condition, you could write (assuming <code class="highlighter-rouge">params</code> has the login info)</li>
+to using it). For more general operations, <code class="language-plaintext highlighter-rouge">psycopg2</code> and <code class="language-plaintext highlighter-rouge">sqlalchemy</code> are available. For example,
+for selecting rows that meet a condition, you could write (assuming <code class="language-plaintext highlighter-rouge">params</code> has the login info)</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">"SELECT * from </span><span class="si">%</span><span class="s">s.</span><span class="si">%</span><span class="s">s </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">psycopg2</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="p">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="s">"SELECT * from %s.%s %s"</span> <span class="o">%</span> <span class="p">(</span>
     <span class="n">schema</span><span class="p">,</span>
     <span class="n">table</span><span class="p">,</span>
     <span class="nb">filter</span>
 <span class="p">))</span>
-<span class="n">field_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">description</span><span class="p">]</span></code></pre></figure>
+<span class="n">field_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cursor</span><span class="p">.</span><span class="n">description</span><span class="p">]</span></code></pre></figure>
 
 <ul>
-  <li>To copy a database table to a csv, you can use <code class="highlighter-rouge">psql -F","</code>, followed by the usual <code class="highlighter-rouge">-h</code>,
-<code class="highlighter-rouge">-p</code>, <code class="highlighter-rouge">-U</code>, and <code class="highlighter-rouge">-d</code> options (host, port, user, database) you would use to login to the
+  <li>To copy a database table to a csv, you can use <code class="language-plaintext highlighter-rouge">psql -F","</code>, followed by the usual <code class="language-plaintext highlighter-rouge">-h</code>,
+<code class="language-plaintext highlighter-rouge">-p</code>, <code class="language-plaintext highlighter-rouge">-U</code>, and <code class="language-plaintext highlighter-rouge">-d</code> options (host, port, user, database) you would use to login to the
 database.</li>
-  <li>You can dump a postgres table using <code class="highlighter-rouge">pg_dump</code> (make sure to set the <code class="highlighter-rouge">--no-owner</code> flag if
+  <li>You can dump a postgres table using <code class="language-plaintext highlighter-rouge">pg_dump</code> (make sure to set the <code class="language-plaintext highlighter-rouge">--no-owner</code> flag if
 you want to restore it on a new machine).</li>
-  <li>You can restore a postgres dump using <code class="highlighter-rouge">psql -f name_of_dump.sql</code>.</li>
+  <li>You can restore a postgres dump using <code class="language-plaintext highlighter-rouge">psql -f name_of_dump.sql</code>.</li>
   <li>Don’t try to store model binaries in a database not beacuse the database can’t handle it,
-but because <code class="highlighter-rouge">psycopg2</code> sometimes fails on the import (or export, I can’t remember). Instead,
+but because <code class="language-plaintext highlighter-rouge">psycopg2</code> sometimes fails on the import (or export, I can’t remember). Instead,
 just load the path to binary in the database, and hope the link doesn’t go stale.</li>
-  <li>You can use <code class="highlighter-rouge">explain analyze</code> to check if what you were about to start would take until
+  <li>You can use <code class="language-plaintext highlighter-rouge">explain analyze</code> to check if what you were about to start would take until
 the heat death of the universe.</li>
 </ul>
 
@@ -218,12 +218,12 @@ the heat death of the universe.</li>
 
 <p>We spent a while this summer writing an ML pipeline in <a href="https://luigi.readthedocs.io">luigi</a>,
 and it’s probably out of scope to write any detailed examples here. But a basic summary is
-that each <code class="highlighter-rouge">requires()</code> method in a <code class="highlighter-rouge">Task()</code> class implicitly specifies a file / database
-table entry that checks to see whether previosu steps have been accomplished. The <code class="highlighter-rouge">output()</code>
-method specifies the file / <code class="highlighter-rouge">table_update</code> that dependent tasks will check to see if the
+that each <code class="language-plaintext highlighter-rouge">requires()</code> method in a <code class="language-plaintext highlighter-rouge">Task()</code> class implicitly specifies a file / database
+table entry that checks to see whether previosu steps have been accomplished. The <code class="language-plaintext highlighter-rouge">output()</code>
+method specifies the file / <code class="language-plaintext highlighter-rouge">table_update</code> that dependent tasks will check to see if the
 current task is complete. I say implicit because you just write the name of the required
-tasks in <code class="highlighter-rouge">requires()</code>, and luigi knows to check for the file in each of those tasks’
-<code class="highlighter-rouge">output()</code> method. Of course, the <code class="highlighter-rouge">run()</code> method does all the actually interesting
+tasks in <code class="language-plaintext highlighter-rouge">requires()</code>, and luigi knows to check for the file in each of those tasks’
+<code class="language-plaintext highlighter-rouge">output()</code> method. Of course, the <code class="language-plaintext highlighter-rouge">run()</code> method does all the actually interesting
 computation.</p>
 
 <p>The only other points I can think of are</p>
@@ -243,23 +243,23 @@ completely controlled (you know exactly what the OS is and which programs are in
 So, it’s more reliable to to share docker images than installation scripts.</p>
 
 <ul>
-  <li><code class="highlighter-rouge">docker ps</code> checks the running containers.</li>
-  <li><code class="highlighter-rouge">docker images</code> lists all the local images (which might not be associated with running
+  <li><code class="language-plaintext highlighter-rouge">docker ps</code> checks the running containers.</li>
+  <li><code class="language-plaintext highlighter-rouge">docker images</code> lists all the local images (which might not be associated with running
 containers yet).</li>
-  <li><code class="highlighter-rouge">docker run user/image</code> runs an image from dockerhub, and <code class="highlighter-rouge">docker run imageid</code> runs from
+  <li><code class="language-plaintext highlighter-rouge">docker run user/image</code> runs an image from dockerhub, and <code class="language-plaintext highlighter-rouge">docker run imageid</code> runs from
 a local image.</li>
-  <li>You can “get inside” a running container using <code class="highlighter-rouge">docker exec -it {docker process id} bash</code>.</li>
-  <li>You can use <code class="highlighter-rouge">docker-compose rm</code> to remove unused containers.</li>
-  <li>You can change the directory where images are built by changing the <code class="highlighter-rouge">DOCKER_OPTS</code> environmental
-variable in <code class="highlighter-rouge">/etc/</code>. This is useful if you have one partition (<code class="highlighter-rouge">/mnt/</code>) with a lot more space than
+  <li>You can “get inside” a running container using <code class="language-plaintext highlighter-rouge">docker exec -it {docker process id} bash</code>.</li>
+  <li>You can use <code class="language-plaintext highlighter-rouge">docker-compose rm</code> to remove unused containers.</li>
+  <li>You can change the directory where images are built by changing the <code class="language-plaintext highlighter-rouge">DOCKER_OPTS</code> environmental
+variable in <code class="language-plaintext highlighter-rouge">/etc/</code>. This is useful if you have one partition (<code class="language-plaintext highlighter-rouge">/mnt/</code>) with a lot more space than
 where Docker will usually save images.</li>
 </ul>
 
 <p>There were a few points that tripped me up, so keep this in mind,</p>
 <ul>
-  <li><code class="highlighter-rouge">docker-compose</code> let’s you run several containers that speak to each other through exposed
-ports. Make sure to run docker in <code class="highlighter-rouge">-network="bridge"</code> mode, note <code class="highlighter-rouge">"host"</code>, if you want to
-use this (because <code class="highlighter-rouge">host</code> mode
+  <li><code class="language-plaintext highlighter-rouge">docker-compose</code> let’s you run several containers that speak to each other through exposed
+ports. Make sure to run docker in <code class="language-plaintext highlighter-rouge">-network="bridge"</code> mode, note <code class="language-plaintext highlighter-rouge">"host"</code>, if you want to
+use this (because <code class="language-plaintext highlighter-rouge">host</code> mode
 <a href="https://docs.docker.com/engine/reference/run/#network-settings">doesn’t support inter-container communication</a>).</li>
   <li>When you write a Dockerfile, changing users <a href="https://github.com/docker/docker/issues/6119">doesn’t change permissions when using COPY</a>.</li>
 </ul>
@@ -267,26 +267,26 @@ use this (because <code class="highlighter-rouge">host</code> mode
 <h2 id="misc">Misc.</h2>
 
 <ul>
-  <li><code class="highlighter-rouge">screen</code> isn’t so complicated after all.  If you want to run something that will take a long time, log into
-the cluster, create a new screen using <code class="highlighter-rouge">screen -S name-of-screen</code>, start the process you want,
-and type <code class="highlighter-rouge">C-a d</code> to detach the screen. Now you can log off the cluster, and it’ll keep on running.
-To see what is happening again, log back on and type <code class="highlighter-rouge">screen -r name-of-screen</code>. You can see all
-the running screens using <code class="highlighter-rouge">screen -ls</code>, and you can remove old ones with <code class="highlighter-rouge">screen -X -S name-of-screen quit</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">screen</code> isn’t so complicated after all.  If you want to run something that will take a long time, log into
+the cluster, create a new screen using <code class="language-plaintext highlighter-rouge">screen -S name-of-screen</code>, start the process you want,
+and type <code class="language-plaintext highlighter-rouge">C-a d</code> to detach the screen. Now you can log off the cluster, and it’ll keep on running.
+To see what is happening again, log back on and type <code class="language-plaintext highlighter-rouge">screen -r name-of-screen</code>. You can see all
+the running screens using <code class="language-plaintext highlighter-rouge">screen -ls</code>, and you can remove old ones with <code class="language-plaintext highlighter-rouge">screen -X -S name-of-screen quit</code>.</li>
   <li>There’s a python <a href="https://github.com/googlemaps/google-maps-services-python">package</a>
 for sending geocoding queries to google maps.</li>
   <li>You can create new EC2 instances, RDS databases, and S3 buckets from <a href="us-west-2.console.aws.amazon.com/console/">here</a>,
 though it’s probably better to stick with Sherlock while at Stanford.</li>
-  <li>You can see the sorted disk usage usign <code class="highlighter-rouge">du -ch | sort -h</code>, or to shame people for using
-too much space, <code class="highlighter-rouge">du -sch | sort -h</code>.</li>
+  <li>You can see the sorted disk usage usign <code class="language-plaintext highlighter-rouge">du -ch | sort -h</code>, or to shame people for using
+too much space, <code class="language-plaintext highlighter-rouge">du -sch | sort -h</code>.</li>
   <li>It’s helpful to setup aliases for cluster logins that you use all the time.</li>
-  <li>You can see the few lines around grep matches using the <code class="highlighter-rouge">-C</code> flag, e.g., <code class="highlighter-rouge">grep -C 4 'search' .</code>shows
-the 4 lines before and after each line containing <code class="highlighter-rouge">search</code>.</li>
-  <li>You can view all the processes matching some string using <code class="highlighter-rouge">ps -fea | grep name</code>.</li>
-  <li>You can kill processes with specific PIDs using <code class="highlighter-rouge">kill -9 pid</code>.</li>
-  <li>To view all the processes sorted by memory / compute usage, you can use <code class="highlighter-rouge">htop</code> (instead
+  <li>You can see the few lines around grep matches using the <code class="language-plaintext highlighter-rouge">-C</code> flag, e.g., <code class="language-plaintext highlighter-rouge">grep -C 4 'search' .</code>shows
+the 4 lines before and after each line containing <code class="language-plaintext highlighter-rouge">search</code>.</li>
+  <li>You can view all the processes matching some string using <code class="language-plaintext highlighter-rouge">ps -fea | grep name</code>.</li>
+  <li>You can kill processes with specific PIDs using <code class="language-plaintext highlighter-rouge">kill -9 pid</code>.</li>
+  <li>To view all the processes sorted by memory / compute usage, you can use <code class="language-plaintext highlighter-rouge">htop</code> (instead
 of activity monitor).</li>
   <li>You can’t just copy id_rsa’s and expect to have permissions – you need to use ssh-keygen.</li>
-  <li>If you want to impress people with no effort, use <code class="highlighter-rouge">DT</code> in Shiny. Actually, same comment
+  <li>If you want to impress people with no effort, use <code class="language-plaintext highlighter-rouge">DT</code> in Shiny. Actually, same comment
 applies to QGIS.</li>
 </ul>
 
@@ -301,16 +301,16 @@ applies to QGIS.</li>
       </main>
       <section class="fixed-l mw7 center w-100 top-50 tc pb4 nt4">
   
-    <a href="/info-uncertainty//posts/borel-kolmogorov-paradox" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
+    <a href="http://localhost:4000/posts/borel-kolmogorov-paradox" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
   
   
-    <a href="/info-uncertainty//posts/autoencoder-notes" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
+    <a href="http://localhost:4000/posts/autoencoder-notes" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
   
 </section>
     </div>
     <footer class="mw7 center tc pt3 pb4 silver">
       Built with Jekyll using <a href="http://github.com/muan/scribble" class="link silver hover-blue pv1">Scribble</a>.
-      <img src="/info-uncertainty//images/scribble2.png" alt="scribble" class="mt4 db center" />
+      <img src="http://localhost:4000/images/scribble2.png" alt="scribble" class="mt4 db center" />
     </footer>
   </body>
 </html>

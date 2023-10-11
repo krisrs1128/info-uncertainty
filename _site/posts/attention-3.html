@@ -6,15 +6,15 @@
     <meta content='Teaching attention, part 3 / N: Thinking more creatively - Info, Uncertainty' name='title' />
     <meta content='Teaching attention, part 3 / N: Thinking more creatively - Info, Uncertainty' name='og:title' />
     <title>Teaching attention, part 3 / N: Thinking more creatively - Info, Uncertainty</title>
-    <link href='/info-uncertainty//images/fav.png' rel='shortcut icon'>
-<link href='/info-uncertainty//stylesheets/style.css' rel='stylesheet' type='text/css' />
-<link href='/info-uncertainty//stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+    <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
+<link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
 
 <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
-  <meta content='/info-uncertainty//posts/attention-3' property='og:url' />
-  <meta content="To this point, our memory mechanisms all have had the same flavor. We had arunning summary , which we update with eve..." property='og:description' />
+  <meta content='http://localhost:4000/posts/attention-3' property='og:url' />
+  <meta content="To this point, our memory mechanisms all have had the same flavor. We had arunning summary \(h_t\), which we update w..." property='og:description' />
   <meta content="article" property="og:type" />
 
 <!-- - -->
@@ -26,8 +26,8 @@
   </head>
   <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
     <header class="tc mt4">
-      <a href="/info-uncertainty/">
-        <img src="/info-uncertainty//images/distn.png" alt="Home" width="53" height="59">
+      <a href="http://localhost:4000">
+        <img src="http://localhost:4000/images/distn.png" alt="Home" width="53" height="59">
       </a>
       <p>Info, Uncertainty</p>
     </header>
@@ -35,12 +35,12 @@
       <nav class="bb b--light-gray pv4 tc" aria-label="Main">
         
           <a class="link blue hover-mid-gray mh2 pv1"
-             href="/info-uncertainty//">
+             href="http://localhost:4000/">
              Posts
            </a>
         
           <a class="link blue hover-mid-gray mh2 pv1"
-             href="/info-uncertainty//about">
+             href="http://localhost:4000/about">
              About
            </a>
         
@@ -59,18 +59,18 @@
         
         <div class="markdown-body">
           <p>To this point, our memory mechanisms all have had the same flavor. We had a
-running summary <script type="math/tex">h_t</script>, which we update with every new input, though gating
+running summary \(h_t\), which we update with every new input, though gating
 might mean we prevent some coordinates from changing too much. However, it’s
 possible to think more creatively about how we should record and attend to new
 memories. For example,</p>
 
 <ol>
-  <li>We don’t need to throw away all but the last <script type="math/tex">h_t</script> when making some
+  <li>We don’t need to throw away all but the last \(h_t\) when making some
 prediction. We’ve been saying that a model “forgets” if there are values for
-<script type="math/tex">h_t</script> early on which are erased by new inputs. But what if we just kept all
-the <script type="math/tex">h_t</script>’s, and avoided overload by having a smart lookup strategy?</li>
-  <li>Why are we forcing the memory <script type="math/tex">h_t</script> to architecturally mirror the inputs
-<script type="math/tex">x_t</script> – that is, why does <script type="math/tex">h_t</script> need to be a sequence? Considering that,
+\(h_t\) early on which are erased by new inputs. But what if we just kept all
+the \(h_t\)’s, and avoided overload by having a smart lookup strategy?</li>
+  <li>Why are we forcing the memory \(h_t\) to architecturally mirror the inputs
+\(x_t\) – that is, why does \(h_t\) need to be a sequence? Considering that,
 due to gating, we only update some cells at a time, it makes sense to design
 architectures specifically adapted to recording and looking up useful
 summaries.</li>
@@ -81,7 +81,7 @@ crucial to the process.</li>
 </ol>
 
 <p>These sorts of preposterous questions will help illuminate the more fundamental
-principles of memory and attention in deep learning<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>.</p>
+principles of memory and attention in deep learning<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
 
 <p>First though, a warning, reiterating points from part 1. Attention is not a
 well-defined, clearly demarcated mathematical term. It is a principle that is
@@ -97,7 +97,7 @@ other highlights of the memory and attention literature.</p>
 
 <h2 id="attention-in-translation-models">Attention in Translation Models</h2>
 
-<p>We don’t need to force <script type="math/tex">h_t</script> to condense everything from <script type="math/tex">x_1, \dots, x_t</script>.
+<p>We don’t need to force \(h_t\) to condense everything from \(x_1, \dots, x_t\).
 This observation lies at the heart of attention-based encoder-decoder sequence
 translation models. Before explaining the mechanism in more detail, a refresher
 on how translation works with neural networks.</p>
@@ -112,52 +112,52 @@ language to the corresponding sequence in another. For example,</p>
 <p>We make this an ML problem by treating each word as a datapoint in a sequence,
 and hoping to map the first trajectory into the second. That is, we want to map</p>
 
-<script type="math/tex; mode=display">\begin{align}
+\[\begin{align}
 \left(x_1, x_2, x_3, x_4\right) \to \left(y_1, y_2, y_3, y_4, y_5, y_6\right)
-\end{align}</script>
+\end{align}\]
 
-<p>where <script type="math/tex">x_i = \left(0, \dots, 0, 1, 0, \dots, 0\right)</script> is a one-hot encoding
-of the <script type="math/tex">i^{th}</script> word in the sentence (with respect to the <script type="math/tex">V</script> words in
-English that we bother taking into account), and <script type="math/tex">y_i</script> does the same for
+<p>where \(x_i = \left(0, \dots, 0, 1, 0, \dots, 0\right)\) is a one-hot encoding
+of the \(i^{th}\) word in the sentence (with respect to the \(V\) words in
+English that we bother taking into account), and \(y_i\) does the same for
 French.</p>
 
-<p>The encoder-decoder approach to the problem is to take the <script type="math/tex">x_t</script> and summarize
-(“encode”) them using an RNN<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>. The final state $h_{T}$ is then used as the
+<p>The encoder-decoder approach to the problem is to take the \(x_t\) and summarize
+(“encode”) them using an RNN<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>. The final state $h_{T}$ is then used as the
 used as the initial state to a separate RNN, whose states are used to predict
 the words of the translation. Here’s a basic picture. The shading means that teh
 same values are copied over.</p>
 
-<p>At the <script type="math/tex">t^{th}</script> time step during decoding, we use a processor <script type="math/tex">s_t =
-f_{\text{dec}}\left(\hat{y}_{t - 1}, h_{t - 1}\right)</script>, and then predict
-<script type="math/tex">p\left(y_t \vert s_t, s_{0}, \hat{y}_{t - 1}\right)</script> using logistic
+<p>At the \(t^{th}\) time step during decoding, we use a processor \(s_t =
+f_{\text{dec}}\left(\hat{y}_{t - 1}, h_{t - 1}\right)\), and then predict
+\(p\left(y_t \vert s_t, s_{0}, \hat{y}_{t - 1}\right)\) using logistic
 regression. A good processor should be able to capture the salient features of
-<script type="math/tex">x_1, \dots, x_{T}</script>, and these are used for translation.</p>
+\(x_1, \dots, x_{T}\), and these are used for translation.</p>
 
 <p>This seems like a large burden for the encoder to carry. Intuitively, at time
-<script type="math/tex">t</script> of decoding, you really only care about the words in the corresponding
-neigorhood of time <script type="math/tex">t</script> in the source sentence. If the sentences were already
-aligned, you’d expect the neighborhood around <script type="math/tex">h_t</script> to be most relevant for
-being able to translate <script type="math/tex">y_t</script>.</p>
+\(t\) of decoding, you really only care about the words in the corresponding
+neigorhood of time \(t\) in the source sentence. If the sentences were already
+aligned, you’d expect the neighborhood around \(h_t\) to be most relevant for
+being able to translate \(y_t\).</p>
 
-<p>So, consider the mechanism, <script type="math/tex">s_{t^{\prime}} = \sum_{t = 1}^{T} w_{t t^{\prime}}
-h_t</script>, which adds columns <script type="math/tex">h_t</script> weighted by <script type="math/tex">w_t t^{prime}</script>’s, which we call attention
-weights. Of course, we need the <script type="math/tex">w_{tt^{\prime}}</script>’s to be learned directly
+<p>So, consider the mechanism, \(s_{t^{\prime}} = \sum_{t = 1}^{T} w_{t t^{\prime}}
+h_t\), which adds columns \(h_t\) weighted by \(w_t t^{prime}\)’s, which we call attention
+weights. Of course, we need the \(w_{tt^{\prime}}\)’s to be learned directly
 from data – this is the same problem as in gatings. The solution shouldn’t be a
 surprise: we use a differentiable, parameterized function. For example, we could
 use</p>
 
-<script type="math/tex; mode=display">\begin{align}
+\[\begin{align}
 w_{t t^{\prime}} \propto a_{W_{a}}\left(h_t, s_{t^{\prime}}\right) = h_t^{T} W_{a} s_{t^{\prime}}
-\end{align}</script>
+\end{align}\]
 
 <p>to measure the angle between particular coordinates of the encodings.</p>
 
 <p>It’s worth highlighting what <em>doesn’t</em> directly appear in this definition – the
-times <script type="math/tex">t</script> and <script type="math/tex">t^{\prime}</script> themselves. This version of attention is a purely
-“content-based” form of attention, which cares only about the encodings <script type="math/tex">h_t</script>
-and <script type="math/tex">s_t^{\prime}</script>. There are variants that take the times themselves into
-account, so that the decoding at time <script type="math/tex">t^{\prime}</script> explicitly upweights
-encodings at around that time in the original sequence<sup id="fnref:2:1"><a href="#fn:2" class="footnote">2</a></sup>.</p>
+times \(t\) and \(t^{\prime}\) themselves. This version of attention is a purely
+“content-based” form of attention, which cares only about the encodings \(h_t\)
+and \(s_t^{\prime}\). There are variants that take the times themselves into
+account, so that the decoding at time \(t^{\prime}\) explicitly upweights
+encodings at around that time in the original sequence<sup id="fnref:2:1" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
 
 <p>There are a lot of moving parts here – an encoder, a decoder, and an attention
 module to link them together. But everything is end-to-end differentiable, and
@@ -167,14 +167,14 @@ you can take the gradients of mistranslations with respect to all parameters.</p
 encodings as a function of our current position in the decoding task at hand. We
 have provided some much needed relief for our lone encoder by more richly
 relating elements of our differentiable system. We no longer need a processor
-that compresses everything into one statistic <script type="math/tex">h_{T}</script> because we have a more
+that compresses everything into one statistic \(h_{T}\) because we have a more
 sophisticated way of navigating a large collection of summaries and pulling out
 what is useful.</p>
 
 <p>This kind of search for locally relevant information is a hallmark of attention
 mechanisms. More specifically, this pattern of breaking a task into pieces
-<script type="math/tex">t^{\prime}</script> and finding a way to learn different distributions <script type="math/tex">w_{\cdot
-t^{\prime}}</script> over relevant summaries is one that appears througout the
+\(t^{\prime}\) and finding a way to learn different distributions \(w_{\cdot
+t^{\prime}}\) over relevant summaries is one that appears througout the
 literature on soft-attention mechanisms.</p>
 
 <h2 id="neural-turing-machines">Neural Turing Machines</h2>
@@ -189,42 +189,41 @@ illustrate this, we consider the Neural Turing Machine.</p>
 characters.</p>
 
 <p>Given new input, we produce a weight distribution for what seem like the most
-relevant memory locations. Notice that if the rows correspond to times <script type="math/tex">1,
-\dots, T</script>, then the matrix <script type="math/tex">M</script> is a lot like a stacked version of the <script type="math/tex">h_1,
-\dots, h_T</script> from the RNN models before. And, the <script type="math/tex">w_{t}</script>’s do seem eerily
+relevant memory locations. Notice that if the rows correspond to times \(1,
+\dots, T\), then the matrix \(M\) is a lot like a stacked version of the \(h_1,
+\dots, h_T\) from the RNN models before. And, the \(w_{t}\)’s do seem eerily
 like the attention weights from before. That said, we’re trying to free
 ourselves from the idea that memories must be indexed by time.</p>
 
 <p>In this spirit of generalization, we can define soft-attention
 variant,</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{align}
-r_t &= \sum_{i} w_{ti} M\left[i, :\right].
-\end{align} %]]></script>
+\[\begin{align}
+r_t &amp;= \sum_{i} w_{ti} M\left[i, :\right].
+\end{align}\]
 
 <p>Something in this architecture which <em>is</em> new, and not just a variant of what we
 saw before in translation, is a notion of writing to memory. We use weights,
 along with the add and erase vectors, to define a memory update,</p>
 
-<p><script type="math/tex">\begin{align}
+<p>\(\begin{align}
 M\left[i: \right] \xleftarrow M\left[i, :\right] + w_{ti}\left(a_t - e_t \circ M\left[i, :\right]\right).
-\end{align}</script>
+\end{align}\)
 If the weight is small, we don’t change that location in memory at all. If it is
-large, we add in <script type="math/tex">a_t</script> and erase everything that had been at that row, with an
-aggressiveness controlled by <script type="math/tex">e_t</script> (coordinates where that vector is near
-<script type="math/tex">1</script> are almost entirely reset).</p>
+large, we add in \(a_t\) and erase everything that had been at that row, with an
+aggressiveness controlled by \(e_t\) (coordinates where that vector is near
+\(1\) are almost entirely reset).</p>
 
 <p>The only remaining issue is how to figure out a good combination of parameters
-<script type="math/tex">w_t, a_t</script>, and <script type="math/tex">e_t</script>, upon seeing a new input <script type="math/tex">x_t</script>.</p>
+\(w_t, a_t\), and \(e_t\), upon seeing a new input \(x_t\).</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:1">
-      <p>I mean, if there are any. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:1" role="doc-endnote">
+      <p>I mean, if there are any. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:2">
-      <p>See, for example, “local attention” in http://arxiv.org/abs/1508.04025. <a href="#fnref:2" class="reversefootnote">&#8617;</a> <a href="#fnref:2:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    <li id="fn:2" role="doc-endnote">
+      <p>See, for example, “local attention” in http://arxiv.org/abs/1508.04025. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:2:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
     </li>
   </ol>
 </div>
@@ -238,16 +237,16 @@ aggressiveness controlled by <script type="math/tex">e_t</script> (coordinates w
       </main>
       <section class="fixed-l mw7 center w-100 top-50 tc pb4 nt4">
   
-    <a href="/info-uncertainty//posts/attention-2" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
+    <a href="http://localhost:4000/posts/attention-2" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
   
   
-    <a href="/info-uncertainty//posts/attention-4" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
+    <a href="http://localhost:4000/posts/attention-4" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
   
 </section>
     </div>
     <footer class="mw7 center tc pt3 pb4 silver">
       Built with Jekyll using <a href="http://github.com/muan/scribble" class="link silver hover-blue pv1">Scribble</a>.
-      <img src="/info-uncertainty//images/scribble2.png" alt="scribble" class="mt4 db center" />
+      <img src="http://localhost:4000/images/scribble2.png" alt="scribble" class="mt4 db center" />
     </footer>
   </body>
 </html>

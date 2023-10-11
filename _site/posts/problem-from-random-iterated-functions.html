@@ -6,14 +6,14 @@
     <meta content='Problem from Random Iterated Functions - Info, Uncertainty' name='title' />
     <meta content='Problem from Random Iterated Functions - Info, Uncertainty' name='og:title' />
     <title>Problem from Random Iterated Functions - Info, Uncertainty</title>
-    <link href='/info-uncertainty//images/fav.png' rel='shortcut icon'>
-<link href='/info-uncertainty//stylesheets/style.css' rel='stylesheet' type='text/css' />
-<link href='/info-uncertainty//stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+    <link href='http://localhost:4000/images/fav.png' rel='shortcut icon'>
+<link href='http://localhost:4000/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='http://localhost:4000/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
 
 <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
-  <meta content='/info-uncertainty//posts/problem-from-random-iterated-functions' property='og:url' />
+  <meta content='http://localhost:4000/posts/problem-from-random-iterated-functions' property='og:url' />
   <meta content="Here’s a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful theory of random..." property='og:description' />
   <meta content="article" property="og:type" />
 
@@ -26,8 +26,8 @@
   </head>
   <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
     <header class="tc mt4">
-      <a href="/info-uncertainty/">
-        <img src="/info-uncertainty//images/distn.png" alt="Home" width="53" height="59">
+      <a href="http://localhost:4000">
+        <img src="http://localhost:4000/images/distn.png" alt="Home" width="53" height="59">
       </a>
       <p>Info, Uncertainty</p>
     </header>
@@ -35,12 +35,12 @@
       <nav class="bb b--light-gray pv4 tc" aria-label="Main">
         
           <a class="link blue hover-mid-gray mh2 pv1"
-             href="/info-uncertainty//">
+             href="http://localhost:4000/">
              Posts
            </a>
         
           <a class="link blue hover-mid-gray mh2 pv1"
-             href="/info-uncertainty//about">
+             href="http://localhost:4000/about">
              About
            </a>
         
@@ -64,35 +64,31 @@
 
 <p>More formally, $X_{n}$ is a Markov chain with the transition kernel</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{aligned}
-k(x_{n}, x_{n + 1}) &:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \frac{\mathbb{1}(x_{n + 1} \in (x_{n}, 1])}{2 ( 1 - x_{n})}.
-\end{aligned} %]]></script>
+\[\begin{aligned}
+k(x_{n}, x_{n + 1}) &amp;:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \frac{\mathbb{1}(x_{n + 1} \in (x_{n}, 1])}{2 ( 1 - x_{n})}.
+\end{aligned}\]
 
 <p>This chain is irreducible and aperiodic, so converges to a unique stationary distribution $\pi$. To find it, recall that $\pi$ is a stationary distribution for a chain with kernel $K$ if and only if $\pi K = \pi$. Hence, $\pi$ must satisfy</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{aligned}
-\pi(x_{n + 1}) &= \int_{0}^{1} k\left(x_{n}, x_{n + 1}\right)\pi(x_{n}) dx_{n} \\
-&= \frac{1}{2}\int_{x_{n + 1}}^{1} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n} \\
-&= -\frac{1}{2}\int_{1}^{x_{n + 1}} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n}.
-\end{aligned} %]]></script>
+\[\begin{aligned}
+\pi(x_{n + 1}) &amp;= \int_{0}^{1} k\left(x_{n}, x_{n + 1}\right)\pi(x_{n}) dx_{n} \\
+&amp;= \frac{1}{2}\int_{x_{n + 1}}^{1} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n} \\
+&amp;= -\frac{1}{2}\int_{1}^{x_{n + 1}} \frac{\pi(x_{n})}{x_{n}} dx_{n} + \frac{1}{2} \int_{0}^{x_{n + 1}} \frac{\pi(x_{n})}{1 - x_{n}} dx_{n}.
+\end{aligned}\]
 
 <p>Applying the fundamental theorem of calculus, we find that the stationary distribution $\pi$ is the solution to the ODE</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{aligned}
-\frac{d\pi(x)}{dx} &= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
-\end{aligned} %]]></script>
+\[\begin{aligned}
+\frac{d\pi(x)}{dx} &amp;= \frac{1}{2}\left(-\frac{\pi\left(x\right)}{x} + \frac{\pi\left(x\right)}{1 - x}\right).
+\end{aligned}\]
 
 <p>To solve this ODE, we integrate</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{aligned}
-\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx \\
-\implies \log\left(\pi\left(x\right)\right) &= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) \\
-\implies \pi\left(x\right) &\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
-\end{aligned} %]]></script>
+\[\begin{aligned}
+\int \frac{\frac{d\pi(x)}{dx}}{\pi\left(x\right)} dx &amp;= \frac{1}{2}\int \left(-\frac{1}{x} + \frac{1}{1 - x}\right) dx \\
+\implies \log\left(\pi\left(x\right)\right) &amp;= \frac{1}{2}\left(-\log\left(x\right) - \log\left(1 - x\right)\right) \\
+\implies \pi\left(x\right) &amp;\propto \frac{1}{\sqrt{x\left(1 - x\right)}}.
+\end{aligned}\]
 
 <p>Hence, we find that $\pi$ must be the <a href="http://en.wikipedia.org/wiki/Arcsine_distribution">arcsine distribution</a>.</p>
 
@@ -101,7 +97,7 @@ k(x_{n}, x_{n + 1}) &:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \
 <p>Below, we have include code for taking samples from $X_{n}$. Further, we illustrate the convergence of samples from an instance of the $X_{n}$. We notice that the histogram begins to take on the characteristic heavy-tailed shape of the arcsine distribution as the sample size becomes larger and larger.</p>
 
 <figure>
-        <img src="/info-uncertainty//images/RIF_convergence.gif" />
+        <img src="http://localhost:4000/images/RIF_convergence.gif" />
         <figcaption>An instance of samples converging to the arcsine distribution.</figcaption>
 </figure>
 
@@ -114,9 +110,9 @@ k(x_{n}, x_{n + 1}) &:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
-</span><span class="n">sample.n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="m">0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">sample.n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">vector</span><span class="p">(</span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-    </span><span class="n">x</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span><span class="m">0</span><span class="w">
+    </span><span class="n">x</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x0</span><span class="w">
     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span><span class="o">:</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">next.point</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">])</span><span class="w">
     </span><span class="p">}</span><span class="w">
@@ -145,16 +141,16 @@ k(x_{n}, x_{n + 1}) &:= \frac{\mathbb{1}(x_{n + 1} \in [0, x_{n}])}{2 x_{n}} + \
       </main>
       <section class="fixed-l mw7 center w-100 top-50 tc pb4 nt4">
   
-    <a href="/info-uncertainty//posts/first-post" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
+    <a href="http://localhost:4000/posts/first-post" class="no-underline f1 light-blue hover-silver nl5 fl-l ph3">‹</a>
   
   
-    <a href="/info-uncertainty//posts/borel-kolmogorov-paradox" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
+    <a href="http://localhost:4000/posts/borel-kolmogorov-paradox" class="no-underline f1 light-blue hover-silver nr5 fr-l ph3">›</a>
   
 </section>
     </div>
     <footer class="mw7 center tc pt3 pb4 silver">
       Built with Jekyll using <a href="http://github.com/muan/scribble" class="link silver hover-blue pv1">Scribble</a>.
-      <img src="/info-uncertainty//images/scribble2.png" alt="scribble" class="mt4 db center" />
+      <img src="http://localhost:4000/images/scribble2.png" alt="scribble" class="mt4 db center" />
     </footer>
   </body>
 </html>
