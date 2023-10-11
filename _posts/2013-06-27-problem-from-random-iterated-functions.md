@@ -1,6 +1,7 @@
 ---
 title: "Problem from Random Iterated Functions"
 tags: [R, stochastic processes]
+description: A surprising stationary distribution.
 ---
 Here's a simple problem discussed by Persi Diaconis and David Freedman which motivates the beautiful [theory of random iterated functions](http://www.stat.berkeley.edu/~census/511.pdf), a way of thinking about Markov chains that unifies diverse ideas from math, physics, and statistics.
 

@@ -1,8 +1,8 @@
 ---
 title: "Meditations on Mediation"
 date: 2023-10-10 19:27 -4
-description: "The relationship between software and methods and a microbiome mediation analysis example"
 tags: [R, mediation, microbiome]
+description: The relationship between software and methods and a microbiome mediation analysis example.
 ---
 
 Lately, I've been reflecting on how software design could inform statistical methods development. There has always been a two-way flow between methods and applications, and software lies right at the junction. My main thought is that an abstraction originally designed to simplify a computational interface can also guide creative statistical investigation.
