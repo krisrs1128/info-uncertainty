@@ -2,7 +2,7 @@
 title:            "Info, Uncertainty"
 description:      ""
 url:              /info-uncertainty/
-baseurl:          krisrs1128.github.io/
+baseurl:          https://krisrs1128.github.io/
 signoff:          "Kris" # Your name
 facebook_appid:   # APP ID for like button, remove from /_includes/share.html if unwanted.
 google_analytics: # Set tracking, remove from /javascripts/basic.js if unwanted.
