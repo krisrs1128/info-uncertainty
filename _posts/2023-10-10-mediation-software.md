@@ -199,8 +199,7 @@ convincing:
 An alternative view of this discussion is that software principles can inspire
 meta-algorithms -- there is a direct analogy between functional programming and
 higher-level statistical algorithms. This is far from a new idea in statistics.
-For example, when we use  
-[boosting](https://projecteuclid.org/journals/annals-of-statistics/volume-29/issue-5/Greedy-function-approximation-A-gradient-boosting-machine/10.1214/aos/1013203451.full)
+For example, when we use [boosting](https://projecteuclid.org/journals/annals-of-statistics/volume-29/issue-5/Greedy-function-approximation-A-gradient-boosting-machine/10.1214/aos/1013203451.full)
 or [conformal inference](https://people.eecs.berkeley.edu/~angelopoulos/publications/downloads/gentle_intro_conformal_dfuq.pdf),
 we have to first provide a base learning algorithm as input. Similarly, if we
 are designing code for use by statistical programmers, it can be valuable to use
